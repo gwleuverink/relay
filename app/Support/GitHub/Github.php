@@ -12,8 +12,16 @@ class Github implements Service
 
     const BASE_URL = 'https://api.github.com/';
 
-    public function __construct(protected PendingRequest $gitHub, protected Config $config)
-    {
+    const SCOPES = [
+        'workflow',
+        'read:org',
+        'repo',
+    ];
+
+    public function __construct(
+        protected PendingRequest $gitHub,
+        protected Config $config
+    ) {
         $this->gitHub->acceptJson();
 
         if ($config->accessToken) {
@@ -26,8 +34,8 @@ class Github implements Service
     {
         return $this->gitHub
             ->post(static::AUTH_URL.'device/code', [
-                'client_id' => $this->config->github_client_id,
-                'scope' => 'repo',
+                'client_id' => config('services.github_client_id'),
+                'scope' => implode(', ', static::SCOPES),
             ])->json();
     }
 
@@ -36,17 +44,15 @@ class Github implements Service
         $response = $this
             ->gitHub
             ->post(static::AUTH_URL.'/oauth/access_token', [
-                'client_id' => $this->config->github_client_id,
                 'device_code' => $deviceCode,
+                'client_id' => config('services.github_client_id'),
                 'grant_type' => 'urn:ietf:params:oauth:grant-type:device_code',
             ]);
 
         return $response->json('access_token');
     }
 
-    /**
-     * @return array{login: string}
-     */
+    /** @return array{login: string} */
     public function getAuthorizedUser(string $accessToken): array
     {
         return $this
