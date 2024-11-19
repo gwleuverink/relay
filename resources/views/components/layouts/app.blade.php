@@ -11,7 +11,7 @@
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="select-none text-sm antialiased">
+    <body class="min-h-screen select-none text-sm antialiased">
         {{ $slot }}
     </body>
 </html>
