@@ -7,12 +7,16 @@ return [
     | Third Party Services
     |--------------------------------------------------------------------------
     |
-    | This file is for storing the credentials for third party services such
+    | This file is for storing the credentials for third party services suchπ
     | as Mailgun, Postmark, AWS and more. This file provides the de facto
     | location for this type of information, allowing packages to have
     | a conventional file to locate the various service credentials.
     |
     */
+
+    'github' => [
+        'client_id' => env('GITHUB_CLIENT_ID'),
+    ],
 
     'postmark' => [
         'token' => env('POSTMARK_TOKEN'),
