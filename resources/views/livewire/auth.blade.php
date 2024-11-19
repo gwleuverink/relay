@@ -31,7 +31,7 @@
 
     <div class="mt-auto text-xs">
         <p>
-            Copy this URL in your browser, if you can't click the link above:
+            Copy this URL in your browser if you can't click the link above:
             <span class="inline cursor-default select-all text-indigo-700 underline underline-offset-2">
                 {{ $verificationUri }}
             </span>

@@ -2,12 +2,10 @@
 
 namespace App\Livewire;
 
+use App\Livewire\Concerns\WithGitHub;
 use Livewire\Component;
 
 class Watcher extends Component
 {
-    public function render()
-    {
-        return view('livewire.watcher');
-    }
+    use WithGitHub;
 }
