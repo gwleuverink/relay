@@ -2,7 +2,7 @@
 
 namespace App\Support\GitHub\Contracts;
 
-interface Service
+interface GitHub
 {
     /** @return array{verification_uri: string, device_code: string, user_code: string} */
     public function startUserVerification(): array;

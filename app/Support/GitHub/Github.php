@@ -3,10 +3,10 @@
 namespace App\Support\GitHub;
 
 use App\Settings\Config;
-use App\Support\GitHub\Contracts\Service;
+use App\Support\GitHub\Contracts\GitHub as Service;
 use Illuminate\Http\Client\PendingRequest;
 
-class Github implements Service
+class GitHub implements Service
 {
     const AUTH_URL = 'https://github.com/login/';
 
