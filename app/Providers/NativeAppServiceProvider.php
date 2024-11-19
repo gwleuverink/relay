@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use Native\Laravel\Contracts\ProvidesPhpIni;
 use Native\Laravel\Facades\MenuBar;
-use Native\Laravel\Facades\Window;
 
 class NativeAppServiceProvider implements ProvidesPhpIni
 {
@@ -15,9 +14,12 @@ class NativeAppServiceProvider implements ProvidesPhpIni
     public function boot(): void
     {
         MenuBar::create()
-            ->vibrancy('light');
-
-        // Window::create();
+            ->route('watcher')
+            ->vibrancy('dark')
+            ->resizable(false)
+            ->alwaysOnTop() // while developing
+            ->height(450)
+            ->width(320);
     }
 
     /**
