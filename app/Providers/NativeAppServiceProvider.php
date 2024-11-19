@@ -14,7 +14,9 @@ class NativeAppServiceProvider implements ProvidesPhpIni
      */
     public function boot(): void
     {
-        MenuBar::create();
+        MenuBar::create()
+            ->vibrancy('light');
+
         // Window::create();
     }
 
@@ -24,6 +26,7 @@ class NativeAppServiceProvider implements ProvidesPhpIni
     public function phpIni(): array
     {
         return [
+            //
         ];
     }
 }

@@ -23,8 +23,9 @@ class GitHub implements Service
         protected Config $config
     ) {
         $this->gitHub->acceptJson();
+        $this->gitHub->throw();
 
-        if ($config->accessToken) {
+        if ($config->github_access_token) {
             $this->gitHub->withToken($config->github_access_token, 'token');
         }
     }
@@ -34,7 +35,7 @@ class GitHub implements Service
     {
         return $this->gitHub
             ->post(static::AUTH_URL.'device/code', [
-                'client_id' => config('services.github_client_id'),
+                'client_id' => config('services.github.client_id'),
                 'scope' => implode(', ', static::SCOPES),
             ])->json();
     }
@@ -45,7 +46,7 @@ class GitHub implements Service
             ->gitHub
             ->post(static::AUTH_URL.'/oauth/access_token', [
                 'device_code' => $deviceCode,
-                'client_id' => config('services.github_client_id'),
+                'client_id' => config('services.github.client_id'),
                 'grant_type' => 'urn:ietf:params:oauth:grant-type:device_code',
             ]);
 
