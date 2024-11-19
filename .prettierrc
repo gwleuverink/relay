@@ -11,7 +11,7 @@
     ],
 
     "htmlWhitespaceSensitivity": "css",
-    "singleAttributePerLine": false,
+    "singleAttributePerLine": true,
     "bracketSameLine": false,
     "printWidth": 600,
     "tabWidth": 4
