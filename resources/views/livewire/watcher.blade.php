@@ -4,7 +4,7 @@
     <div class="divide-y divide-neutral-200">
         <x-action.group
             type="running"
-            repo="anthropic/claude-api"
+            repo="gwleuverink/bundle"
             trigger="PR #342"
             triggered-at="2m ago"
         >
@@ -27,7 +27,7 @@
 
         <x-action.group
             type="idle"
-            repo="anthropic/claude-api"
+            repo="media-code/WCK-wijck.com"
             trigger="Merge to main"
             triggered-at="1h ago"
         >
