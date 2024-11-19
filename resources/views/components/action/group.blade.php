@@ -7,17 +7,17 @@
 ])
 
 @php
-    $classes = [
-        'idle' => 'border-slate-300',
+    $classes = match($type) {
+        default => 'border-slate-300',
         'failed' => 'border-red-500',
         'running' => 'border-blue-500',
-    ]
+    }
 @endphp
 
 <article>
 
     <div @class([
-        $classes[$type],
+        $classes,
         'border-l-4 border-blue-500 bg-neutral-50 p-3'
     ])>
         <div class="mb-2 flex items-center justify-between">

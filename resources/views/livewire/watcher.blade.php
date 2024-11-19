@@ -19,7 +19,7 @@
                 environment="ubuntu-latest • Node 18"
             />
             <x-action.job
-                status="completed"
+                status="finished"
                 name="Lint Check"
                 environment="ubuntu-latest • Node 16"
             />
