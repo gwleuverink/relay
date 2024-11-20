@@ -2,6 +2,8 @@
 
 namespace App\Support\GitHub\Contracts;
 
+use Illuminate\Support\Collection;
+
 interface GitHub
 {
     /*
@@ -9,7 +11,7 @@ interface GitHub
     | Data fetching
     |--------------------------------------------------------------------------
     */
-    public function repos(): array;
+    public function repos(): Collection;
 
     public function actions(): array;
 

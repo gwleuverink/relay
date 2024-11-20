@@ -11,6 +11,6 @@ class Watcher extends Component
 
     public function mount()
     {
-        // $this->github->actions();
+        $this->github->actions();
     }
 }

@@ -3,10 +3,11 @@
 namespace App\Support\GitHub;
 
 use App\Settings\Config;
+use App\Support\GitHub\Aggregators\Repository;
 use App\Support\GitHub\Contracts\GitHub as Service;
+use Exception;
 use Illuminate\Http\Client\PendingRequest;
-use Illuminate\Http\Client\Pool;
-use Illuminate\Support\Facades\Concurrency;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
 class GitHub implements Service
@@ -40,23 +41,49 @@ class GitHub implements Service
     */
 
     /** @var array[[id: string, name: string, full_name: string]] */
-    public function repos(): array
+    public function repos(): Collection
     {
-        return $this
-            ->github
-            ->get(static::BASE_URL.'user/repos', [
-                'sort' => 'pushed',
-                'per_page' => 30,
-            ])->json();
+        $response = $this->github->post(static::BASE_URL.'graphql', [
+            'query' => file_get_contents(__DIR__.'/queries/repositories.graphql'),
+        ])->json();
+
+        if (array_key_exists('errors', $response)) {
+            throw new Exception('An error occured fetching data from GitHub');
+        }
+
+        $userRepos = data_get($response, 'data.viewer.repositories.nodes');
+        $orgRepos = data_get($response, 'data.viewer.organizations.nodes.*.repositories.nodes.*');
+
+        return collect($userRepos)
+            ->merge($orgRepos)
+            ->unique('nameWithOwner')
+            ->sortByDesc('pushedAt');
     }
 
     public function actions(): array
     {
+        $repositories = $this->repos()->pluck('nameWithOwner');
+
+        dd($repositories);
+
+        $response = $this->github
+            ->post(static::BASE_URL.'graphql', [
+                'query' => file_get_contents(__DIR__.'/queries/workflow-runs.graphql'),
+                'variables' => [
+                    'repos' => $repositories,
+                ],
+            ]);
+
+        dd($response->json());
+
+        // ------------------
+
         /** @var array[[id: string, name: string, full_name: string]] */
-        $repos = cache()->remember('repositories', now()->addMinutes(10), fn () => $this->repos());
+        $repos = Repository::aggregate();
 
         $urls = array_map(fn ($repo) => static::BASE_URL."repos/{$repo['full_name']}/actions/runs", $repos);
 
+        // TODO: Use GraphQL instead? Rate limits are hit quickly when using concurrent requests
         $responses = collect($urls)
             ->chunk(3)
             ->flatMap(function ($chunk) {
@@ -68,20 +95,6 @@ class GitHub implements Service
 
                 return $responses;
             });
-
-        dd($responses);
-
-        // $actions = Http::pool(fn (Pool $pool) => array_map(
-        //     fn ($repo) => $pool->acceptJson()->throw()->get(static::BASE_URL."repos/{$repo['full_name']}/actions/runs"),
-        //     $repos
-        // ));
-
-        // dd($actions);
-
-        // [$userActions, $orgActions] = Concurrency::run([
-        //     fn () => '',
-        //     fn () => '',
-        // ]);
     }
 
     /*

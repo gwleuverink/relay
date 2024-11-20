@@ -1,0 +1,28 @@
+query {
+    viewer {
+        repositories(first: 30, ownerAffiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER], orderBy: { field: PUSHED_AT, direction: DESC }) {
+            nodes {
+                nameWithOwner
+                pushedAt
+                owner {
+                    __typename
+                    avatarUrl(size: 120)
+                }
+            }
+        }
+        organizations(first: 100) {
+            nodes {
+                repositories(first: 30, orderBy: { field: PUSHED_AT, direction: DESC }) {
+                    nodes {
+                        nameWithOwner
+                        pushedAt
+                        owner {
+                            __typename
+                            avatarUrl(size: 120)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

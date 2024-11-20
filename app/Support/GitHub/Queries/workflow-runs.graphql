@@ -1,0 +1,21 @@
+query ($repos: [String!]!) {
+    repositories(fullNames: $repos) {
+        nodes {
+            nameWithOwner
+            workflowRuns(first: 10, states: IN_PROGRESS) {
+                nodes {
+                    id
+                    name
+                    status
+                    startedAt
+                    headBranch
+                    workflowName
+                    url
+                    repository {
+                        nameWithOwner
+                    }
+                }
+            }
+        }
+    }
+}

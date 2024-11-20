@@ -3,16 +3,18 @@
 namespace App\Livewire;
 
 use App\Livewire\Concerns\WithConfig;
-use App\Support\GitHub\Aggregators\Repository;
+use App\Livewire\Concerns\WithGitHub;
+use Illuminate\Support\Collection;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
 class Settings extends Component
 {
-    const MAX_REPOSITORIES = 3;
+    const MAX_REPOSITORIES = 15;
 
     use WithConfig;
+    use WithGitHub;
 
     #[Validate('array|max:'.self::MAX_REPOSITORIES)]
     public array $selectedRepositories = [];
@@ -48,13 +50,17 @@ class Settings extends Component
     |--------------------------------------------------------------------------
     */
     #[Computed()]
-    public function repositories()
+    public function repositories(): Collection
     {
-        $repositories = Repository::aggregate();
+        $repositories = cache()->remember(
+            'repositories',
+            now()->addMinutes(5),
+            fn () => $this->github->repos()
+        );
 
         // Only unselected repo's
-        return collect($repositories)->reject(function ($repo) {
-            return in_array($repo['full_name'], $this->selectedRepositories);
+        return $repositories->reject(function ($repo) {
+            return in_array($repo['nameWithOwner'], $this->selectedRepositories);
         });
     }
 }

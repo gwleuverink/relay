@@ -31,22 +31,22 @@
             @foreach ($this->repositories() as $repo)
                 <x-input.checkbox
                     wire:model.live="selectedRepositories"
-                    :wire:key="'repo-'.$repo['full_name']"
-                    :value="$repo['full_name']"
+                    :wire:key="'repo-'.$repo['nameWithOwner']"
+                    :value="$repo['nameWithOwner']"
                     :disabled="count($selectedRepositories) >= static::MAX_REPOSITORIES"
                 >
                     <x-slot:label class="flex items-center space-x-2">
                         <img
-                            src="{{ $repo['owner']['avatar_url'] }}"
+                            src="{{ $repo['owner']['avatarUrl'] }}"
                             alt="Organization Avatar"
                             @class([
                                 'w-5 grow-0 border shadow',
-                                'rounded-full' => $repo['owner']['type'] === 'User',
-                                'rounded' => $repo['owner']['type'] === 'Organization',
+                                'rounded-full' => $repo['owner']['__typename'] === 'User',
+                                'rounded' => $repo['owner']['__typename'] === 'Organization',
                             ])
                         />
 
-                        <span>{{ $repo['full_name'] }}</span>
+                        <span>{{ $repo['nameWithOwner'] }}</span>
                     </x-slot>
                 </x-input.checkbox>
             @endforeach
