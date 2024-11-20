@@ -1,7 +1,21 @@
-<div class="bg-neutral-100 text-xs shadow-md">
-    <div class="border-b border-neutral-200 bg-gradient-to-r from-neutral-100 to-neutral-200 p-2 font-semibold text-neutral-700">GitHub Actions</div>
+<div class="relative min-h-screen bg-neutral-100 text-xs">
+    <div class="fixed left-0 right-0 top-0 z-10 flex justify-end border-b border-neutral-200 bg-gradient-to-r from-neutral-100 to-neutral-200 font-semibold text-neutral-700">
+        <a
+            wire:navigate.hover
+            href="{{ route('settings') }}"
+            class="cursor-default p-2 text-neutral-400 transition-colors hover:text-neutral-500"
+        >
+            <x-heroicon-c-cog-6-tooth class="w-3.5" />
+        </a>
+    </div>
 
-    <div class="divide-y divide-neutral-200">
+    {{-- Empty & no repo's configured --}}
+    {{-- <x-splash.no-repos /> --}}
+
+    {{-- Empty & repo's configured --}}
+    {{-- <x-splash.no-actions /> --}}
+
+    <div class="divide-y divide-neutral-200 shadow-md">
         <x-action.group
             type="running"
             repo="gwleuverink/bundle"
