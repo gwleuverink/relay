@@ -12,6 +12,8 @@ class Config extends Settings
 
     public ?string $github_username;
 
+    public array $github_selected_repositories = [];
+
     public static function group(): string
     {
         return 'config';
