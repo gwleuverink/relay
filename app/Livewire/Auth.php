@@ -41,7 +41,7 @@ class Auth extends Component
             return;
         }
 
-        $user = $this->github->getAuthorizedUser($accessToken);
+        $user = $this->github->authorizedUser($accessToken);
 
         $this->config->fill([
             'github_access_token' => $accessToken,
