@@ -46,6 +46,7 @@ class Auth extends Component
         $this->config->fill([
             'github_access_token' => $accessToken,
             'github_username' => $user['login'],
+            'github_selected_repositories' => [], // -> reset when reauthenticating
         ])->save();
 
         Notification::title('Action Monitor Connected')

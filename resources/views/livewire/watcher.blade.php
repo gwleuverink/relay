@@ -52,4 +52,6 @@
             />
         </x-action.group>
     </div>
+
+    {{ \App\Models\WorkflowRun::count() }}
 </div>

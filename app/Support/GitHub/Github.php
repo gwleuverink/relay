@@ -2,13 +2,13 @@
 
 namespace App\Support\GitHub;
 
-use App\Mixins\HttpMixin;
 use App\Settings\Config;
 use App\Support\GitHub\Contracts\GitHub as Service;
+use App\Support\GitHub\Enums\RunStatus;
 use Exception;
-use Generator;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Pool;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
@@ -45,6 +45,7 @@ class GitHub implements Service
     /** @var array[[id: string, name: string, full_name: string]] */
     public function repos(int $take = 50): Collection
     {
+        // TODO: Consider filtering pushed_at date with max age
         $response = $this->github->post(static::BASE_URL.'graphql', [
             'query' => file_get_contents(__DIR__.'/queries/repositories.graphql'),
             'variables' => [
@@ -53,7 +54,6 @@ class GitHub implements Service
         ])->json();
 
         if (array_key_exists('errors', $response)) {
-            dd($response['errors']);
             throw new Exception('An error occured fetching data from GitHub');
         }
 
@@ -66,19 +66,22 @@ class GitHub implements Service
             ->sortByDesc('pushedAt');
     }
 
-    public function pendingActions(): array
+    public function pendingActions(): Collection
     {
         $responses = collect();
-        Http::mixin(new HttpMixin);
 
-        // Fetch 10 repositories for the useer & all organization - (n * 10)
-        $repositories = $this->repos(10)
-            // TODO: Remove repos with old pushed_at? Not relevant or - add to repos query?
-            // ->reject()
-            ->pluck('nameWithOwner')
-            ->values();
+        // Fetch 10 repositories for the user & all organization - (n * 10)
+        $repositories = cache()->remember(
+            'pending-actions-repository-list',
+            now()->addMinutes(5),
+            fn () => $this->repos(10)
+                // TODO: Remove repos with old pushed_at? Not relevant or - add to repos query?
+                // ->reject()
+                ->pluck('nameWithOwner')
+                ->values()
+        );
 
-        // Querying everything at once wasn't possble with graphql.
+        // Querying everything at once wasn't possble with GraphQL.
         // Trying concurrency with request throttling
         // BEWARE: Not pretty, but effective
 
@@ -86,37 +89,36 @@ class GitHub implements Service
             ->acceptJson()
             ->withToken($this->config->github_access_token, 'token');
 
-        // Http::concurrent(
-        //     count($repositories),
-        //     function (Pool $pool) use ($concurrent, $repositories): Generator {
-        //         for ($i = 0; $i < count($repositories); $i++) {
-        //             yield $concurrent($pool)->async()->get(static::BASE_URL."repos/{$repositories[$i]}/actions/runs");
-        //         }
-        //     },
-        //     function ($response, $x) use ($responses, $repositories) {
-        //         $responses[$repositories[$x]] = $response;
-        //     },
-        //     function () {
-        //         dump('NAW');
-        //     }
-        // );
-
-        // $responses
-        //     ->map->json()
-        //     ->where('total_count')
-        //     ->dd();
-
-        $responses = Http::pool(fn (Pool $pool) => $repositories->map(
-            fn ($repo) => $concurrent($pool)->async()->get(static::BASE_URL."repos/{$repo}/actions/runs")
+        $responses = Http::pool(fn (Pool $request) => $repositories->map(
+            fn ($repo) => $concurrent($request)->async()->get(static::BASE_URL."repos/{$repo}/actions/runs", [
+                // Can't filter by multiple statusses. Not with GraphQL either.
+                // Need to leave this empty & filter manually. Bummer!!
+                // Rather bigger responses than redundant requests.
+                // 'status' => RunStatus::running(),
+                'per_page' => 30,
+                'created' => '>'.now()
+                    ->subMinutes(10)
+                    ->subWeek() // For testing - Comment this out!
+                    ->toIso8601String(),
+            ])
         ));
 
-        collect($responses)
+        return collect($responses)
+            // We don't care about exceptions just yet
+            ->filter(
+                fn ($response) => is_a($response, Response::class)
+            )
+            // Unpack & filter only responses with runs
             ->map->json()
             ->where('total_count')
+            // Key-by the repository name
             ->mapWithKeys(
-                fn ($data, $key) => [$repositories[$key] => $data]
+                fn ($data, $key) => [$repositories[$key] => $data['workflow_runs']]
             )
-            ->dd();
+            // Filter only running states - Uncomment during development
+            ->map(fn ($runs) => array_filter($runs, function ($run) {
+                return RunStatus::from($run['status'])->isRunning();
+            }));
     }
 
     /*

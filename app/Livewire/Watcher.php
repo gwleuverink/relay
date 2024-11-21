@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Jobs\FetchWorkflowRuns;
 use App\Livewire\Concerns\WithGitHub;
 use Livewire\Component;
 
@@ -11,6 +12,6 @@ class Watcher extends Component
 
     public function mount()
     {
-        $this->github->pendingActions();
+        // FetchWorkflowRuns::dispatchSync();
     }
 }

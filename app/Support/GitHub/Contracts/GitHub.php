@@ -13,7 +13,7 @@ interface GitHub
     */
     public function repos(): Collection;
 
-    public function pendingActions(): array;
+    public function pendingActions(): Collection;
 
     /*
     |--------------------------------------------------------------------------

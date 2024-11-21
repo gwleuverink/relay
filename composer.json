@@ -14,7 +14,6 @@
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.5",
         "nativephp/electron": "^0.8.7",
-        "spatie/github-actions-watcher": "^1.0",
         "spatie/laravel-settings": "^3.4"
     },
     "require-dev": {

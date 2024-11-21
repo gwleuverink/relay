@@ -1,8 +1,20 @@
-query ($owner: String!, $name: String!) {
+# query($owner: String!, $repo: String!, $statuses: [WorkflowRunStatus!]) {
+#     repository(owner: $owner, name: $repo) {
+#         workflowRuns(first: 10, filter: { statuses: $statuses }) {
+#             nodes {
+#                 id
+#                 status
+#                 conclusion
+#             }
+#         }
+#     }
+# }
+
+query ($owner: String!, $name: String!, $statuses: [WorkflowRunStatus!]) {
     repository(owner: $owner, name: $name) {
         nodes {
             nameWithOwner
-            workflowRuns(first: 10, states: IN_PROGRESS) {
+            workflowRuns(first: 10, filter: { status: $statuses }) {
                 nodes {
                     id
                     name

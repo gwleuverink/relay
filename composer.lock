@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ff819742e1c364a822d23492d4a129f6",
+    "content-hash": "90ad7728743324b685a6013df8525667",
     "packages": [
         {
             "name": "blade-ui-kit/blade-heroicons",
@@ -3786,75 +3786,6 @@
                 }
             ],
             "time": "2024-04-27T21:32:50+00:00"
-        },
-        {
-            "name": "spatie/github-actions-watcher",
-            "version": "1.0.8",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/spatie/github-actions-watcher.git",
-                "reference": "a1e34814ed3c0ddabf6e8d2214172137381d99f3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/spatie/github-actions-watcher/zipball/a1e34814ed3c0ddabf6e8d2214172137381d99f3",
-                "reference": "a1e34814ed3c0ddabf6e8d2214172137381d99f3",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^8.0"
-            },
-            "require-dev": {
-                "guzzlehttp/guzzle": "^7.4",
-                "illuminate/http": "^9.0",
-                "illuminate/view": "^9.0",
-                "laravel-zero/framework": "^9.0",
-                "mockery/mockery": "^1.5.0",
-                "myclabs/php-enum": "^1.8",
-                "nunomaduro/larastan": "^2.0",
-                "nunomaduro/termwind": "^1.0",
-                "pestphp/pest": "^1.21",
-                "spatie/ray": "^1.32",
-                "spatie/valuestore": "^1.3.1",
-                "symfony/process": "^6.0"
-            },
-            "bin": [
-                "builds/actions-watcher"
-            ],
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "App\\": "app/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Freek Van der Herten",
-                    "email": "freek@spatie.be",
-                    "role": "Developer"
-                }
-            ],
-            "description": "A CLI tool to see the status of all your GitHub Actions workflows in real time",
-            "homepage": "https://github.com/spatie/github-actions-watcher",
-            "keywords": [
-                "github-actions-watcher",
-                "spatie"
-            ],
-            "support": {
-                "issues": "https://github.com/spatie/github-actions-watcher/issues",
-                "source": "https://github.com/spatie/github-actions-watcher/tree/1.0.8"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/spatie",
-                    "type": "github"
-                }
-            ],
-            "time": "2024-06-27T10:08:09+00:00"
         },
         {
             "name": "spatie/laravel-package-tools",
