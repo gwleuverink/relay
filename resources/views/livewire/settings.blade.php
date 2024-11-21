@@ -1,4 +1,6 @@
-<div class="relative pb-4 pt-12 text-xs">
+<div class="relative overflow-x-hidden pb-4 pt-12 text-xs">
+    {{-- @dd($this->repositories->values()->pluck('nameWithOwner')->toArray()) --}}
+
     <div class="fixed left-0 right-0 top-0 z-10 flex justify-start border-b border-neutral-200 bg-gradient-to-r from-neutral-100 to-neutral-200 font-semibold text-neutral-700">
         <a
             wire:navigate.hover
@@ -10,8 +12,22 @@
     </div>
 
     <div class="px-4">
-        {{-- Selected repos's --}}
+        {{-- All repo's input --}}
         <div class="flex flex-col">
+            <x-input.checkbox
+                :disabled="empty($selectedRepositories)"
+                wire:model.live="all"
+                wire:key="repo-all"
+                value="true"
+            >
+                <x-slot:label class="flex items-center space-x-2">
+                    <x-heroicon-m-list-bullet class="w-5 grow-0" />
+
+                    <span>Poll by most recent push</span>
+                </x-slot>
+            </x-input.checkbox>
+
+            {{-- Selected repos's --}}
             @foreach ($selectedRepositories as $repo)
                 <x-input.checkbox
                     wire:model.live="selectedRepositories"
@@ -20,11 +36,9 @@
                     :label="$repo"
                 />
             @endforeach
-
-            @unless (empty($selectedRepositories))
-                <hr class="my-4" />
-            @endunless
         </div>
+
+        <hr class="my-4" />
 
         {{-- Selectable repos's --}}
         <div class="flex flex-col space-y-1">

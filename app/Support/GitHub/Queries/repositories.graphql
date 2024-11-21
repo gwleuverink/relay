@@ -1,6 +1,6 @@
-query {
+query ($take: Int!) {
     viewer {
-        repositories(first: 30, ownerAffiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER], orderBy: { field: PUSHED_AT, direction: DESC }) {
+        repositories(first: $take, ownerAffiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER], orderBy: { field: PUSHED_AT, direction: DESC }) {
             nodes {
                 nameWithOwner
                 pushedAt
@@ -12,7 +12,7 @@ query {
         }
         organizations(first: 100) {
             nodes {
-                repositories(first: 30, orderBy: { field: PUSHED_AT, direction: DESC }) {
+                repositories(first: $take, orderBy: { field: PUSHED_AT, direction: DESC }) {
                     nodes {
                         nameWithOwner
                         pushedAt

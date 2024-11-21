@@ -3,12 +3,10 @@
 namespace App\Support\GitHub;
 
 use App\Settings\Config;
-use App\Support\GitHub\Aggregators\Repository;
 use App\Support\GitHub\Contracts\GitHub as Service;
 use Exception;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Http;
 
 class GitHub implements Service
 {
@@ -41,13 +39,17 @@ class GitHub implements Service
     */
 
     /** @var array[[id: string, name: string, full_name: string]] */
-    public function repos(): Collection
+    public function repos(int $take = 50): Collection
     {
         $response = $this->github->post(static::BASE_URL.'graphql', [
             'query' => file_get_contents(__DIR__.'/queries/repositories.graphql'),
+            'variables' => [
+                'take' => $take,
+            ],
         ])->json();
 
         if (array_key_exists('errors', $response)) {
+            dd($response['errors']);
             throw new Exception('An error occured fetching data from GitHub');
         }
 
@@ -62,9 +64,11 @@ class GitHub implements Service
 
     public function actions(): array
     {
+        return [];
+        // TODO: Refactor so we can limit amount fetched (latest 10 repo's should suffice)
         $repositories = $this->repos()->pluck('nameWithOwner');
 
-        dd($repositories);
+        // dd($repositories);
 
         $response = $this->github
             ->post(static::BASE_URL.'graphql', [
@@ -75,26 +79,6 @@ class GitHub implements Service
             ]);
 
         dd($response->json());
-
-        // ------------------
-
-        /** @var array[[id: string, name: string, full_name: string]] */
-        $repos = Repository::aggregate();
-
-        $urls = array_map(fn ($repo) => static::BASE_URL."repos/{$repo['full_name']}/actions/runs", $repos);
-
-        // TODO: Use GraphQL instead? Rate limits are hit quickly when using concurrent requests
-        $responses = collect($urls)
-            ->chunk(3)
-            ->flatMap(function ($chunk) {
-                $responses = Http::pool(fn ($pool) => $chunk->map(function ($url) use ($pool) {
-                    return $pool->acceptJson()->throw()->get($url);
-                }));
-
-                sleep(1); // Optional delay between chunks
-
-                return $responses;
-            });
     }
 
     /*
@@ -115,15 +99,19 @@ class GitHub implements Service
 
     public function getAccessToken(string $deviceCode): ?string
     {
-        $response = $this
-            ->github
+        $response = $this->github
             ->post(static::AUTH_URL.'/oauth/access_token', [
                 'device_code' => $deviceCode,
                 'client_id' => config('services.github.client_id'),
                 'grant_type' => 'urn:ietf:params:oauth:grant-type:device_code',
             ]);
 
-        return $response->json('access_token');
+        // Set token for subsequent requests
+        $this->github->withToken(
+            $token = $response->json('access_token')
+        );
+
+        return $token;
     }
 
     /** @return array{login: string} */
@@ -133,8 +121,7 @@ class GitHub implements Service
             ? $accessToken
             : $this->config->github_access_token;
 
-        return $this
-            ->github
+        return $this->github
             ->withToken($accessToken)
             ->get(static::BASE_URL.'user')
             ->json();

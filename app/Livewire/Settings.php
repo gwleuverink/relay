@@ -16,12 +16,16 @@ class Settings extends Component
     use WithConfig;
     use WithGitHub;
 
+    public bool $all;
+
     #[Validate('array|max:'.self::MAX_REPOSITORIES)]
     public array $selectedRepositories = [];
 
     public function mount()
     {
         $this->selectedRepositories = $this->config->github_selected_repositories;
+
+        $this->toggleAllProperty();
     }
 
     /*
@@ -29,7 +33,7 @@ class Settings extends Component
     | Hooks
     |--------------------------------------------------------------------------
     */
-    public function updatedSelectedRepositories($value)
+    public function updatedSelectedRepositories(mixed $value = null)
     {
         if (count($this->selectedRepositories) > static::MAX_REPOSITORIES) {
             $indexToRemove = array_search($value, $this->selectedRepositories);
@@ -42,6 +46,16 @@ class Settings extends Component
         $this->config->fill([
             'github_selected_repositories' => $this->selectedRepositories,
         ])->save();
+
+        $this->toggleAllProperty();
+    }
+
+    public function updatedAll($checked)
+    {
+        if ($checked) {
+            $this->selectedRepositories = [];
+            $this->updatedSelectedRepositories();
+        }
     }
 
     /*
@@ -52,15 +66,30 @@ class Settings extends Component
     #[Computed()]
     public function repositories(): Collection
     {
+        // dd($this->github->repos(100)->count());
+        // $repositories = $this->github->repos(100);
+
         $repositories = cache()->remember(
-            'repositories',
-            now()->addMinutes(5),
-            fn () => $this->github->repos()
+            'settings-repository-list',
+            now()->addMinutes(50),
+            fn () => $this->github->repos(100)
         );
 
         // Only unselected repo's
         return $repositories->reject(function ($repo) {
             return in_array($repo['nameWithOwner'], $this->selectedRepositories);
         });
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Support
+    |--------------------------------------------------------------------------
+    */
+    private function toggleAllProperty()
+    {
+        $this->all = $this->selectedRepositories
+            ? false
+            : true;
     }
 }
