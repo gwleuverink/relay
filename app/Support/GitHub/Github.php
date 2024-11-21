@@ -2,11 +2,15 @@
 
 namespace App\Support\GitHub;
 
+use App\Mixins\HttpMixin;
 use App\Settings\Config;
 use App\Support\GitHub\Contracts\GitHub as Service;
 use Exception;
+use Generator;
 use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Http\Client\Pool;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Http;
 
 class GitHub implements Service
 {
@@ -62,23 +66,57 @@ class GitHub implements Service
             ->sortByDesc('pushedAt');
     }
 
-    public function actions(): array
+    public function pendingActions(): array
     {
-        return [];
-        // TODO: Refactor so we can limit amount fetched (latest 10 repo's should suffice)
-        $repositories = $this->repos()->pluck('nameWithOwner');
+        $responses = collect();
+        Http::mixin(new HttpMixin);
 
-        // dd($repositories);
+        // Fetch 10 repositories for the useer & all organization - (n * 10)
+        $repositories = $this->repos(10)
+            // TODO: Remove repos with old pushed_at? Not relevant or - add to repos query?
+            // ->reject()
+            ->pluck('nameWithOwner')
+            ->values();
 
-        $response = $this->github
-            ->post(static::BASE_URL.'graphql', [
-                'query' => file_get_contents(__DIR__.'/queries/workflow-runs.graphql'),
-                'variables' => [
-                    'repos' => $repositories,
-                ],
-            ]);
+        // Querying everything at once wasn't possble with graphql.
+        // Trying concurrency with request throttling
+        // BEWARE: Not pretty, but effective
 
-        dd($response->json());
+        $concurrent = fn (Pool $pool) => $pool->throw()
+            ->acceptJson()
+            ->withToken($this->config->github_access_token, 'token');
+
+        // Http::concurrent(
+        //     count($repositories),
+        //     function (Pool $pool) use ($concurrent, $repositories): Generator {
+        //         for ($i = 0; $i < count($repositories); $i++) {
+        //             yield $concurrent($pool)->async()->get(static::BASE_URL."repos/{$repositories[$i]}/actions/runs");
+        //         }
+        //     },
+        //     function ($response, $x) use ($responses, $repositories) {
+        //         $responses[$repositories[$x]] = $response;
+        //     },
+        //     function () {
+        //         dump('NAW');
+        //     }
+        // );
+
+        // $responses
+        //     ->map->json()
+        //     ->where('total_count')
+        //     ->dd();
+
+        $responses = Http::pool(fn (Pool $pool) => $repositories->map(
+            fn ($repo) => $concurrent($pool)->async()->get(static::BASE_URL."repos/{$repo}/actions/runs")
+        ));
+
+        collect($responses)
+            ->map->json()
+            ->where('total_count')
+            ->mapWithKeys(
+                fn ($data, $key) => [$repositories[$key] => $data]
+            )
+            ->dd();
     }
 
     /*

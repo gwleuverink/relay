@@ -1,5 +1,5 @@
-query ($repos: [String!]!) {
-    repositories(fullNames: $repos) {
+query ($owner: String!, $name: String!) {
+    repository(owner: $owner, name: $name) {
         nodes {
             nameWithOwner
             workflowRuns(first: 10, states: IN_PROGRESS) {
