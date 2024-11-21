@@ -31,12 +31,8 @@ class FetchWorkflowRuns implements ShouldQueue
         }
 
         // Prune old runs
-        $runningStatusses = collect(RunStatus::cases())
-            ->filter->isRunning()
-            ->map->value;
-
         WorkflowRun::query()
-            ->whereNotIn('status', $runningStatusses)
+            ->whereNotIn('status', RunStatus::running())
             ->where('created_at', '<', now()->subMinutes(static::PRUNE_AFTER_MINUTES))
             ->delete();
     }
