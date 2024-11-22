@@ -22,11 +22,11 @@
 
 <div>
     @if ($status->isRunning())
-        <x-svg.loading class="m-1 w-4 text-neutral-500" />
+        <x-svg.loading class="m-0.5 w-4 text-neutral-500" />
     @else
         <div @class([
             $colors,
-            'flex h-6 w-6 items-center justify-center rounded-full text-white',
+            'flex size-5 items-center justify-center rounded-full text-white',
         ])>
             @if ($conclusion === ConclusionStatus::SUCCESS)
                 <x-heroicon-c-check class="w-4" />

@@ -96,11 +96,11 @@ class GitHub implements Service
                 // Can't filter by multiple statusses. Not with GraphQL either.
                 // Need to leave this empty & filter manually. Bummer!!
                 // Rather bigger responses than redundant requests.
-                'per_page' => 30,
-                'created' => '>'.now()
-                    ->subMinutes(10)
-                    ->subWeek() // For testing - Comment this out!
-                    ->toIso8601String(),
+                'per_page' => 100,
+                // 'created' => '>'.now()
+                //     ->subMinutes(10)
+                //     ->subWeek() // For testing - Comment this out!
+                //     ->toIso8601String(),
             ])
         ));
 

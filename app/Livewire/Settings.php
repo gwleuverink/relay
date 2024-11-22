@@ -66,9 +66,6 @@ class Settings extends Component
     #[Computed()]
     public function repositories(): Collection
     {
-        // dd($this->github->repos(100)->count());
-        // $repositories = $this->github->repos(100);
-
         $repositories = cache()->remember(
             'settings-repository-list',
             now()->addMinutes(50),

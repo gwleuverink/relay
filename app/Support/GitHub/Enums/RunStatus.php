@@ -6,7 +6,6 @@ enum RunStatus: string
 {
     use Concerns\HasHumanReadableValue;
 
-    // Status
     case REQUESTED = 'requested';
     case QUEUED = 'queued';
     case PENDING = 'pending';

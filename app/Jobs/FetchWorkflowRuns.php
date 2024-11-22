@@ -14,16 +14,10 @@ class FetchWorkflowRuns implements ShouldQueue
 
     const PRUNE_AFTER_MINUTES = 60;
 
-    public function github()
-    {
-        return resolve(GitHub::class);
-    }
-
-    /**
-     * Execute the job.
-     */
     public function handle(): void
     {
+        logger()->info('Fetching Workflow runs...');
+
         foreach ($this->github()->runningWorkflows() as $repo => $runs) {
             foreach ($runs as $run) {
                 WorkflowRun::updateOrCreateFromRequest($repo, fluent($run));
@@ -36,9 +30,14 @@ class FetchWorkflowRuns implements ShouldQueue
     private function prune()
     {
         WorkflowRun::query()
-            ->whereNotIn('conclusion', [ConclusionStatus::SUCCESS])
+            ->whereIn('conclusion', [ConclusionStatus::SUCCESS])
             ->where('created_at', '<', now()->subMinutes(static::PRUNE_AFTER_MINUTES))
             ->get() // Don't mass delete - we need the model events to fire
             ->each->delete();
+    }
+
+    private function github()
+    {
+        return resolve(GitHub::class);
     }
 }

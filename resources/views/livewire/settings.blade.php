@@ -1,6 +1,4 @@
 <div class="relative overflow-x-hidden pb-4 pt-12 text-xs">
-    {{-- @dd($this->repositories->values()->pluck('nameWithOwner')->toArray()) --}}
-
     <div class="fixed left-0 right-0 top-0 z-10 flex justify-start border-b border-neutral-200 bg-gradient-to-r from-neutral-100 to-neutral-200 font-semibold text-neutral-700">
         <a
             wire:navigate.hover
