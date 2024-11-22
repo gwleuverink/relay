@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Events\WorkflowRunDetected;
 use App\Events\WorkflowRunPruned;
+use App\Support\GitHub\Enums\ConclusionStatus;
 use App\Support\GitHub\Enums\RunStatus;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
@@ -18,12 +19,14 @@ class WorkflowRun extends Model
         'repository',
         'name',
         'status',
+        'conclusion',
         'data',
     ];
 
     protected $casts = [
-        'status' => RunStatus::class,
         'data' => 'object',
+        'status' => RunStatus::class,
+        'conclusion' => ConclusionStatus::class,
     ];
 
     /*
@@ -52,6 +55,7 @@ class WorkflowRun extends Model
     {
         $this->update([
             'status' => $run->status,
+            'conclusion' => $run->conclusion,
             'data' => $run->toArray(),
         ]);
 
@@ -65,8 +69,9 @@ class WorkflowRun extends Model
                 'remote_id' => $run->id,
             ],
             [
-                'repository' => $repository,
                 'status' => $run->status,
+                'conclusion' => $run->status,
+                'repository' => $repository,
                 'name' => $run->name,
                 'data' => $run,
             ]
@@ -91,13 +96,10 @@ class WorkflowRun extends Model
         static::updated(function (self $run) {
 
             if ($run->status->isRunning() === $run->getOriginal('status')->isRunning()) {
-                // logger('not changed: '.$run->name, [$run->status->value, $run->getOriginal('status')->value]);
-
                 return; // Status didn't change
             }
 
             if ($run->status->isRunning()) {
-                // logger('changed: '.$run->name, [$run->status->value, $run->getOriginal('status')->value]);
                 WorkflowRunDetected::dispatch($run);
             }
         });

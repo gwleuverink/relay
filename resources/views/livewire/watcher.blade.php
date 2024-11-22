@@ -9,11 +9,9 @@
         </a>
     </div>
 
-    {{-- Empty & no repo's configured --}}
-    {{-- <x-splash.no-repos /> --}}
-
-    {{-- Empty & repo's configured --}}
-    {{-- <x-splash.no-actions /> --}}
+    @empty($this->runs)
+        <x-support.no-actions />
+    @endempty
 
     <div class="divide-y divide-neutral-200 shadow-md">
         @foreach ($this->runs as $run)

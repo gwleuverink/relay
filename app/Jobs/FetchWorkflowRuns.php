@@ -4,7 +4,7 @@ namespace App\Jobs;
 
 use App\Models\WorkflowRun;
 use App\Support\GitHub\Contracts\GitHub;
-use App\Support\GitHub\Enums\RunStatus;
+use App\Support\GitHub\Enums\ConclusionStatus;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 
@@ -36,7 +36,7 @@ class FetchWorkflowRuns implements ShouldQueue
     private function prune()
     {
         WorkflowRun::query()
-            ->whereNotIn('status', [RunStatus::COMPLETED, RunStatus::SKIPPED])
+            ->whereNotIn('conclusion', [ConclusionStatus::SUCCESS])
             ->where('created_at', '<', now()->subMinutes(static::PRUNE_AFTER_MINUTES))
             ->get() // Don't mass delete - we need the model events to fire
             ->each->delete();

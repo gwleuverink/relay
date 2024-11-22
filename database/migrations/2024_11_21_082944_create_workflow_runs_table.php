@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('repository', 255)->index();
             $table->string('name', 255)->index();
             $table->string('status', 25)->index();
+            $table->string('conclusion', 25)->nullable()->index();
             $table->json('data');
 
             $table->timestamps();
