@@ -1,3 +1,4 @@
+@use(App\Support\GitHub\Enums\RunStatus)
 
 @props([
     'type' => 'idle',
@@ -10,13 +11,13 @@
     $classes = match($type) {
         default => 'border-slate-300',
         'failed' => 'border-red-500',
-        'running' => 'border-blue-500',
+        'in_progress' => 'border-blue-500',
     }
 @endphp
 
 <article>
 
-    <div @class([
+    <div {{ $attributes }} @class([
         $classes,
         'border-l-4 border-blue-500 bg-neutral-50 p-3'
     ])>
