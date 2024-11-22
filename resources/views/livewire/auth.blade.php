@@ -8,7 +8,7 @@
 
         <x-input.button
             :href="$verificationUri"
-            x-default-browser
+            x-open-external
             target="_blank"
         >
             Connect with GitHub
