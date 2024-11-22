@@ -19,7 +19,7 @@
     @if ($run->status->isRunning())
         wire:poll.5s="refresh"
     @endif
-    :wire:key="$run->remote_id"
+    wire:key="{{ $run->remote_id }}"
 >
     <div @class([
         $colors,
@@ -51,8 +51,24 @@
 
                 <div>
                     <button
+                        x-on:click="
+                            $contextMenu([
+                                {
+                                    label: 'Re-run all jobs',
+                                    click: async () => $wire.restartJobs({{ $run->id }}),
+                                },
+                                {
+                                    label: 'Re-run failed jobs',
+                                    click: async () => $wire.restartFailedJobs({{ $run->id }}),
+                                },
+                                { type: 'separator' },
+                                {
+                                    label: 'Open in GitHub',
+                                },
+                            ])
+                        "
                         type="button"
-                        class="transi cursor-default rounded-full p-0.5 opacity-20 transition-all hover:bg-neutral-200 group-hover:opacity-100"
+                        class="cursor-default rounded-full p-0.5 opacity-20 transition-all hover:bg-neutral-200 group-hover:opacity-100"
                     >
                         <x-heroicon-c-ellipsis-vertical class="w-4 text-neutral-500" />
                     </button>

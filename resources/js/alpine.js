@@ -17,3 +17,16 @@ Alpine.directive('open-external', (el) => {
         shell.openExternal(el.href);
     });
 })
+
+/*
+|--------------------------------------------------------------------------
+| Magics
+|--------------------------------------------------------------------------
+*/
+
+Alpine.magic('contextMenu', () => template => {
+    const { Menu } = require('@electron/remote');
+
+    let menu = Menu.buildFromTemplate(template)
+    menu.popup({ window: remote.getCurrentWindow() })
+})
