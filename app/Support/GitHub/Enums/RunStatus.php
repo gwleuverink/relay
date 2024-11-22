@@ -37,6 +37,14 @@ enum RunStatus: string
         return ! $this->isRunning();
     }
 
+    public function isCompleted(): bool
+    {
+        return match ($this) {
+            self::COMPLETED, self::SKIPPED => true,
+            default => false
+        };
+    }
+
     public static function running(): array
     {
         return collect(self::cases())

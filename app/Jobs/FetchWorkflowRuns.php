@@ -12,7 +12,7 @@ class FetchWorkflowRuns implements ShouldQueue
 {
     use Queueable;
 
-    const PRUNE_AFTER_MINUTES = 1;
+    const PRUNE_AFTER_MINUTES = 60;
 
     public function github()
     {
@@ -24,16 +24,21 @@ class FetchWorkflowRuns implements ShouldQueue
      */
     public function handle(): void
     {
-        foreach ($this->github()->pendingActions() as $repo => $runs) {
+        foreach ($this->github()->runningWorkflows() as $repo => $runs) {
             foreach ($runs as $run) {
-                WorkflowRun::updateOrCreateFromRequest($repo, $run);
+                WorkflowRun::updateOrCreateFromRequest($repo, fluent($run));
             }
         }
 
-        // Prune old runs
+        $this->prune();
+    }
+
+    private function prune()
+    {
         WorkflowRun::query()
-            ->whereNotIn('status', RunStatus::running())
+            ->whereNotIn('status', [RunStatus::COMPLETED, RunStatus::SKIPPED])
             ->where('created_at', '<', now()->subMinutes(static::PRUNE_AFTER_MINUTES))
-            ->delete();
+            ->get() // Don't mass delete - we need the model events to fire
+            ->each->delete();
     }
 }

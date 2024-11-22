@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Events\WorkflowRunDetected;
+use App\Events\WorkflowRunPruned;
 use App\Livewire\Concerns\WithGitHub;
 use App\Models\WorkflowRun;
 use Livewire\Attributes\Computed;
@@ -14,13 +15,14 @@ class Watcher extends Component
 
     protected $listeners = [
         'native:'.WorkflowRunDetected::class => '$refresh',
+        'native:'.WorkflowRunPruned::class => '$refresh',
     ];
 
     #[Computed()]
     public function runs()
     {
-        // dd(\App\Jobs\FetchWorkflowRuns::dispatchSync());
+        // \App\Jobs\FetchWorkflowRuns::dispatchSync();
 
-        return WorkflowRun::all();
+        return WorkflowRun::latest()->get();
     }
 }

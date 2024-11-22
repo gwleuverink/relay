@@ -17,19 +17,10 @@
 
     <div class="divide-y divide-neutral-200 shadow-md">
         @foreach ($this->runs as $run)
-            <x-action.group
+            <livewire:workflow-run
+                :$run
                 :wire:key="$run->id"
-                :type="$run->status"
-                :repo="$run->repository"
-                trigger="PR #342"
-                triggered-at="2m ago"
-            >
-                <x-action.job
-                    status="queued"
-                    :name="$run->name"
-                    environment="ubuntu-latest • Node 18"
-                />
-            </x-action.group>
+            />
         @endforeach
 
         {{--

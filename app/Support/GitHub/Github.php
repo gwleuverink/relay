@@ -11,6 +11,7 @@ use Illuminate\Http\Client\Pool;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Fluent;
 
 class GitHub implements Service
 {
@@ -66,7 +67,7 @@ class GitHub implements Service
             ->sortByDesc('pushedAt');
     }
 
-    public function pendingActions(): Collection
+    public function runningWorkflows(): Collection
     {
         $responses = collect();
 
@@ -110,6 +111,7 @@ class GitHub implements Service
             )
             // Unpack & filter only responses with runs
             ->map->json()
+            // ->each(fn ($re) => info($re))
             ->where('total_count')
             // Key-by the repository name
             ->mapWithKeys(
@@ -120,6 +122,15 @@ class GitHub implements Service
                 return RunStatus::from($run['status'])->isRunning();
             }))
             ->filter();
+    }
+
+    public function workflowRun(string $repo, int $id): Fluent
+    {
+        $response = $this->github
+            ->get(static::BASE_URL."repos/{$repo}/actions/runs/{$id}")
+            ->json();
+
+        return fluent($response);
     }
 
     /*

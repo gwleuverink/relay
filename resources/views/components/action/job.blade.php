@@ -7,7 +7,7 @@
 @php
     $classes = match($status){
         default => '',
-        'skipped', 'finished' => 'opacity-60',
+        'skipped', 'completed' => 'opacity-60',
     }
 @endphp
 

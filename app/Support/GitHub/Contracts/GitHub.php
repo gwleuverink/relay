@@ -3,6 +3,7 @@
 namespace App\Support\GitHub\Contracts;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Fluent;
 
 interface GitHub
 {
@@ -13,7 +14,9 @@ interface GitHub
     */
     public function repos(): Collection;
 
-    public function pendingActions(): Collection;
+    public function runningWorkflows(): Collection;
+
+    public function workflowRun(string $repo, int $id): Fluent;
 
     /*
     |--------------------------------------------------------------------------
