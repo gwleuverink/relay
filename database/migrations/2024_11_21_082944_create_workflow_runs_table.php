@@ -16,6 +16,7 @@ return new class extends Migration
 
             $table->bigInteger('remote_id')->unique();
             $table->string('repository', 255)->index();
+            $table->string('name', 255)->index();
             $table->string('status', 25)->index();
             $table->json('data');
 

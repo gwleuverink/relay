@@ -118,7 +118,8 @@ class GitHub implements Service
             // Filter only running states - Uncomment during development
             ->map(fn ($runs) => array_filter($runs, function ($run) {
                 return RunStatus::from($run['status'])->isRunning();
-            }));
+            }))
+            ->filter();
     }
 
     /*

@@ -18,6 +18,7 @@
     <div class="divide-y divide-neutral-200 shadow-md">
         @foreach ($this->runs as $run)
             <x-action.group
+                :wire:key="$run->id"
                 :type="$run->status"
                 :repo="$run->repository"
                 trigger="PR #342"
@@ -25,7 +26,7 @@
             >
                 <x-action.job
                     status="queued"
-                    name="Integration Tests"
+                    :name="$run->name"
                     environment="ubuntu-latest • Node 18"
                 />
             </x-action.group>

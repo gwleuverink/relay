@@ -12,6 +12,7 @@ class WorkflowRun extends Model
         'id',
         'remote_id',
         'repository',
+        'name',
         'status',
         'data',
     ];
@@ -28,10 +29,11 @@ class WorkflowRun extends Model
         return static::updateOrCreate(
             [
                 'remote_id' => $run->id,
-                'repository' => $repository,
             ],
             [
+                'repository' => $repository,
                 'status' => $run->status,
+                'name' => $run->name,
                 'data' => $run,
             ]
         );

@@ -19,6 +19,8 @@ class Watcher extends Component
     #[Computed()]
     public function runs()
     {
+        // dd(\App\Jobs\FetchWorkflowRuns::dispatchSync());
+
         return WorkflowRun::all();
     }
 }
