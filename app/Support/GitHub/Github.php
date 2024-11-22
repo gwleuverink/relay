@@ -137,6 +137,11 @@ class GitHub implements Service
         return fluent($response);
     }
 
+    public function restartJobs(string $repo, int $id): void
+    {
+        $this->github->post(static::BASE_URL."repos/{$repo}/actions/runs/{$id}/rerun");
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Authentication

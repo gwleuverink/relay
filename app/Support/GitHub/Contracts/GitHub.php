@@ -18,6 +18,8 @@ interface GitHub
 
     public function workflowRun(string $repo, int $id): Fluent;
 
+    public function restartJobs(string $repo, int $id): void;
+
     /*
     |--------------------------------------------------------------------------
     | Authentication

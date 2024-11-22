@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Events\WorkflowRunDetected;
 use App\Livewire\Concerns\WithGitHub;
 use App\Models\WorkflowRun as RunModel;
+use App\Support\GitHub\Enums\RunStatus;
 use Livewire\Component;
 
 class WorkflowRun extends Component
@@ -19,7 +20,25 @@ class WorkflowRun extends Component
 
     public function refresh()
     {
-        $data = $this->github->workflowRun($this->run->repository, $this->run->remote_id);
-        $this->run->updateFromRequest($data);
+        $this->run->updateFromRequest(
+            $this->github->workflowRun($this->run->repository, $this->run->remote_id)
+        );
+    }
+
+    public function restartJobs($runId)
+    {
+        $run = RunModel::find($runId);
+
+        if (! $run) {
+            return;
+        }
+
+        $this->run->updateQuietly([
+            'status' => RunStatus::REQUESTED,
+            'conclusion' => null,
+        ]);
+
+        $this->github->restartJobs($run->repository, $run->remote_id);
+
     }
 }
