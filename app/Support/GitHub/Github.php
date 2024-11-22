@@ -8,6 +8,7 @@ use App\Support\GitHub\Enums\RunStatus;
 use Exception;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Pool;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
@@ -95,7 +96,6 @@ class GitHub implements Service
                 // Can't filter by multiple statusses. Not with GraphQL either.
                 // Need to leave this empty & filter manually. Bummer!!
                 // Rather bigger responses than redundant requests.
-                // 'status' => RunStatus::running(),
                 'per_page' => 30,
                 'created' => '>'.now()
                     ->subMinutes(10)
@@ -105,13 +105,17 @@ class GitHub implements Service
         ));
 
         return collect($responses)
+
+            ->each(
+                fn ($response) => ! is_a($response, RequestException::class) ?: logger()->error($response)
+            )
+
             // We don't care about exceptions just yet
             ->filter(
                 fn ($response) => is_a($response, Response::class)
             )
             // Unpack & filter only responses with runs
             ->map->json()
-            // ->each(fn ($re) => info($re))
             ->where('total_count')
             // Key-by the repository name
             ->mapWithKeys(
