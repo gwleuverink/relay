@@ -1,4 +1,4 @@
-<div class="relative min-h-screen bg-neutral-100 text-xs">
+<div class="relative min-h-screen bg-neutral-100 pt-7 text-xs">
     <div class="fixed left-0 right-0 top-0 z-10 flex justify-end border-b border-neutral-200 bg-gradient-to-r from-neutral-100 to-neutral-200 font-semibold text-neutral-700">
         <a
             wire:navigate.hover
