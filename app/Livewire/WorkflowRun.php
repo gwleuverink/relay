@@ -59,7 +59,7 @@ class WorkflowRun extends Component
             ->titleBarHidden()
             // ->frameless()
             // ->lightVibrancy()
-            ->width(560)
-            ->height(800);
+            ->width(500)
+            ->height(600);
     }
 }

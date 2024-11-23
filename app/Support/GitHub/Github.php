@@ -47,6 +47,8 @@ class GitHub implements Service
     /** @var array[[id: string, name: string, full_name: string]] */
     public function repos(int $take = 50): Collection
     {
+        logger()->info('Fetching repositories...');
+
         // TODO: Consider filtering pushed_at date with max age
         $response = $this->github->post(static::BASE_URL.'graphql', [
             'query' => file_get_contents(__DIR__.'/queries/repositories.graphql'),
@@ -70,6 +72,8 @@ class GitHub implements Service
 
     public function runningWorkflows(): Collection
     {
+        logger()->info('Fetching Workflow runs...');
+
         $responses = collect();
 
         // Fetch 10 repositories for the user & all organization - (n * 10)
@@ -105,11 +109,9 @@ class GitHub implements Service
         ));
 
         return collect($responses)
-
             ->each(
                 fn ($response) => ! is_a($response, RequestException::class) ?: logger()->error($response)
             )
-
             // We don't care about exceptions just yet
             ->filter(
                 fn ($response) => is_a($response, Response::class)
@@ -130,6 +132,8 @@ class GitHub implements Service
 
     public function workflowRun(string $repo, int $id): Fluent
     {
+        logger()->info("Fetching Workflow run: {$id} - {$repo}");
+
         $response = $this->github
             ->get(static::BASE_URL."repos/{$repo}/actions/runs/{$id}")
             ->json();
@@ -139,11 +143,15 @@ class GitHub implements Service
 
     public function restartJobs(string $repo, int $id): void
     {
+        logger()->info("Restarting jobs: {$id} - {$repo}");
+
         $this->github->post(static::BASE_URL."repos/{$repo}/actions/runs/{$id}/rerun", (object) []);
     }
 
     public function restartFailedJobs(string $repo, int $id): void
     {
+        logger()->info("Restarting failed jobs: {$id} - {$repo}");
+
         $this->github->post(static::BASE_URL."repos/{$repo}/actions/runs/{$id}/rerun-failed-jobs", (object) []);
     }
 
@@ -183,6 +191,8 @@ class GitHub implements Service
     /** @return array{login: string} */
     public function authorizedUser(?string $accessToken = null): array
     {
+        logger()->info('GitHub User authorized');
+
         $accessToken = $accessToken
             ? $accessToken
             : $this->config->github_access_token;

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Events\WorkflowRunDetected;
 use App\Events\WorkflowRunPruned;
+use App\Events\WorkflowStatusChanged;
 use App\Support\GitHub\Enums\ConclusionStatus;
 use App\Support\GitHub\Enums\RunStatus;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -61,6 +62,28 @@ class WorkflowRun extends Model
         ]);
     }
 
+    public function sortWeight(): int
+    {
+        $statusWeight = match ($this->status) {
+            RunStatus::REQUESTED => 1,
+            RunStatus::QUEUED => 2,
+            RunStatus::PENDING => 3,
+            RunStatus::IN_PROGRESS => 4,
+            default => 999,
+        };
+
+        $compoundWeight = match ($this->conclusion) {
+            ConclusionStatus::FAILURE => 5,
+            ConclusionStatus::CANCELLED => 6,
+            ConclusionStatus::TIMED_OUT => 7,
+            ConclusionStatus::SKIPPED => 8,
+            ConclusionStatus::SUCCESS => 9,
+            default => $statusWeight
+        };
+
+        return $compoundWeight;
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Factory methods
@@ -110,13 +133,16 @@ class WorkflowRun extends Model
 
         static::updated(function (self $run) {
 
-            if ($run->status->isRunning() === $run->getOriginal('status')->isRunning()) {
-                return; // Status didn't change
+            if ($run->status->isRunning() !== $run->getOriginal('status')->isRunning()) { // The running status changed
+                if ($run->status->isRunning()) { // And is now running
+                    WorkflowRunDetected::dispatch($run);
+                }
             }
 
-            if ($run->status->isRunning()) {
-                WorkflowRunDetected::dispatch($run);
+            if ($run->status !== $run->getOriginal('status') || $run->conclusion !== $run->getOriginal('conclusion')) {
+                WorkflowStatusChanged::dispatch($run);
             }
+
         });
     }
 }

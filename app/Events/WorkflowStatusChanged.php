@@ -6,17 +6,16 @@ use App\Models\WorkflowRun;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
-use Native\Laravel\Facades\Notification;
 
-class WorkflowRunDetected implements ShouldBroadcastNow
+class WorkflowStatusChanged implements ShouldBroadcastNow
 {
     use Dispatchable;
 
+    public int $id;
+
     public function __construct(WorkflowRun $run)
     {
-        Notification::title('Workflow run queued')
-            ->message($run->repository)
-            ->show();
+        $this->id = $run->id;
     }
 
     public function broadcastOn(): array
