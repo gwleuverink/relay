@@ -1,17 +1,28 @@
 @props(['run'])
 
 <button
+    x-data="{
+        canRestart: @js($run->canRestart()),
+    }"
     x-on:click="
         $contextMenu([
+            ...(canRestart
+                ? [
+                      {
+                          label: 'Re-run all jobs',
+                          click: async () => $wire.restartJobs(),
+                      },
+                      {
+                          label: 'Re-run failed jobs',
+                          click: async () => $wire.restartFailedJobs(),
+                      },
+                      { type: 'separator' },
+                  ]
+                : []),
             {
-                label: 'Re-run all jobs',
-                click: async () => $wire.restartJobs({{ $run->id }}),
+                label: 'Inspect',
+                click: async () => $wire.viewRun(),
             },
-            {
-                label: 'Re-run failed jobs',
-                click: async () => $wire.restartFailedJobs({{ $run->id }}),
-            },
-            { type: 'separator' },
             {
                 label: 'Open in GitHub',
             },

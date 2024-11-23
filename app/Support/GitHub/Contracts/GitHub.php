@@ -20,6 +20,8 @@ interface GitHub
 
     public function restartJobs(string $repo, int $id): void;
 
+    public function restartFailedJobs(string $repo, int $id): void;
+
     /*
     |--------------------------------------------------------------------------
     | Authentication

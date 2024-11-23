@@ -48,6 +48,21 @@ class WorkflowRun extends Model
 
     /*
     |--------------------------------------------------------------------------
+    | Support
+    |--------------------------------------------------------------------------
+    */
+    public function canRestart(): bool
+    {
+        return in_array($this->conclusion, [
+            ConclusionStatus::STALE,
+            ConclusionStatus::FAILURE,
+            ConclusionStatus::CANCELLED,
+            ConclusionStatus::TIMED_OUT,
+        ]);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
     | Factory methods
     |--------------------------------------------------------------------------
     */

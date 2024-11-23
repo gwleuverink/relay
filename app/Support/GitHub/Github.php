@@ -139,7 +139,12 @@ class GitHub implements Service
 
     public function restartJobs(string $repo, int $id): void
     {
-        $this->github->post(static::BASE_URL."repos/{$repo}/actions/runs/{$id}/rerun");
+        $this->github->post(static::BASE_URL."repos/{$repo}/actions/runs/{$id}/rerun", (object) []);
+    }
+
+    public function restartFailedJobs(string $repo, int $id): void
+    {
+        $this->github->post(static::BASE_URL."repos/{$repo}/actions/runs/{$id}/rerun-failed-jobs", (object) []);
     }
 
     /*

@@ -7,6 +7,7 @@ use App\Livewire\Concerns\WithGitHub;
 use App\Models\WorkflowRun as RunModel;
 use App\Support\GitHub\Enums\RunStatus;
 use Livewire\Component;
+use Native\Laravel\Facades\Window;
 
 class WorkflowRun extends Component
 {
@@ -25,20 +26,40 @@ class WorkflowRun extends Component
         );
     }
 
-    public function restartJobs($runId)
+    public function restartJobs()
     {
-        $run = RunModel::find($runId);
-
-        if (! $run) {
-            return;
-        }
-
         $this->run->updateQuietly([
             'status' => RunStatus::REQUESTED,
             'conclusion' => null,
         ]);
 
-        $this->github->restartJobs($run->repository, $run->remote_id);
+        $this->github->restartJobs(
+            $this->run->repository,
+            $this->run->remote_id
+        );
+    }
 
+    public function restartFailedJobs()
+    {
+        $this->run->updateQuietly([
+            'status' => RunStatus::REQUESTED,
+            'conclusion' => null,
+        ]);
+
+        $this->github->restartFailedJobs(
+            $this->run->repository,
+            $this->run->remote_id
+        );
+    }
+
+    public function viewRun()
+    {
+        Window::open('run-detail')
+            ->route('run-detail', [$this->run])
+            ->titleBarHidden()
+            // ->frameless()
+            // ->lightVibrancy()
+            ->width(560)
+            ->height(800);
     }
 }
