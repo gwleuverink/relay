@@ -1,15 +1,15 @@
-<div class="relative overflow-x-hidden pb-4 pt-12 text-xs">
-    <div class="fixed left-0 right-0 top-0 z-10 flex justify-start border-b border-neutral-200 bg-gradient-to-r from-neutral-100 to-neutral-200 font-semibold text-neutral-700">
+<x-layouts.menu-panel>
+    <x-slot name="header">
         <a
             wire:navigate.hover
             href="{{ route('watcher') }}"
-            class="cursor-default p-2 text-neutral-400 transition-colors hover:text-neutral-500"
+            class="cursor-default px-2 text-neutral-400 transition-colors hover:text-neutral-500"
         >
             <x-heroicon-c-arrow-left class="w-3.5" />
         </a>
-    </div>
+    </x-slot>
 
-    <div class="px-4">
+    <div class="p-4">
         {{-- All repo's input --}}
         <div class="flex flex-col">
             <x-input.checkbox
@@ -64,4 +64,4 @@
             @endforeach
         </div>
     </div>
-</div>
+</x-layouts.menu-bar>

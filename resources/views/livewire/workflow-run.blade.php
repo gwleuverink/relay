@@ -4,8 +4,8 @@
 @php
     $colors = match ($run->status) {
         default => 'border-transparent',
-        RunStatus::QUEUED => 'border-amber-400',
         RunStatus::IN_PROGRESS => 'border-blue-500',
+        RunStatus::QUEUED, RunStatus::PENDING, RunStatus::REQUESTED => 'border-amber-400',
     };
 
     $colors = match ($run->conclusion) {
@@ -16,10 +16,10 @@
 @endphp
 
 <article
+    {{-- Only poll when running --}}
     @if ($run->status->isRunning())
         wire:poll.5s="refresh"
     @endif
-    wire:key="{{ $run->remote_id }}"
 >
     <div @class([
         $colors,
