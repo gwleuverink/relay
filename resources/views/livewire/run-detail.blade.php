@@ -6,14 +6,16 @@
     {{-- START EXPERIMENT --}}
     <div class="mx-auto max-w-3xl space-y-3 px-4 py-2">
         <!-- Main Card -->
-        <div class="overflow-hidden rounded-xl border border-gray-200/80 bg-white/80 shadow-sm backdrop-blur-xl">
+        <div class="overflow-hidden rounded-xl border border-gray-200/80 bg-white/80 shadow-sm">
             <!-- Header -->
             <div class="border-b border-gray-200/80 px-4 py-3">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center space-x-3">
                         <div class="h-2 w-2 animate-pulse rounded-full bg-red-500"></div>
-                        <h1 class="font-medium text-gray-900">Update/native child processes</h1>
+
+                        <h1 class="font-medium text-gray-900">{{ $run->repository }}</h1>
                     </div>
+
                     <div class="flex items-center space-x-2">
                         <span class="text-sm text-gray-500">#25</span>
                         <span class="rounded-md border border-red-200 bg-red-100 px-2 py-1 text-xs font-medium text-red-700">Failed</span>

@@ -57,9 +57,7 @@ class WorkflowRun extends Component
         Window::open('run-detail')
             ->route('run-detail', [$this->run])
             ->titleBarHidden()
-            // ->frameless()
-            // ->lightVibrancy()
             ->width(500)
-            ->height(600);
+            ->height(520);
     }
 }
