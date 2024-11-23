@@ -16,8 +16,6 @@ class FetchWorkflowRuns implements ShouldQueue
 
     public function handle(): void
     {
-        logger()->info('Fetching Workflow runs...');
-
         foreach ($this->github()->runningWorkflows() as $repo => $runs) {
             foreach ($runs as $run) {
                 WorkflowRun::updateOrCreateFromRequest($repo, fluent($run));
