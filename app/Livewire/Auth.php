@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Jobs\FetchWorkflowRuns;
 use App\Livewire\Concerns\WithConfig;
 use App\Livewire\Concerns\WithGitHub;
 use Livewire\Attributes\Renderless;
@@ -52,6 +53,8 @@ class Auth extends Component
         Notification::title('Action Monitor Connected')
             ->message("Connected with {$user['login']}")
             ->show();
+
+        FetchWorkflowRuns::dispatch();
 
         return $this->redirectRoute('watcher', navigate: true);
     }
