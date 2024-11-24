@@ -2,16 +2,16 @@
 
 namespace App\Models;
 
-use App\Events\WorkflowRunDetected;
-use App\Events\WorkflowRunPruned;
-use App\Events\WorkflowStatusChanged;
+use App\Observers\WorkflowRunObserver;
 use App\Support\GitHub\Enums\ConclusionStatus;
 use App\Support\GitHub\Enums\RunStatus;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Fluent;
 
+#[ObservedBy([WorkflowRunObserver::class])]
 class WorkflowRun extends Model
 {
     protected $fillable = [
@@ -37,13 +37,19 @@ class WorkflowRun extends Model
     */
     public function startedAtDiff(): Attribute
     {
-        $startedAt = Carbon::parse($this->data->run_started_at);
-        $diff = $startedAt->diffInSeconds() > 60
-            ? $startedAt->ago()
+        $diff = $this->started_at->diffInSeconds() > 60
+            ? $this->started_at->ago()
             : 'just now';
 
         return Attribute::make(
             get: fn () => $diff,
+        );
+    }
+
+    public function startedAt(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => Carbon::parse($this->data->run_started_at),
         );
     }
 
@@ -59,6 +65,13 @@ class WorkflowRun extends Model
             ConclusionStatus::FAILURE,
             ConclusionStatus::CANCELLED,
             ConclusionStatus::TIMED_OUT,
+        ]);
+    }
+
+    public function canCancel(): bool
+    {
+        return in_array($this->status, [
+            RunStatus::IN_PROGRESS,
         ]);
     }
 
@@ -114,35 +127,5 @@ class WorkflowRun extends Model
                 'data' => $run,
             ]
         );
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Model events
-    |--------------------------------------------------------------------------
-    */
-    protected static function booted(): void
-    {
-        static::created(function (self $run) {
-            WorkflowRunDetected::dispatch($run);
-        });
-
-        static::deleted(function (self $run) {
-            WorkflowRunPruned::dispatch($run);
-        });
-
-        static::updated(function (self $run) {
-
-            if ($run->status->isRunning() !== $run->getOriginal('status')->isRunning()) { // The running status changed
-                if ($run->status->isRunning()) { // And is now running
-                    WorkflowRunDetected::dispatch($run);
-                }
-            }
-
-            if ($run->status !== $run->getOriginal('status') || $run->conclusion !== $run->getOriginal('conclusion')) {
-                WorkflowStatusChanged::dispatch($run);
-            }
-
-        });
     }
 }

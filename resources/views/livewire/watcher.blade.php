@@ -12,7 +12,10 @@
         </a>
     </x-slot>
 
-    <div class="divide-y divide-neutral-200 shadow-md">
+    <div
+        x-init="autoAnimate($el)"
+        class="divide-y divide-neutral-200 shadow-md"
+    >
         @foreach ($this->runs as $run)
             <livewire:workflow-run
                 :$run

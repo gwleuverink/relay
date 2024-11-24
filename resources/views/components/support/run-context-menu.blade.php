@@ -3,9 +3,19 @@
 <button
     x-data="{
         canRestart: @js($run->canRestart()),
+        canCancel: @js($run->canCancel()),
     }"
     x-on:click="
         $contextMenu([
+            ...(canCancel
+                ? [
+                      {
+                          label: 'Cancel Run',
+                          click: async () => $wire.cancelRun(),
+                      },
+                      { type: 'separator' },
+                  ]
+                : []),
             ...(canRestart
                 ? [
                       {

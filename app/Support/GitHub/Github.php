@@ -141,6 +141,13 @@ class GitHub implements Service
         return fluent($response);
     }
 
+    public function cancelRun(string $repo, int $id): void
+    {
+        logger()->info("Cancelling run: {$id} - {$repo}");
+
+        $this->github->post(static::BASE_URL."repos/{$repo}/actions/runs/{$id}/cancel", (object) []);
+    }
+
     public function restartJobs(string $repo, int $id): void
     {
         logger()->info("Restarting jobs: {$id} - {$repo}");

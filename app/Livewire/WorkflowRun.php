@@ -2,21 +2,22 @@
 
 namespace App\Livewire;
 
-use App\Events\WorkflowRunDetected;
+use App\Events\WorkflowStatusChanged;
+use App\Livewire\Concerns\InteractsWithRun;
 use App\Livewire\Concerns\WithGitHub;
 use App\Models\WorkflowRun as RunModel;
-use App\Support\GitHub\Enums\RunStatus;
 use Livewire\Component;
 use Native\Laravel\Facades\Window;
 
 class WorkflowRun extends Component
 {
+    use InteractsWithRun;
     use WithGitHub;
 
     public RunModel $run;
 
     protected $listeners = [
-        'native:'.WorkflowRunDetected::class => '$refresh',
+        'native:'.WorkflowStatusChanged::class => '$refresh',
     ];
 
     public function refresh()
@@ -26,38 +27,14 @@ class WorkflowRun extends Component
         );
     }
 
-    public function restartJobs()
-    {
-        $this->run->updateQuietly([
-            'status' => RunStatus::REQUESTED,
-            'conclusion' => null,
-        ]);
-
-        $this->github->restartJobs(
-            $this->run->repository,
-            $this->run->remote_id
-        );
-    }
-
-    public function restartFailedJobs()
-    {
-        $this->run->updateQuietly([
-            'status' => RunStatus::REQUESTED,
-            'conclusion' => null,
-        ]);
-
-        $this->github->restartFailedJobs(
-            $this->run->repository,
-            $this->run->remote_id
-        );
-    }
-
     public function viewRun()
     {
         Window::open('run-detail')
             ->route('run-detail', [$this->run])
-            ->titleBarHidden()
+            ->titleBarHiddenInset()
+            ->resizable(false)
+            ->focusable()
             ->width(500)
-            ->height(520);
+            ->height(500);
     }
 }
