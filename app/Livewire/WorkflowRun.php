@@ -22,6 +22,10 @@ class WorkflowRun extends Component
 
     public function refresh()
     {
+        if (! $this->run->status->isRunning()) {
+            return;
+        }
+
         $this->run->updateFromRequest(
             $this->github->workflowRun($this->run->repository, $this->run->remote_id)
         );
@@ -29,9 +33,11 @@ class WorkflowRun extends Component
 
     public function viewRun()
     {
+        Window::close('run-detail');
+
         Window::open('run-detail')
             ->route('run-detail', [$this->run])
-            ->titleBarHiddenInset()
+            ->titleBarHidden()
             ->resizable(false)
             ->focusable()
             ->width(500)
