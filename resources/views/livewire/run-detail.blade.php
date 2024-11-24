@@ -125,7 +125,7 @@
                             "
                             class="cursor-default rounded-md border border-gray-200/80 bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-200"
                         >
-                            Re-run jobs
+                            Re-run
                         </button>
                     @endif
 
@@ -134,7 +134,7 @@
                             wire:click="cancelRun"
                             class="cursor-default rounded-md border border-gray-200/80 bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-200"
                         >
-                            Cancel Run
+                            Cancel
                         </button>
                     @endif
 
