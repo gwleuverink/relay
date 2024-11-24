@@ -3,7 +3,8 @@
 | Directives
 |--------------------------------------------------------------------------
 */
-const { shell } = require('electron')
+const { shell } = require('electron');
+window.shell = shell; // We also open stuff from the window
 
 Alpine.directive('open-external', (el) => {
     if(el.nodeName !== 'A') {
