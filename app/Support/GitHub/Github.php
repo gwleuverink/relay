@@ -198,7 +198,7 @@ class GitHub implements Service
     /** @return array{login: string} */
     public function authorizedUser(?string $accessToken = null): array
     {
-        logger()->info('GitHub User authorized');
+        logger()->info('Fetching authenticated user');
 
         $accessToken = $accessToken
             ? $accessToken
