@@ -12,7 +12,7 @@ trait InteractsWithRun
     public function restartJobs()
     {
         if (! $this->run->canRestart()) {
-            return $this->js("alert('Can\'t restart - Jobs still running')");
+            return $this->js("alert('Cannot restart a check suite that is running.')");
         }
 
         $this->run->update([
@@ -29,7 +29,7 @@ trait InteractsWithRun
     public function restartFailedJobs()
     {
         if (! $this->run->canRestart()) {
-            return $this->js("alert('Can\'t restart running Jobs')");
+            return $this->js("alert('Cannot restart a check suite that is running.')");
         }
 
         $this->run->update([
@@ -46,7 +46,7 @@ trait InteractsWithRun
     public function cancelRun()
     {
         if (! $this->run->canCancel()) {
-            return $this->js("alert('Can\'t cancel - No running Jobs')");
+            return $this->js("alert('Cannot cancel a check suite that is completed.')");
         }
 
         $this->run->update([
