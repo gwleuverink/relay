@@ -38,5 +38,7 @@ class FetchWorkflowRuns implements ShouldQueue
             ->where('created_at', '<', now()->subMinutes(static::PRUNE_AFTER_MINUTES))
             ->get() // Don't mass delete - we need the model events to fire
             ->each->delete();
+
+        WorkflowRun::onlyTrashed()->forceDelete();
     }
 }

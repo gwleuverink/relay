@@ -5,18 +5,10 @@
     x-data="{
         canRestart: @js($run->canRestart()),
         canCancel: @js($run->canCancel()),
+        canDelete: @js($run->canDelete()),
     }"
     x-on:click="
         $contextMenu([
-            ...(canCancel
-                ? [
-                      {
-                          label: 'Cancel Run',
-                          click: async () => $wire.cancelRun(),
-                      },
-                      { type: 'separator' },
-                  ]
-                : []),
             ...(canRestart
                 ? [
                       {
@@ -30,6 +22,27 @@
                       { type: 'separator' },
                   ]
                 : []),
+
+            ...(canCancel
+                ? [
+                      {
+                          label: 'Cancel Run',
+                          click: async () => $wire.cancelRun(),
+                      },
+                      { type: 'separator' },
+                  ]
+                : []),
+
+            ...(canDelete
+                ? [
+                      {
+                          label: 'Stop tracking',
+                          click: async () => $wire.deleteRun(),
+                      },
+                      { type: 'separator' },
+                  ]
+                : []),
+
             {
                 label: 'Inspect',
                 click: async () => $wire.viewRun(),

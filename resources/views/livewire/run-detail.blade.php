@@ -138,6 +138,15 @@
                         </button>
                     @endif
 
+                    @if ($run->canDelete())
+                        <button
+                            wire:click="deleteRun"
+                            class="cursor-default rounded-md border border-gray-200/80 bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-200"
+                        >
+                            Stop tracking
+                        </button>
+                    @endif
+
                     <a
                         x-open-external
                         href="{{ $run->data->html_url }}"

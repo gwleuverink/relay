@@ -11,9 +11,11 @@ class WorkflowRunPruned implements ShouldBroadcastNow
 {
     use Dispatchable;
 
+    public int $id;
+
     public function __construct(WorkflowRun $run)
     {
-        //
+        $this->id = $run->id;
     }
 
     public function broadcastOn(): array

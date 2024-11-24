@@ -60,6 +60,17 @@ trait InteractsWithRun
         );
     }
 
+    public function deleteRun()
+    {
+        if (! $this->run->canDelete()) {
+            return $this->js("alert('Cannot stop tracking a check suite that is running.')");
+        }
+
+        // This soft deletes & gets cleaned by the scheduler
+        // so we can gracefully close run detail window
+        $this->run->delete();
+    }
+
     #[On('native:'.WorkflowStatusChanged::class)]
     public function refreshWhenStatusChanges($id)
     {

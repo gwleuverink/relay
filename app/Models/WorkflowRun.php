@@ -2,18 +2,21 @@
 
 namespace App\Models;
 
-use App\Observers\WorkflowRunObserver;
-use App\Support\GitHub\Enums\ConclusionStatus;
-use App\Support\GitHub\Enums\RunStatus;
-use Illuminate\Database\Eloquent\Attributes\ObservedBy;
-use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Fluent;
+use App\Observers\WorkflowRunObserver;
+use App\Support\GitHub\Enums\RunStatus;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Support\GitHub\Enums\ConclusionStatus;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 
 #[ObservedBy([WorkflowRunObserver::class])]
 class WorkflowRun extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'id',
         'remote_id',
@@ -74,6 +77,12 @@ class WorkflowRun extends Model
             RunStatus::IN_PROGRESS,
         ]);
     }
+
+    public function canDelete(): bool
+    {
+        return $this->status === RunStatus::COMPLETED && $this->conclusion === ConclusionStatus::FAILURE;
+    }
+
 
     public function sortWeight(): int
     {
