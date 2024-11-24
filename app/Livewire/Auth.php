@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Jobs\FetchWorkflowRuns;
 use App\Livewire\Concerns\WithConfig;
 use App\Livewire\Concerns\WithGitHub;
+use App\Models\WorkflowRun;
 use Livewire\Attributes\Renderless;
 use Livewire\Component;
 use Native\Laravel\Facades\Notification;
@@ -50,10 +51,11 @@ class Auth extends Component
             'github_selected_repositories' => [], // -> reset when reauthenticating
         ])->save();
 
-        Notification::title('Action Monitor Connected')
+        Notification::title('Workflow Monitor Connected')
             ->message("Connected with {$user['login']}")
             ->show();
 
+        WorkflowRun::truncate();
         FetchWorkflowRuns::dispatch();
 
         return $this->redirectRoute('watcher', navigate: true);
