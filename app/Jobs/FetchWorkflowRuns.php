@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\WorkflowRun;
+use App\Settings\Config;
 use App\Support\GitHub\Contracts\GitHub;
 use App\Support\GitHub\Enums\ConclusionStatus;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -14,9 +15,14 @@ class FetchWorkflowRuns implements ShouldQueue
 
     const PRUNE_AFTER_MINUTES = 60;
 
-    public function handle(): void
+    public function handle(GitHub $github, Config $config): void
     {
-        foreach ($this->github()->runningWorkflows() as $repo => $runs) {
+
+        if (! $config->github_access_token || ! $config->github_username) {
+            return;
+        }
+
+        foreach ($github->runningWorkflows() as $repo => $runs) {
             foreach ($runs as $run) {
                 WorkflowRun::updateOrCreateFromRequest($repo, fluent($run));
             }
@@ -32,10 +38,5 @@ class FetchWorkflowRuns implements ShouldQueue
             ->where('created_at', '<', now()->subMinutes(static::PRUNE_AFTER_MINUTES))
             ->get() // Don't mass delete - we need the model events to fire
             ->each->delete();
-    }
-
-    private function github()
-    {
-        return resolve(GitHub::class);
     }
 }
