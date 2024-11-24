@@ -3,7 +3,7 @@
 
 @php
     $colors = match ($run->status) {
-        default => 'border-transparent',
+        default => 'border-neutral-300',
         RunStatus::IN_PROGRESS => 'border-blue-500',
         RunStatus::QUEUED, RunStatus::PENDING, RunStatus::REQUESTED => 'border-amber-400',
     };

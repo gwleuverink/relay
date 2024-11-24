@@ -1,3 +1,20 @@
+@use(App\Support\GitHub\Enums\RunStatus)
+@use(App\Support\GitHub\Enums\ConclusionStatus)
+
+@php
+    $pingColor = match ($run->status) {
+        default => 'bg-neutral-300',
+        RunStatus::IN_PROGRESS => 'bg-blue-500',
+        RunStatus::QUEUED, RunStatus::PENDING, RunStatus::REQUESTED => 'bg-amber-400',
+    };
+
+    $pingColor = match ($run->conclusion) {
+        default => $pingColor,
+        ConclusionStatus::FAILURE => 'bg-red-500',
+        ConclusionStatus::SUCCESS => 'bg-green-500',
+    };
+@endphp
+
 <div class="h-screen bg-neutral-100 font-sans antialiased backdrop-blur-xl">
     <div class="[-webkit-app-region: drag] z-50 h-7">
         <!-- Dragzone -->
@@ -10,15 +27,20 @@
             <div class="border-b border-gray-200/80 px-4 py-3">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center space-x-3">
-                        <div class="h-2 w-2 animate-pulse rounded-full bg-red-500"></div>
+                        <div @class([
+                            $pingColor,
+                            'size-2 rounded-full',
+                            'animate-pulse' => $run->status->isRunning(),
+                        ])></div>
                         <h1 class="font-medium text-gray-900">{{ $run->data->display_title }}</h1>
                     </div>
 
                     <div class="flex items-center space-x-2">
                         <span class="text-sm text-gray-500">#{{ $run->data->run_number }}</span>
-                        <span class="rounded-md border border-red-200 bg-red-100 px-2 py-1 text-xs font-medium text-red-700">
-                            {{ $run->conclusion?->forHumans() ?? $run->status->forHumans() }}
-                        </span>
+                        <x-support.status-badge
+                            :status="$run->status"
+                            :conclusion="$run->conclusion"
+                        />
                     </div>
                 </div>
             </div>
@@ -101,7 +123,7 @@
                                     },
                                 ])
                             "
-                            class="rounded-md border border-gray-200/80 bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-200"
+                            class="cursor-default rounded-md border border-gray-200/80 bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-200"
                         >
                             Re-run jobs
                         </button>
@@ -110,7 +132,7 @@
                     @if ($run->canCancel())
                         <button
                             wire:click="cancelRun"
-                            class="rounded-md border border-gray-200/80 bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-200"
+                            class="cursor-default rounded-md border border-gray-200/80 bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-200"
                         >
                             Cancel Run
                         </button>
@@ -119,9 +141,9 @@
                     <a
                         x-open-external
                         href="{{ $run->data->html_url }}"
-                        class="rounded-md border border-gray-200/80 bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-200"
+                        class="cursor-default rounded-md border border-gray-200/80 bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-200"
                     >
-                        View workflow
+                        Open in GitHub
                     </a>
                 </div>
             </div>
