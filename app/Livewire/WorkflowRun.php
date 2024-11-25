@@ -37,10 +37,11 @@ class WorkflowRun extends Component
 
         Window::open('run-detail')
             ->route('run-detail', [$this->run])
+            ->showDevTools(false)
             ->titleBarHidden()
             ->resizable(false)
             ->focusable()
-            ->width(500)
-            ->height(500);
+            ->width(700)
+            ->height(600);
     }
 }
