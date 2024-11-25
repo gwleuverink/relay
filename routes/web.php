@@ -8,12 +8,12 @@ Route::get('login', Livewire\Auth::class)->name('login');
 
 Route::middleware(Authenticated::class)->group(function () {
 
-    Route::get('/', Livewire\Watcher::class)
+    Route::get('/', Livewire\WorkflowRun\ListView::class)
         ->name('watcher');
 
-    Route::get('/run/{run}', Livewire\RunDetail::class)
+    Route::get('/run/{run}', Livewire\WorkflowRun\DetailWindow::class)
         ->withTrashed()
-        ->name('run-detail');
+        ->name('detail-window');
 
     Route::get('/settings', Livewire\Settings::class)
         ->name('settings');

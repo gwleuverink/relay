@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\WorkflowRun;
 
 use App\Events\WorkflowRunDetected;
 use App\Events\WorkflowRunPruned;
@@ -10,7 +10,7 @@ use App\Models\WorkflowRun;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
-class Watcher extends Component
+class ListView extends Component
 {
     use WithGitHub;
 

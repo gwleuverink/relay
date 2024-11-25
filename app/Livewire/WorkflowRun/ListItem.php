@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\WorkflowRun;
 
 use App\Events\WorkflowStatusChanged;
 use App\Livewire\Concerns\InteractsWithRun;
@@ -9,7 +9,7 @@ use App\Models\WorkflowRun as RunModel;
 use Livewire\Component;
 use Native\Laravel\Facades\Window;
 
-class WorkflowRun extends Component
+class ListItem extends Component
 {
     use InteractsWithRun;
     use WithGitHub;
@@ -33,10 +33,10 @@ class WorkflowRun extends Component
 
     public function viewRun()
     {
-        Window::close('run-detail');
+        Window::close('detail-window');
 
-        Window::open('run-detail')
-            ->route('run-detail', [$this->run])
+        Window::open('detail-window')
+            ->route('detail-window', [$this->run])
             ->showDevTools(false)
             ->titleBarHidden()
             ->resizable(false)

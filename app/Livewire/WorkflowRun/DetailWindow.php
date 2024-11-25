@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\WorkflowRun;
 
 use Livewire\Component;
 use App\Models\WorkflowRun;
@@ -11,7 +11,7 @@ use App\Events\WorkflowStatusChanged;
 use App\Livewire\Concerns\WithGitHub;
 use App\Livewire\Concerns\InteractsWithRun;
 
-class RunDetail extends Component
+class DetailWindow extends Component
 {
     use InteractsWithRun;
     use WithGitHub;
@@ -27,7 +27,7 @@ class RunDetail extends Component
     public function pruned($id)
     {
         if($id === $this->run->id) {
-            Window::close('run-detail');
+            Window::close('detail-window');
         }
     }
 }

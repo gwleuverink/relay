@@ -158,6 +158,8 @@
             </div>
         </div>
 
+        <livewire:workflow-run.job-details lazy />
+
         <!-- Commit Card -->
         <div class="overflow-hidden rounded-xl border border-gray-200/80 bg-white/80 shadow-sm backdrop-blur-xl">
             <div class="border-b border-gray-200/80 px-4 py-3">

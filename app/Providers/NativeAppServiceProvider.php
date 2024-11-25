@@ -18,7 +18,9 @@ class NativeAppServiceProvider implements ProvidesPhpIni
             ->vibrancy('dark')
             ->resizable(false)
             ->alwaysOnTop() // while developing
-            ->height(400)
+            ->height(
+                28 + (4 * 81)
+            )
             ->width(340);
     }
 

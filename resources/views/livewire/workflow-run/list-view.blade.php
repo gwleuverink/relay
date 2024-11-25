@@ -19,7 +19,7 @@
         class="divide-y divide-neutral-200 shadow-md"
     >
         @foreach ($this->runs as $run)
-            <livewire:workflow-run
+            <livewire:workflow-run.list-item
                 :$run
                 :wire:key="$run->id"
             />
