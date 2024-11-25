@@ -1,5 +1,7 @@
 <x-layouts.menu-panel>
     <x-slot name="header">
+        <h1 class="sr-only">Workflow Monitor Settings</h1>
+
         <a
             wire:navigate.hover
             href="{{ route('watcher') }}"

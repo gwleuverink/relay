@@ -3,6 +3,8 @@
         name="header"
         class="justify-self-end"
     >
+        <h1 class="sr-only">Workflow Monitor</h1>
+
         <a
             wire:navigate.hover
             href="{{ route('settings') }}"
@@ -23,4 +25,9 @@
             />
         @endforeach
     </div>
+
+    @if($this->runs->isEmpty())
+        <x-support.no-runs />
+    @endif
+
 </x-layouts.menu-panel>
