@@ -20,7 +20,6 @@ class DetailWindow extends Component
 
     protected $listeners = [
         'native:'.WorkflowStatusChanged::class => '$refresh',
-        'native:'.WorkflowRunDetected::class => '$refresh',
         'native:'.WorkflowRunPruned::class => 'pruned',
     ];
 

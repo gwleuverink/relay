@@ -2,9 +2,11 @@
 
 namespace App\Casts;
 
+use App\Support\GitHub\Enums\ConclusionStatus;
+use Illuminate\Support\Carbon;
 use App\Support\GitHub\Enums\RunStatus;
-use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 
 class JobCollection implements CastsAttributes
 {
@@ -30,7 +32,10 @@ class JobCollection implements CastsAttributes
     private function castProperties(object $data): object
     {
         $data->status = RunStatus::tryFrom($data->status);
-        $data->conclusion = RunStatus::tryFrom($data->conclusion);
+        $data->conclusion = ConclusionStatus::tryFrom($data->conclusion);
+
+        $data->started_at = Carbon::parse($data->started_at);
+        $data->completed_at = Carbon::parse($data->completed_at);
 
         return $data;
     }

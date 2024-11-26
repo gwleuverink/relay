@@ -2,11 +2,12 @@
 
 namespace App\Livewire\WorkflowRun;
 
-use App\Livewire\Concerns\WithGitHub;
-use App\Models\WorkflowRun;
-use Livewire\Attributes\Computed;
-use Livewire\Attributes\Lazy;
 use Livewire\Component;
+use App\Models\WorkflowRun;
+use Livewire\Attributes\Lazy;
+use Livewire\Attributes\Computed;
+use App\Events\WorkflowStatusChanged;
+use App\Livewire\Concerns\WithGitHub;
 
 class JobDetails extends Component
 {
@@ -14,8 +15,14 @@ class JobDetails extends Component
 
     public WorkflowRun $run;
 
+    protected $listeners = [
+        'native:'.WorkflowStatusChanged::class => '$refresh',
+    ];
+
     public function refresh()
     {
+        $this->run->refresh();
+
         $response = $this->github->workflowJobs(
             $this->run->repository,
             $this->run->remote_id

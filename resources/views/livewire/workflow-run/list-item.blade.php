@@ -29,7 +29,7 @@
         <div class="mb-2 flex items-center justify-between">
             <div class="flex items-center space-x-2">
                 <div class="truncate font-medium text-neutral-700">{{ $run->repository }}</div>
-                <div class="text-[10px] text-neutral-500">{{ '-' }}</div>
+                {{-- <div class="text-[10px] text-neutral-500">{{ '-' }}</div> --}}
             </div>
 
             <div class="text-[10px] text-neutral-400">{{ $run->started_at_diff }}</div>

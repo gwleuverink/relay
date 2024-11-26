@@ -22,9 +22,8 @@
 
     <div class="absolute bottom-0 left-0 right-0 top-7 overflow-y-auto overflow-x-hidden">
 
-
         {{-- SCROLLZONE --}}
-        <div class="mx-auto max-w-3xl space-y-3 px-4 py-4">
+        <div class="mx-auto max-w-3xl space-y-6 px-4 pt-4 pb-6">
 
             {{-- Detail card --}}
             <div class="overflow-hidden rounded-xl border border-gray-200/80 bg-white/80 shadow-sm">
@@ -37,7 +36,7 @@
                                 'size-2 rounded-full',
                                 'animate-pulse' => $run->status->isRunning(),
                             ])></div>
-                            <h1 class="font-medium text-gray-900">{{ $run->data->display_title }}</h1>
+                            <h1 class="font-medium text-gray-800">{{ $run->data->display_title }}</h1>
                         </div>
 
                         <div class="flex items-center space-x-2">
@@ -58,43 +57,40 @@
                         class="px-4 py-2.5"
                     >
                         <div class="text-xs text-gray-500">Repository</div>
-                        <div class="text-sm font-medium text-gray-900">{{ $run->data->repository->full_name }}</div>
+                        <div class="text-sm font-medium text-gray-700/90">{{ $run->data->repository->full_name }}</div>
                     </a>
+
                     <a
                         x-open-external
                         href="{{ "{$run->data->repository->html_url}/tree/{$run->data->head_branch}" }}"
                         class="px-4 py-2.5"
                     >
                         <div class="text-xs text-gray-500">Branch</div>
-                        <div class="truncate text-sm font-medium text-gray-900">{{ $run->data->head_branch }}</div>
+                        <div class="truncate text-sm font-medium text-gray-700/90">{{ $run->data->head_branch }}</div>
                     </a>
+
                     <div class="px-4 py-2.5">
                         <div class="text-xs text-gray-500">Event</div>
-                        <div class="text-sm font-medium text-gray-900">{{ $run->data->event }}</div>
+                        <div class="text-sm font-medium text-gray-700/90">{{ $run->data->event }}</div>
                     </div>
+
                     <a
                         x-open-external
                         href="{{ "{$run->data->repository->html_url}/commit/{$run->data->head_commit->id}" }}"
                         class="px-4 py-2.5"
                     >
                         <div class="text-xs text-gray-500">Commit</div>
-                        <div class="font-mono text-sm font-medium text-gray-900">{{ str($run->data->head_sha)->limit(7, '') }}</div>
+                        <div class="font-mono text-sm font-medium text-gray-700/90">{{ str($run->data->head_sha)->limit(7, '') }}</div>
                     </a>
+
                     <div class="px-4 py-2.5">
                         <div class="text-xs text-gray-500">Workflow</div>
-                        <div class="text-sm font-medium text-gray-900">{{ $run->data->name }}</div>
+                        <div class="text-sm font-medium text-gray-700/90">{{ $run->data->name }}</div>
                     </div>
-                    <div class="px-4 py-2.5">
-                        <div class="text-xs text-gray-500">Attempt</div>
-                        <div class="text-sm font-medium text-gray-900">{{ "{$run->data->run_attempt} of {$run->data->run_attempt}" }}</div>
-                    </div>
+
                     <div class="px-4 py-2.5">
                         <div class="text-xs text-gray-500">Started</div>
-                        <div class="text-sm font-medium text-gray-900">{{ $run->started_at->format('M j, H:i:s') }}</div>
-                    </div>
-                    <div class="px-4 py-2.5">
-                        <div class="text-xs text-gray-500">Duration</div>
-                        <div class="text-sm font-medium text-gray-900">2m 8s</div>
+                        <div class="text-sm font-medium text-gray-700/90">{{ $run->started_at->format('M j, H:i:s') }}</div>
                     </div>
                 </div>
 
@@ -170,7 +166,7 @@
             <div class="overflow-hidden rounded-xl border border-gray-200/80 bg-white/80 shadow-sm backdrop-blur-xl">
                 <div class="border-b border-gray-200/80 px-4 py-3">
                     <div class="text-xs text-gray-500">Commit Message</div>
-                    <div class="mt-1 text-sm font-medium text-gray-900">{{ $run->data->head_commit->message }}</div>
+                    <div class="mt-1 text-sm font-medium text-gray-800">{{ $run->data->head_commit->message }}</div>
                 </div>
                 <div class="bg-gray-50/80 px-4 py-2">
                     <div class="font-mono text-xs text-gray-500">{{ $run->data->head_commit->id }}</div>

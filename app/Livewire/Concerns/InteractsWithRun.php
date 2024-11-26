@@ -18,6 +18,7 @@ trait InteractsWithRun
         $this->run->update([
             'status' => RunStatus::REQUESTED,
             'conclusion' => null,
+            'jobs' => null,
         ]);
 
         $this->github->restartJobs(
@@ -35,6 +36,7 @@ trait InteractsWithRun
         $this->run->update([
             'status' => RunStatus::REQUESTED,
             'conclusion' => null,
+            'jobs' => null,
         ]);
 
         $this->github->restartFailedJobs(
