@@ -2,13 +2,14 @@
 
 namespace App\Livewire\WorkflowRun;
 
-use App\Events\WorkflowRunDetected;
+use Livewire\Component;
+use App\Models\WorkflowRun;
 use App\Events\WorkflowRunPruned;
+use Livewire\Attributes\Computed;
+use App\Events\WorkflowRunDetected;
+use App\Support\WindowHeightManager;
 use App\Events\WorkflowStatusChanged;
 use App\Livewire\Concerns\WithGitHub;
-use App\Models\WorkflowRun;
-use Livewire\Attributes\Computed;
-use Livewire\Component;
 
 class ListView extends Component
 {
@@ -23,10 +24,12 @@ class ListView extends Component
     #[Computed()]
     public function runs()
     {
-        // \App\Jobs\FetchWorkflowRuns::dispatchSync();
-
         return WorkflowRun::query()
             ->latest()->get()
+            // Can't update window height after open - Maybe a good PR?
+            // ->tap(
+            //     fn ($runs) => WindowHeightManager::handle($runs->count())
+            // )
             ->sortBy(
                 fn ($run) => $run->sortWeight()
             );
