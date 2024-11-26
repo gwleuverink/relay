@@ -18,6 +18,8 @@ interface GitHub
 
     public function workflowRun(string $repo, int $id): Fluent;
 
+    public function workflowJobs(string $repo, int $id): Collection;
+
     public function cancelRun(string $repo, int $id): void;
 
     public function restartJobs(string $repo, int $id): void;

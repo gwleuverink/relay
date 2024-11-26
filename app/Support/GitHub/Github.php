@@ -141,6 +141,15 @@ class GitHub implements Service
         return fluent($response);
     }
 
+    public function workflowJobs(string $repo, int $id): Collection
+    {
+        logger()->info("Fetching Workflow jobs: {$id} - {$repo}");
+
+        return $this->github
+            ->get(static::BASE_URL."repos/{$repo}/actions/runs/{$id}/jobs")
+            ->collect();
+    }
+
     public function cancelRun(string $repo, int $id): void
     {
         logger()->info("Cancelling run: {$id} - {$repo}");

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\JobCollection;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Fluent;
 use App\Observers\WorkflowRunObserver;
@@ -25,10 +26,13 @@ class WorkflowRun extends Model
         'status',
         'conclusion',
         'data',
+        'jobs',
     ];
 
     protected $casts = [
         'data' => 'object',
+        'jobs' => JobCollection::class,
+
         'status' => RunStatus::class,
         'conclusion' => ConclusionStatus::class,
     ];

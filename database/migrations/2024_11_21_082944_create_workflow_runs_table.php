@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('status', 25)->index();
             $table->string('conclusion', 25)->nullable()->index();
             $table->json('data');
+            $table->json('jobs')->nullable();
 
             $table->timestamps();
         });
