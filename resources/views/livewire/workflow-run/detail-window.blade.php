@@ -49,37 +49,50 @@
                     </div>
                 </div>
 
-                <!-- Info Grid -->
+                {{-- Info Grid --}}
                 <div class="grid grid-cols-2 gap-px divide-gray-200/80 overflow-hidden bg-gray-200/80 *:bg-white">
                     <a
                         x-open-external
                         href="{{ $run->data->repository->html_url }}"
-                        class="px-4 py-2.5"
+                        class="px-4 py-2.5 group"
                     >
-                        <div class="text-xs text-gray-500">Repository</div>
+                        <div class="flex justify-between text-xs text-gray-500">
+                            Repository
+                            <x-heroicon-c-link class="size-3 opacity-0 group-hover:opacity-80 transition-opacity" />
+                        </div>
+
                         <div class="text-sm font-medium text-gray-700/90">{{ $run->data->repository->full_name }}</div>
                     </a>
 
                     <a
                         x-open-external
                         href="{{ "{$run->data->repository->html_url}/tree/{$run->data->head_branch}" }}"
-                        class="px-4 py-2.5"
+                        class="px-4 py-2.5 group"
                     >
-                        <div class="text-xs text-gray-500">Branch</div>
+                        <div class="flex justify-between text-xs text-gray-500">
+                            Branch
+                            <x-heroicon-c-link class="size-3 opacity-0 group-hover:opacity-80 transition-opacity" />
+                        </div>
                         <div class="truncate text-sm font-medium text-gray-700/90">{{ $run->data->head_branch }}</div>
                     </a>
 
                     <div class="px-4 py-2.5">
-                        <div class="text-xs text-gray-500">Event</div>
+                        <div class="flex justify-between text-xs text-gray-500">
+                            Event
+                            <x-heroicon-c-link class="size-3 opacity-0 group-hover:opacity-80 transition-opacity" />
+                        </div>
                         <div class="text-sm font-medium text-gray-700/90">{{ $run->data->event }}</div>
                     </div>
 
                     <a
                         x-open-external
                         href="{{ "{$run->data->repository->html_url}/commit/{$run->data->head_commit->id}" }}"
-                        class="px-4 py-2.5"
+                        class="px-4 py-2.5 group"
                     >
-                        <div class="text-xs text-gray-500">Commit</div>
+                        <div class="flex justify-between text-xs text-gray-500">
+                            Commit
+                            <x-heroicon-c-link class="size-3 opacity-0 group-hover:opacity-80 transition-opacity" />
+                        </div>
                         <div class="font-mono text-sm font-medium text-gray-700/90">{{ str($run->data->head_sha)->limit(7, '') }}</div>
                     </a>
 
@@ -94,7 +107,7 @@
                     </div>
                 </div>
 
-                <!-- Footer -->
+                {{-- Footer --}}
                 <div class="flex items-center justify-between border-t border-gray-200/80 bg-gray-50/80 px-4 py-3">
                     <a
                         x-open-external

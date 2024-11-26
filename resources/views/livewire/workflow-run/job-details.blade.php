@@ -143,7 +143,7 @@
     </div>
 
     @if($run->jobs->isEmpty())
-        <x-svg.loading class="w-5 text-slate-200 self-center" />
+        <x-svg.loading class="w-5 text-slate-400 self-center" />
     @endif
 
 </div>
