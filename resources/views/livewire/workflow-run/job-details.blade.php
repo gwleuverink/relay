@@ -125,14 +125,17 @@
 
                     {{-- Footer --}}
                     <div class="border-t border-gray-150 bg-gray-100 px-3 py-2 mt-2">
-                        <div class="flex items-center text-xs text-gray-500">
-                            <x-heroicon-o-bolt class="mr-1.5 size-3" stroke-width="2" />
-                            <span>{{ $job->runner_name }}</span>
+                        <div class="flex items-center text-xs text-gray-500/80">
+
+                            @if($job->runner_name)
+                                <x-heroicon-c-bolt class="mr-1.5 size-3 text-gray-400" stroke-width="2" />
+                                <span>{{ $job->runner_name }}</span>
+                            @endif
 
                             <span class="ml-auto flex items-center">
 
                                 <x-heroicon-o-clock class="mr-1.5 size-3" stroke-width="2" />
-                                <span>Started {{ $job->started_at->format('H:i:s') }}</span>
+                                <span>Started {{ $job->started_at->format('H:i') }}</span>
                             </span>
                         </div>
                     </div>

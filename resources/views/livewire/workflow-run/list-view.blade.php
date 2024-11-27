@@ -1,4 +1,4 @@
-<x-layouts.menu-panel>
+<x-layouts.window>
     <x-slot
         name="header"
         class="justify-self-end"
@@ -30,4 +30,4 @@
         <x-support.no-runs />
     @endif
 
-</x-layouts.menu-panel>
+</x-layouts.window>

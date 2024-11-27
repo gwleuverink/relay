@@ -1,4 +1,4 @@
-<x-layouts.menu-panel>
+<x-layouts.window>
     <x-slot name="header">
         <h1 class="sr-only">Workflow Monitor Settings</h1>
 
