@@ -8,7 +8,7 @@
         <a
             wire:navigate.hover
             href="{{ route('settings') }}"
-            class="cursor-default px-2 text-neutral-400 transition-colors hover:text-neutral-500"
+            class="cursor-default p-1 rounded-full text-neutral-400 transition-colors hover:text-neutral-500 focus:outline-none focus:ring-2 ring-indigo-200"
         >
             <x-heroicon-c-cog-6-tooth class="w-3.5" />
         </a>

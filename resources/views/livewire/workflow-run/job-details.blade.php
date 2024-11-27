@@ -44,7 +44,7 @@
                 }"
                 class="overflow-hidden rounded-lg border border-gray-200/75 bg-neutral-50 shadow-sm transition-shadow duration-200 hover:shadow-md"
             >
-                <button x-on:click="toggle" type="button" class="p-3 w-full flex items-center">
+                <button x-on:click="toggle" type="button" class="p-3 w-full flex items-center rounded-lg focus:outline-none focus:ring-2 ring-indigo-200 ring-inset">
                     <div class="flex space-x-2 items-center">
                         <div class="size-1.5 rounded-full {{ $pingColor }}"></div>
                         <h3 class="truncate text-sm font-medium text-gray-800">{{ $job->name }}</h3>

@@ -47,7 +47,7 @@
                 <a
                     x-open-external
                     href="{{ $run->data->repository->html_url }}"
-                    class="px-4 py-2.5 group"
+                    class="px-4 py-2.5 group focus:outline-none focus:ring-2 ring-indigo-200 ring-inset"
                 >
                     <div class="flex justify-between text-xs text-gray-500">
                         Repository
@@ -60,7 +60,7 @@
                 <a
                     x-open-external
                     href="{{ "{$run->data->repository->html_url}/tree/{$run->data->head_branch}" }}"
-                    class="px-4 py-2.5 group"
+                    class="px-4 py-2.5 group focus:outline-none focus:ring-2 ring-indigo-200 ring-inset"
                 >
                     <div class="flex justify-between text-xs text-gray-500">
                         Branch
@@ -80,7 +80,7 @@
                 <a
                     x-open-external
                     href="{{ "{$run->data->repository->html_url}/commit/{$run->data->head_commit->id}" }}"
-                    class="px-4 py-2.5 group"
+                    class="px-4 py-2.5 group focus:outline-none focus:ring-2 ring-indigo-200 ring-inset"
                 >
                     <div class="flex justify-between text-xs text-gray-500">
                         Commit
@@ -105,7 +105,7 @@
                 <a
                     x-open-external
                     href="{{ $run->data->triggering_actor->html_url }}"
-                    class="flex items-center space-x-3"
+                    class="flex items-center space-x-3 -translate-x-1.5 px-1.5 py-1 rounded-md focus:outline-none focus:ring-2 ring-indigo-200 ring-inset"
                 >
                     <img
                         src="{{ $run->data->triggering_actor->avatar_url }}"
@@ -130,7 +130,7 @@
                                     },
                                 ])
                             "
-                            class="cursor-default rounded-md border border-gray-200/80 bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-200"
+                            class="cursor-default rounded-md border border-gray-200/80 bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-200 focus:outline-none focus:ring-2 ring-indigo-200 ring-inset"
                         >
                             Re-run
                         </button>
@@ -139,7 +139,7 @@
                     @if ($run->canCancel())
                         <button
                             wire:click="cancelRun"
-                            class="cursor-default rounded-md border border-gray-200/80 bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-200"
+                            class="cursor-default rounded-md border border-gray-200/80 bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-200 focus:outline-none focus:ring-2 ring-indigo-200 ring-inset"
                         >
                             Cancel
                         </button>
@@ -148,7 +148,7 @@
                     @if ($run->canDelete())
                         <button
                             wire:click="deleteRun"
-                            class="cursor-default rounded-md border border-gray-200/80 bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-200"
+                            class="cursor-default rounded-md border border-gray-200/80 bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-200 focus:outline-none focus:ring-2 ring-indigo-200 ring-inset"
                         >
                             Stop tracking
                         </button>
@@ -157,7 +157,7 @@
                     <a
                         x-open-external
                         href="{{ $run->data->html_url }}"
-                        class="cursor-default rounded-md border border-gray-200/80 bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-200"
+                        class="cursor-default rounded-md border border-gray-200/80 bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-200 focus:outline-none focus:ring-2 ring-indigo-200 ring-inset"
                     >
                         Open in GitHub
                     </a>
