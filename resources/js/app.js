@@ -1,2 +1,2 @@
-import './alpine';
-import './auto-animate'
+import "./alpine";
+import "./auto-animate";

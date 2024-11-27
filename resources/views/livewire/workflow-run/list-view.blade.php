@@ -8,7 +8,7 @@
         <a
             wire:navigate.hover
             href="{{ route('settings') }}"
-            class="cursor-default p-1 rounded-full text-neutral-400 transition-colors hover:text-neutral-500 focus:outline-none focus:ring-2 ring-indigo-200"
+            class="cursor-default rounded-full p-1 text-neutral-400 ring-indigo-200 transition-colors hover:text-neutral-500 focus:outline-none focus:ring-2"
         >
             <x-heroicon-c-cog-6-tooth class="w-3.5" />
         </a>
@@ -26,8 +26,7 @@
         @endforeach
     </div>
 
-    @if($this->runs->isEmpty())
+    @if ($this->runs->isEmpty())
         <x-support.no-runs />
     @endif
-
 </x-layouts.window>

@@ -16,8 +16,7 @@
 @endphp
 
 <x-layouts.window>
-
-    <div class="mx-auto max-w-3xl space-y-6 px-4 pt-4 pb-6">
+    <div class="mx-auto max-w-3xl space-y-6 px-4 pb-6 pt-4">
         {{-- Detail card --}}
         <div class="overflow-hidden rounded-xl border border-gray-200/80 bg-white/80 shadow-sm">
             <!-- Header -->
@@ -47,11 +46,11 @@
                 <a
                     x-open-external
                     href="{{ $run->data->repository->html_url }}"
-                    class="px-4 py-2.5 group focus:outline-none focus:ring-2 ring-indigo-200 ring-inset"
+                    class="group px-4 py-2.5 ring-inset ring-indigo-200 focus:outline-none focus:ring-2"
                 >
                     <div class="flex justify-between text-xs text-gray-500">
                         Repository
-                        <x-heroicon-c-link class="size-3 opacity-0 group-hover:opacity-80 transition-opacity" />
+                        <x-heroicon-c-link class="size-3 opacity-0 transition-opacity group-hover:opacity-80" />
                     </div>
 
                     <div class="text-sm font-medium text-gray-700/90">{{ $run->data->repository->full_name }}</div>
@@ -60,11 +59,11 @@
                 <a
                     x-open-external
                     href="{{ "{$run->data->repository->html_url}/tree/{$run->data->head_branch}" }}"
-                    class="px-4 py-2.5 group focus:outline-none focus:ring-2 ring-indigo-200 ring-inset"
+                    class="group px-4 py-2.5 ring-inset ring-indigo-200 focus:outline-none focus:ring-2"
                 >
                     <div class="flex justify-between text-xs text-gray-500">
                         Branch
-                        <x-heroicon-c-link class="size-3 opacity-0 group-hover:opacity-80 transition-opacity" />
+                        <x-heroicon-c-link class="size-3 opacity-0 transition-opacity group-hover:opacity-80" />
                     </div>
                     <div class="truncate text-sm font-medium text-gray-700/90">{{ $run->data->head_branch }}</div>
                 </a>
@@ -72,7 +71,7 @@
                 <div class="px-4 py-2.5">
                     <div class="flex justify-between text-xs text-gray-500">
                         Event
-                        <x-heroicon-c-link class="size-3 opacity-0 group-hover:opacity-80 transition-opacity" />
+                        <x-heroicon-c-link class="size-3 opacity-0 transition-opacity group-hover:opacity-80" />
                     </div>
                     <div class="text-sm font-medium text-gray-700/90">{{ $run->data->event }}</div>
                 </div>
@@ -80,11 +79,11 @@
                 <a
                     x-open-external
                     href="{{ "{$run->data->repository->html_url}/commit/{$run->data->head_commit->id}" }}"
-                    class="px-4 py-2.5 group focus:outline-none focus:ring-2 ring-indigo-200 ring-inset"
+                    class="group px-4 py-2.5 ring-inset ring-indigo-200 focus:outline-none focus:ring-2"
                 >
                     <div class="flex justify-between text-xs text-gray-500">
                         Commit
-                        <x-heroicon-c-link class="size-3 opacity-0 group-hover:opacity-80 transition-opacity" />
+                        <x-heroicon-c-link class="size-3 opacity-0 transition-opacity group-hover:opacity-80" />
                     </div>
                     <div class="font-mono text-sm font-medium text-gray-700/90">{{ str($run->data->head_sha)->limit(7, '') }}</div>
                 </a>
@@ -105,7 +104,7 @@
                 <a
                     x-open-external
                     href="{{ $run->data->triggering_actor->html_url }}"
-                    class="flex items-center space-x-3 -translate-x-1.5 px-1.5 py-1 rounded-md focus:outline-none focus:ring-2 ring-indigo-200 ring-inset"
+                    class="flex -translate-x-1.5 items-center space-x-3 rounded-md px-1.5 py-1 ring-inset ring-indigo-200 focus:outline-none focus:ring-2"
                 >
                     <img
                         src="{{ $run->data->triggering_actor->avatar_url }}"
@@ -130,7 +129,7 @@
                                     },
                                 ])
                             "
-                            class="cursor-default rounded-md border border-gray-200/80 bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-200 focus:outline-none focus:ring-2 ring-indigo-200 ring-inset"
+                            class="cursor-default rounded-md border border-gray-200/80 bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700 ring-inset ring-indigo-200 transition-colors hover:bg-gray-200 focus:outline-none focus:ring-2"
                         >
                             Re-run
                         </button>
@@ -139,7 +138,7 @@
                     @if ($run->canCancel())
                         <button
                             wire:click="cancelRun"
-                            class="cursor-default rounded-md border border-gray-200/80 bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-200 focus:outline-none focus:ring-2 ring-indigo-200 ring-inset"
+                            class="cursor-default rounded-md border border-gray-200/80 bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700 ring-inset ring-indigo-200 transition-colors hover:bg-gray-200 focus:outline-none focus:ring-2"
                         >
                             Cancel
                         </button>
@@ -148,7 +147,7 @@
                     @if ($run->canDelete())
                         <button
                             wire:click="deleteRun"
-                            class="cursor-default rounded-md border border-gray-200/80 bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-200 focus:outline-none focus:ring-2 ring-indigo-200 ring-inset"
+                            class="cursor-default rounded-md border border-gray-200/80 bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700 ring-inset ring-indigo-200 transition-colors hover:bg-gray-200 focus:outline-none focus:ring-2"
                         >
                             Stop tracking
                         </button>
@@ -157,7 +156,7 @@
                     <a
                         x-open-external
                         href="{{ $run->data->html_url }}"
-                        class="cursor-default rounded-md border border-gray-200/80 bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-200 focus:outline-none focus:ring-2 ring-indigo-200 ring-inset"
+                        class="cursor-default rounded-md border border-gray-200/80 bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700 ring-inset ring-indigo-200 transition-colors hover:bg-gray-200 focus:outline-none focus:ring-2"
                     >
                         Open in GitHub
                     </a>
@@ -178,7 +177,5 @@
                 <div class="font-mono text-xs text-gray-500">{{ $run->data->head_commit->id }}</div>
             </div>
         </div>
-
     </div>
-
 </x-layouts.window>

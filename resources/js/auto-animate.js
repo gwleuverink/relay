@@ -1,3 +1,3 @@
-import autoAnimate from '@formkit/auto-animate'
+import autoAnimate from "@formkit/auto-animate";
 
-window.autoAnimate = autoAnimate
+window.autoAnimate = autoAnimate;

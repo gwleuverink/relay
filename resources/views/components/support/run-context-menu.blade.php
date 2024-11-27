@@ -1,7 +1,8 @@
 @props(['run'])
 
 <button
-    wire:key="{{ str()->random(5) }}" {{-- This forces a re-render when the dom is diffed - otherwise the avalaible menu items won't be reflected --}}
+    {{-- This forces a re-render when the dom is diffed - otherwise the avalaible menu items won't be reflected --}}
+    wire:key="{{ str()->random(5) }}"
     x-data="{
         canRestart: @js($run->canRestart()),
         canCancel: @js($run->canCancel()),

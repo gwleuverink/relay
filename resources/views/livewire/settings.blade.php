@@ -5,7 +5,7 @@
         <a
             wire:navigate.hover
             href="{{ route('watcher') }}"
-            class="cursor-default p-1 rounded-full text-neutral-400 transition-colors hover:text-neutral-500 focus:outline-none focus:ring-2 ring-indigo-200"
+            class="cursor-default rounded-full p-1 text-neutral-400 ring-indigo-200 transition-colors hover:text-neutral-500 focus:outline-none focus:ring-2"
         >
             <x-heroicon-c-arrow-left class="w-3.5" />
         </a>
@@ -66,4 +66,4 @@
             @endforeach
         </div>
     </div>
-</x-layouts.menu-bar>
+</x-layouts.window>
