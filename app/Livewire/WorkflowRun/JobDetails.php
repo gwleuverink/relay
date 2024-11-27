@@ -36,4 +36,15 @@ class JobDetails extends Component
             'jobs' => $response['jobs']
         ]);
     }
+
+    public function hasRunningJobs(): bool
+    {
+        if(!$this->run->jobs) {
+            return false;
+        }
+
+        return $this->run->jobs->contains(
+            fn($job) => $job->status->isRunning()
+        );
+    }
 }

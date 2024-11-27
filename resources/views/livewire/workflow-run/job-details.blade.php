@@ -3,10 +3,10 @@
 
 <div
     wire:init="refresh"
-    @if ($run->status->isRunning())
+    @if ($this->hasRunningJobs())
         wire:poll.10s="refresh"
     @endif
-    class="bg-slate-200 shadow-inner shadow-slate-300 border border-slate-300 p-8 rounded-xl flex flex-col"
+    class="bg-slate-200 shadow-inner shadow-slate-300/80 border border-slate-300/80 p-8 rounded-xl flex flex-col"
 >
 
     <div x-init="autoAnimate($el)" class="space-y-5 max-w-sm">
@@ -42,7 +42,7 @@
                         )
                     }
                 }"
-                class="overflow-hidden rounded-lg border border-gray-200/75 bg-neutral-50 shadow-sm transition-shadow duration-200 hover:shadow-md"
+                class="overflow-hidden rounded-lg border border-gray-300/80 bg-neutral-50 shadow-sm transition-shadow duration-200 hover:shadow-md"
             >
                 <button x-on:click="toggle" type="button" class="p-3 w-full flex items-center rounded-lg focus:outline-none focus:ring-2 ring-indigo-200 ring-inset">
                     <div class="flex space-x-2 items-center">
@@ -73,7 +73,7 @@
                 </button>
 
                 {{-- Timeline --}}
-                <div x-show="expanded" x-init="autoAnimate($el)" x-collapse class="space-y-3">
+                <div x-show="expanded" x-init="autoAnimate($el)" x-collapse x-cloak class="space-y-3">
 
                     {{-- Steps --}}
                     @foreach($job->steps as $step)
