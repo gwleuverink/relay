@@ -2,8 +2,8 @@
 
 namespace App\Livewire\Concerns;
 
-use App\Support\GitHub\Contracts\GitHub;
 use Livewire\Attributes\Computed;
+use App\Support\GitHub\Contracts\GitHub;
 
 trait WithGitHub
 {

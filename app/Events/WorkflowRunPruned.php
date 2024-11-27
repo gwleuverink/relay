@@ -4,8 +4,8 @@ namespace App\Events;
 
 use App\Models\WorkflowRun;
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 
 class WorkflowRunPruned implements ShouldBroadcastNow
 {

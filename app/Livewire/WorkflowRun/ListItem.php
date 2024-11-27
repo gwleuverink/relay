@@ -2,12 +2,12 @@
 
 namespace App\Livewire\WorkflowRun;
 
-use App\Events\WorkflowStatusChanged;
-use App\Livewire\Concerns\InteractsWithRun;
-use App\Livewire\Concerns\WithGitHub;
-use App\Models\WorkflowRun as RunModel;
 use Livewire\Component;
 use Native\Laravel\Facades\Window;
+use App\Events\WorkflowStatusChanged;
+use App\Livewire\Concerns\WithGitHub;
+use App\Models\WorkflowRun as RunModel;
+use App\Livewire\Concerns\InteractsWithRun;
 
 class ListItem extends Component
 {
@@ -18,7 +18,7 @@ class ListItem extends Component
 
     protected $listeners = [
         // TODO: We can toggle renderless based on run id later
-        'native:'.WorkflowStatusChanged::class => '$refresh',
+        'native:' . WorkflowStatusChanged::class => '$refresh',
     ];
 
     public function refresh()

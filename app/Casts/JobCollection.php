@@ -2,21 +2,20 @@
 
 namespace App\Casts;
 
-use App\Support\GitHub\Enums\ConclusionStatus;
 use Illuminate\Support\Carbon;
 use App\Support\GitHub\Enums\RunStatus;
 use Illuminate\Database\Eloquent\Model;
+use App\Support\GitHub\Enums\ConclusionStatus;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 
 class JobCollection implements CastsAttributes
 {
-
     public function get(Model $model, string $key, mixed $value, array $attributes): mixed
     {
-        return collect(json_decode($value))->map(function($job) {
+        return collect(json_decode($value))->map(function ($job) {
             $job = $this->castProperties($job);
             $job->steps = collect($job->steps)->map(
-                fn($step) => $this->castProperties($step)
+                fn ($step) => $this->castProperties($step)
             )->toArray();
 
             return $job;
@@ -27,7 +26,6 @@ class JobCollection implements CastsAttributes
     {
         return json_encode($value);
     }
-
 
     private function castProperties(object $data): object
     {

@@ -4,9 +4,9 @@ namespace App\Events;
 
 use App\Models\WorkflowRun;
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
-use Illuminate\Foundation\Events\Dispatchable;
 use Native\Laravel\Facades\Notification;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 
 class WorkflowRunDetected implements ShouldBroadcastNow
 {

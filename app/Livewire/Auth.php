@@ -2,12 +2,12 @@
 
 namespace App\Livewire;
 
+use Livewire\Component;
+use App\Models\WorkflowRun;
 use App\Jobs\FetchWorkflowRuns;
+use Livewire\Attributes\Renderless;
 use App\Livewire\Concerns\WithConfig;
 use App\Livewire\Concerns\WithGitHub;
-use App\Models\WorkflowRun;
-use Livewire\Attributes\Renderless;
-use Livewire\Component;
 use Native\Laravel\Facades\Notification;
 
 class Auth extends Component

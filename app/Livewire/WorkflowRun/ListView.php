@@ -16,9 +16,9 @@ class ListView extends Component
     use WithGitHub;
 
     protected $listeners = [
-        'native:'.WorkflowStatusChanged::class => '$refresh',
-        'native:'.WorkflowRunDetected::class => '$refresh',
-        'native:'.WorkflowRunPruned::class => '$refresh',
+        'native:' . WorkflowStatusChanged::class => '$refresh',
+        'native:' . WorkflowRunDetected::class => '$refresh',
+        'native:' . WorkflowRunPruned::class => '$refresh',
     ];
 
     #[Computed()]

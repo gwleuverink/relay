@@ -2,17 +2,17 @@
 
 namespace App\Support\GitHub;
 
-use App\Settings\Config;
-use App\Support\GitHub\Contracts\GitHub as Service;
-use App\Support\GitHub\Enums\RunStatus;
 use Exception;
-use Illuminate\Http\Client\PendingRequest;
-use Illuminate\Http\Client\Pool;
-use Illuminate\Http\Client\RequestException;
-use Illuminate\Http\Client\Response;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Http;
+use App\Settings\Config;
 use Illuminate\Support\Fluent;
+use Illuminate\Http\Client\Pool;
+use Illuminate\Support\Collection;
+use Illuminate\Http\Client\Response;
+use Illuminate\Support\Facades\Http;
+use App\Support\GitHub\Enums\RunStatus;
+use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Http\Client\RequestException;
+use App\Support\GitHub\Contracts\GitHub as Service;
 
 class GitHub implements Service
 {
@@ -50,8 +50,8 @@ class GitHub implements Service
         logger()->info('Fetching repositories...');
 
         // TODO: Consider filtering pushed_at date with max age
-        $response = $this->github->post(static::BASE_URL.'graphql', [
-            'query' => file_get_contents(__DIR__.'/queries/repositories.graphql'),
+        $response = $this->github->post(static::BASE_URL . 'graphql', [
+            'query' => file_get_contents(__DIR__ . '/queries/repositories.graphql'),
             'variables' => [
                 'take' => $take,
             ],
@@ -96,7 +96,7 @@ class GitHub implements Service
             ->withToken($this->config->github_access_token, 'token');
 
         $responses = Http::pool(fn (Pool $request) => $repositories->map(
-            fn ($repo) => $concurrent($request)->async()->get(static::BASE_URL."repos/{$repo}/actions/runs", [
+            fn ($repo) => $concurrent($request)->async()->get(static::BASE_URL . "repos/{$repo}/actions/runs", [
                 // Can't filter by multiple statusses. Not with GraphQL either.
                 // Need to leave this empty & filter manually. Bummer!!
                 // Rather bigger responses than redundant requests.
@@ -135,7 +135,7 @@ class GitHub implements Service
         logger()->info("Fetching Workflow run: {$id} - {$repo}");
 
         $response = $this->github
-            ->get(static::BASE_URL."repos/{$repo}/actions/runs/{$id}")
+            ->get(static::BASE_URL . "repos/{$repo}/actions/runs/{$id}")
             ->json();
 
         return fluent($response);
@@ -146,7 +146,7 @@ class GitHub implements Service
         logger()->info("Fetching Workflow jobs: {$id} - {$repo}");
 
         return $this->github
-            ->get(static::BASE_URL."repos/{$repo}/actions/runs/{$id}/jobs")
+            ->get(static::BASE_URL . "repos/{$repo}/actions/runs/{$id}/jobs")
             ->collect();
     }
 
@@ -154,21 +154,21 @@ class GitHub implements Service
     {
         logger()->info("Cancelling run: {$id} - {$repo}");
 
-        $this->github->post(static::BASE_URL."repos/{$repo}/actions/runs/{$id}/cancel", (object) []);
+        $this->github->post(static::BASE_URL . "repos/{$repo}/actions/runs/{$id}/cancel", (object) []);
     }
 
     public function restartJobs(string $repo, int $id): void
     {
         logger()->info("Restarting jobs: {$id} - {$repo}");
 
-        $this->github->post(static::BASE_URL."repos/{$repo}/actions/runs/{$id}/rerun", (object) []);
+        $this->github->post(static::BASE_URL . "repos/{$repo}/actions/runs/{$id}/rerun", (object) []);
     }
 
     public function restartFailedJobs(string $repo, int $id): void
     {
         logger()->info("Restarting failed jobs: {$id} - {$repo}");
 
-        $this->github->post(static::BASE_URL."repos/{$repo}/actions/runs/{$id}/rerun-failed-jobs", (object) []);
+        $this->github->post(static::BASE_URL . "repos/{$repo}/actions/runs/{$id}/rerun-failed-jobs", (object) []);
     }
 
     /*
@@ -181,7 +181,7 @@ class GitHub implements Service
     public function startUserVerification(): array
     {
         return $this->github
-            ->post(static::AUTH_URL.'device/code', [
+            ->post(static::AUTH_URL . 'device/code', [
                 'client_id' => config('services.github.client_id'),
                 'scope' => implode(', ', static::SCOPES),
             ])->json();
@@ -190,7 +190,7 @@ class GitHub implements Service
     public function getAccessToken(string $deviceCode): ?string
     {
         $response = $this->github
-            ->post(static::AUTH_URL.'/oauth/access_token', [
+            ->post(static::AUTH_URL . '/oauth/access_token', [
                 'device_code' => $deviceCode,
                 'client_id' => config('services.github.client_id'),
                 'grant_type' => 'urn:ietf:params:oauth:grant-type:device_code',
@@ -215,7 +215,7 @@ class GitHub implements Service
 
         return $this->github
             ->withToken($accessToken)
-            ->get(static::BASE_URL.'user')
+            ->get(static::BASE_URL . 'user')
             ->json();
     }
 }

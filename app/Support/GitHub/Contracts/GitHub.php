@@ -2,8 +2,8 @@
 
 namespace App\Support\GitHub\Contracts;
 
-use Illuminate\Support\Collection;
 use Illuminate\Support\Fluent;
+use Illuminate\Support\Collection;
 
 interface GitHub
 {

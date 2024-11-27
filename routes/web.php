@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Middleware\Authenticated;
 use App\Livewire;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\Authenticated;
 
 Route::get('login', Livewire\Auth::class)->name('login');
 

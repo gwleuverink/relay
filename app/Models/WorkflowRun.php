@@ -87,7 +87,6 @@ class WorkflowRun extends Model
         return $this->status === RunStatus::COMPLETED && $this->conclusion === ConclusionStatus::FAILURE;
     }
 
-
     public function sortWeight(): int
     {
         $statusWeight = match ($this->status) {

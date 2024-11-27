@@ -3,10 +3,10 @@
 namespace App\Providers;
 
 use App\Settings\Config;
-use App\Support\GitHub\Contracts\GitHub as GitHubService;
 use App\Support\GitHub\GitHub;
-use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Http\Client\PendingRequest;
+use App\Support\GitHub\Contracts\GitHub as GitHubService;
 
 class AppServiceProvider extends ServiceProvider
 {

@@ -2,12 +2,12 @@
 
 namespace App\Livewire;
 
-use App\Livewire\Concerns\WithConfig;
-use App\Livewire\Concerns\WithGitHub;
-use Illuminate\Support\Collection;
+use Livewire\Component;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Validate;
-use Livewire\Component;
+use Illuminate\Support\Collection;
+use App\Livewire\Concerns\WithConfig;
+use App\Livewire\Concerns\WithGitHub;
 
 class Settings extends Component
 {
@@ -18,7 +18,7 @@ class Settings extends Component
 
     public bool $all;
 
-    #[Validate('array|max:'.self::MAX_REPOSITORIES)]
+    #[Validate('array|max:' . self::MAX_REPOSITORIES)]
     public array $selectedRepositories = [];
 
     public function mount()

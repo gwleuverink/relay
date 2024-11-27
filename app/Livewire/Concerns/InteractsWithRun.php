@@ -2,10 +2,10 @@
 
 namespace App\Livewire\Concerns;
 
-use App\Events\WorkflowStatusChanged;
-use App\Support\GitHub\Enums\ConclusionStatus;
-use App\Support\GitHub\Enums\RunStatus;
 use Livewire\Attributes\On;
+use App\Events\WorkflowStatusChanged;
+use App\Support\GitHub\Enums\RunStatus;
+use App\Support\GitHub\Enums\ConclusionStatus;
 
 trait InteractsWithRun
 {
@@ -73,7 +73,7 @@ trait InteractsWithRun
         $this->run->delete();
     }
 
-    #[On('native:'.WorkflowStatusChanged::class)]
+    #[On('native:' . WorkflowStatusChanged::class)]
     public function refreshWhenStatusChanges($id)
     {
         if ($this->run->id !== $id) {

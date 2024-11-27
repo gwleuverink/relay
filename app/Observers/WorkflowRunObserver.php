@@ -2,10 +2,10 @@
 
 namespace App\Observers;
 
-use App\Events\WorkflowRunDetected;
-use App\Events\WorkflowRunPruned;
-use App\Events\WorkflowStatusChanged;
 use App\Models\WorkflowRun;
+use App\Events\WorkflowRunPruned;
+use App\Events\WorkflowRunDetected;
+use App\Events\WorkflowStatusChanged;
 
 class WorkflowRunObserver
 {

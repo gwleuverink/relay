@@ -2,12 +2,12 @@
 
 namespace App\Jobs;
 
-use App\Models\WorkflowRun;
 use App\Settings\Config;
+use App\Models\WorkflowRun;
 use App\Support\GitHub\Contracts\GitHub;
-use App\Support\GitHub\Enums\ConclusionStatus;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Support\GitHub\Enums\ConclusionStatus;
 
 class FetchWorkflowRuns implements ShouldQueue
 {
