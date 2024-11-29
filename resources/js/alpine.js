@@ -12,7 +12,7 @@ Alpine.plugin(collapse);
 |--------------------------------------------------------------------------
 */
 const { shell } = require("electron");
-window.shell = shell; // We also open stuff from the window
+window.openExternal = shell.openExternal; // We also open stuff from the window
 
 Alpine.directive("open-external", (el) => {
     if (el.nodeName !== "A") {
@@ -23,7 +23,7 @@ Alpine.directive("open-external", (el) => {
         event.preventDefault();
         event.stopPropagation();
 
-        shell.openExternal(el.href);
+        openExternal(el.href);
     });
 });
 

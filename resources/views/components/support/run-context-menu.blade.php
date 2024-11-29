@@ -50,7 +50,7 @@
             },
             {
                 label: 'Open in GitHub',
-                click: async () => shell.openExternal('{{ $run->data->html_url }}'),
+                click: async () => openExternal('{{ $run->data->html_url }}'),
             },
         ])
     "
