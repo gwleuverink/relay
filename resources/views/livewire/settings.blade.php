@@ -31,7 +31,7 @@
             @foreach ($selectedRepositories as $repo)
                 <x-input.checkbox
                     wire:model.live="selectedRepositories"
-                    :wire:key="'repo-'.$repo"
+                    :wire:key="'repo-' . $repo"
                     :value="$repo"
                     :label="$repo"
                 />
@@ -45,7 +45,7 @@
             @foreach ($this->repositories() as $repo)
                 <x-input.checkbox
                     wire:model.live="selectedRepositories"
-                    :wire:key="'repo-'.$repo['nameWithOwner']"
+                    :wire:key="'repo-' . $repo['nameWithOwner']"
                     :value="$repo['nameWithOwner']"
                     :disabled="count($selectedRepositories) >= static::MAX_REPOSITORIES"
                 >

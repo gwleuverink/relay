@@ -1,6 +1,23 @@
 @use(App\Support\GitHub\Enums\RunStatus)
 @use(App\Support\GitHub\Enums\ConclusionStatus)
 
+@php
+    function pingColor($status, $conclusion)
+    {
+        $color = match ($status) {
+            default => 'bg-neutral-300',
+            RunStatus::IN_PROGRESS => 'bg-blue-500',
+            RunStatus::QUEUED, RunStatus::PENDING, RunStatus::REQUESTED => 'bg-amber-400',
+        };
+
+        return match ($conclusion) {
+            default => $color,
+            ConclusionStatus::FAILURE => 'bg-red-500',
+            ConclusionStatus::SUCCESS => 'bg-green-500',
+        };
+    }
+@endphp
+
 <div
     wire:init="refresh"
     @if ($this->hasRunningJobs())
@@ -13,20 +30,6 @@
         class="max-w-sm space-y-5"
     >
         @foreach ($run->jobs as $job)
-            @php
-                $pingColor = match ($job->status) {
-                    default => 'bg-neutral-300',
-                    RunStatus::IN_PROGRESS => 'bg-blue-500',
-                    RunStatus::QUEUED, RunStatus::PENDING, RunStatus::REQUESTED => 'bg-amber-400',
-                };
-
-                $pingColor = match ($job->conclusion) {
-                    default => $pingColor,
-                    ConclusionStatus::FAILURE => 'bg-red-500',
-                    ConclusionStatus::SUCCESS => 'bg-green-500',
-                };
-            @endphp
-
             <div
                 wire:key="job-{{ $job->name }}"
                 x-on:close-runs.window="expanded = false"
@@ -40,7 +43,7 @@
                         $nextTick(() => (this.expanded = ! this.expanded))
                     },
                 }"
-                class="ring-indigo-200 focus-within:ring-1 overflow-hidden rounded-lg border border-gray-300/80 bg-neutral-50 shadow-sm transition-shadow duration-200 hover:shadow-md"
+                class="overflow-hidden rounded-lg border border-gray-300/80 bg-neutral-50 shadow-sm ring-indigo-200 transition-shadow duration-200 focus-within:ring-1 hover:shadow-md"
             >
                 <button
                     x-on:click="toggle"
@@ -48,7 +51,7 @@
                     class="flex w-full items-center rounded-lg p-3 focus:outline-none"
                 >
                     <div class="flex items-center space-x-2">
-                        <div class="{{ $pingColor }} size-1.5 rounded-full"></div>
+                        <div class="{{ pingColor($job->status, $job->conclusion) }} size-1.5 rounded-full"></div>
                         <h3 class="truncate text-sm font-medium text-gray-800">{{ $job->name }}</h3>
                     </div>
 
@@ -62,8 +65,8 @@
                             <span class="text-gray-400">
                                 @php
                                     $diff = $job->started_at->diff($job->completed_at);
-                                    $format = ($diff->m > 0 ? '%im ' : '').'%ss';
-                                    $format = ($diff->h > 0 ? '%hh ' : '').$format;
+                                    $format = ($diff->m > 0 ? '%im ' : '') . '%ss';
+                                    $format = ($diff->h > 0 ? '%hh ' : '') . $format;
                                 @endphp
 
                                 {{ $diff->format($format) }}
@@ -88,25 +91,11 @@
                 >
                     {{-- Steps --}}
                     @foreach ($job->steps as $step)
-                        @php
-                            $pingColor = match ($step->status) {
-                                default => 'bg-neutral-300',
-                                RunStatus::IN_PROGRESS => 'bg-blue-500',
-                                RunStatus::QUEUED, RunStatus::PENDING, RunStatus::REQUESTED => 'bg-amber-400',
-                            };
-
-                            $pingColor = match ($step->conclusion) {
-                                default => $pingColor,
-                                ConclusionStatus::FAILURE => 'bg-red-500',
-                                ConclusionStatus::SUCCESS => 'bg-green-500',
-                            };
-                        @endphp
-
                         <div
                             wire:key="step-{{ $step->name }}"
                             class="ml-[0.8rem] mr-8 flex items-center text-xs"
                         >
-                            <div class="{{ $pingColor }} h-1 w-1 rounded-full"></div>
+                            <div class="{{ pingColor($step->status, $step->conclusion) }} h-1 w-1 rounded-full"></div>
                             <span class="ml-3 text-gray-600">{{ $step->name }}</span>
 
                             @if ($step->status && $step->status->isRunning())
@@ -115,8 +104,8 @@
                                 @php
                                     $diff = $step->started_at->diff($step->completed_at);
 
-                                    $format = ($diff->m > 0 ? '%im ' : '').'%ss';
-                                    $format = ($diff->h > 0 ? '%hh ' : '').$format;
+                                    $format = ($diff->m > 0 ? '%im ' : '') . '%ss';
+                                    $format = ($diff->h > 0 ? '%hh ' : '') . $format;
                                 @endphp
 
                                 <span class="ml-auto text-gray-400">{{ $diff->format($format) }}</span>
