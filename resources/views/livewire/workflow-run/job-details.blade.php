@@ -40,12 +40,12 @@
                         $nextTick(() => (this.expanded = ! this.expanded))
                     },
                 }"
-                class="overflow-hidden rounded-lg border border-gray-300/80 bg-neutral-50 shadow-sm transition-shadow duration-200 hover:shadow-md"
+                class="ring-indigo-200 focus-within:ring-1 overflow-hidden rounded-lg border border-gray-300/80 bg-neutral-50 shadow-sm transition-shadow duration-200 hover:shadow-md"
             >
                 <button
                     x-on:click="toggle"
                     type="button"
-                    class="flex w-full items-center rounded-lg p-3 ring-inset ring-indigo-200 focus:outline-none focus:ring-2"
+                    class="flex w-full items-center rounded-lg p-3 focus:outline-none"
                 >
                     <div class="flex items-center space-x-2">
                         <div class="{{ $pingColor }} size-1.5 rounded-full"></div>
