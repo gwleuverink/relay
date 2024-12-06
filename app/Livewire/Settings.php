@@ -16,16 +16,16 @@ class Settings extends Component
     use WithConfig;
     use WithGitHub;
 
-    public bool $all;
+    #[Validate('bool')]
+    public bool $pollRecentPushes;
 
     #[Validate('array|max:' . self::MAX_REPOSITORIES)]
     public array $selectedRepositories = [];
 
     public function mount()
     {
+        $this->pollRecentPushes = $this->config->github_poll_by_recent_push;
         $this->selectedRepositories = $this->config->github_selected_repositories;
-
-        $this->toggleAllProperty();
     }
 
     /*
@@ -43,19 +43,19 @@ class Settings extends Component
             }
         }
 
+        $this->togglePollRecentPushesProperty();
+
         $this->config->fill([
+            'github_poll_by_recent_push' => $this->pollRecentPushes,
             'github_selected_repositories' => $this->selectedRepositories,
         ])->save();
-
-        $this->toggleAllProperty();
     }
 
-    public function updatedAll($checked)
+    public function updatedPollRecentPushes($checked)
     {
-        if ($checked) {
-            $this->selectedRepositories = [];
-            $this->updatedSelectedRepositories();
-        }
+        $this->config->fill([
+            'github_poll_by_recent_push' => $this->pollRecentPushes,
+        ])->save();
     }
 
     /*
@@ -83,10 +83,12 @@ class Settings extends Component
     | Support
     |--------------------------------------------------------------------------
     */
-    private function toggleAllProperty()
+    private function togglePollRecentPushesProperty()
     {
-        $this->all = $this->selectedRepositories
-            ? false
-            : true;
+        // The recentPushes setting should always be enabled
+        // whenever no specific repositories were selected
+        if (! $this->selectedRepositories) {
+            $this->pollRecentPushes = true;
+        }
     }
 }

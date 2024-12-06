@@ -12,20 +12,22 @@
     </x-slot>
 
     <div class="p-4">
-        {{-- All repo's input --}}
         <div class="flex flex-col">
-            <x-input.checkbox
-                :disabled="empty($selectedRepositories)"
-                wire:model.live="all"
-                wire:key="repo-all"
-                value="true"
-            >
-                <x-slot:label class="flex items-center space-x-2">
-                    <x-heroicon-m-list-bullet class="w-5 grow-0" />
+            {{-- All repo's input --}}
+            @if ($pollRecentPushes)
+                <x-input.checkbox
+                    :disabled="empty($selectedRepositories)"
+                    wire:model.live="pollRecentPushes"
+                    wire:key="repo-all"
+                    value="true"
+                >
+                    <x-slot:label class="flex items-center space-x-2">
+                        <x-heroicon-m-list-bullet class="w-5 grow-0" />
 
-                    <span>Poll by most recent push</span>
-                </x-slot>
-            </x-input.checkbox>
+                        <span>Poll by most recent push</span>
+                    </x-slot>
+                </x-input.checkbox>
+            @endif
 
             {{-- Selected repos's --}}
             @foreach ($selectedRepositories as $repo)
@@ -42,6 +44,21 @@
 
         {{-- Selectable repos's --}}
         <div class="flex flex-col space-y-1">
+            {{-- All repo's input --}}
+            @if (! $pollRecentPushes)
+                <x-input.checkbox
+                    wire:model.live="pollRecentPushes"
+                    wire:key="repo-all"
+                    value="true"
+                >
+                    <x-slot:label class="flex items-center space-x-2">
+                        <x-heroicon-m-list-bullet class="w-5 grow-0" />
+
+                        <span>Poll by most recent push</span>
+                    </x-slot>
+                </x-input.checkbox>
+            @endif
+
             @foreach ($this->repositories() as $repo)
                 <x-input.checkbox
                     wire:model.live="selectedRepositories"
