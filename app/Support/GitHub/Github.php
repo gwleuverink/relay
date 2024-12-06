@@ -70,22 +70,9 @@ class GitHub implements Service
             ->sortByDesc('pushedAt');
     }
 
-    public function runningWorkflows(): Collection
+    public function runningWorkflows(array $repositories): Collection
     {
         logger()->info('Fetching Workflow runs...');
-
-        $responses = collect();
-
-        // Fetch 10 repositories for the user & all organization - (n * 10)
-        $repositories = cache()->remember(
-            'pending-actions-repository-list',
-            now()->addMinutes(5),
-            fn () => $this->repos(10)
-                // TODO: Remove repos with old pushed_at? Not relevant or - add to repos query?
-                // ->reject()
-                ->pluck('nameWithOwner')
-                ->values()
-        );
 
         // Querying everything at once wasn't possble with GraphQL.
         // Trying concurrency with request throttling
@@ -97,7 +84,7 @@ class GitHub implements Service
             ->async()
             ->throw();
 
-        $responses = Http::pool(fn (Pool $request) => $repositories->map(
+        $responses = Http::pool(fn (Pool $request) => collect($repositories)->map(
             fn ($repo) => $concurrent($request)->get(static::BASE_URL . "repos/{$repo}/actions/runs", [
                 // Can't filter by multiple statusses. Not with GraphQL either.
                 // Need to leave this empty & filter manually. Bummer!!

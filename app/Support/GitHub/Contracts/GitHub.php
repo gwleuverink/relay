@@ -14,7 +14,7 @@ interface GitHub
     */
     public function repos(): Collection;
 
-    public function runningWorkflows(): Collection;
+    public function runningWorkflows(array $repositories): Collection;
 
     public function workflowRun(string $repo, int $id): Fluent;
 
