@@ -17,7 +17,9 @@ class NativeAppServiceProvider implements ProvidesPhpIni
             ->route('watcher')
             ->vibrancy('dark')
             ->resizable(false)
-            // ->alwaysOnTop() // while developing
+            ->alwaysOnTop(
+                config('app.debug')
+            )
             ->height(
                 28 + (4 * 81)
             )
