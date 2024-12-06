@@ -91,20 +91,21 @@ class GitHub implements Service
         // Trying concurrency with request throttling
         // BEWARE: Not pretty, but effective
 
-        $concurrent = fn (Pool $pool) => $pool->throw()
+        $concurrent = fn (Pool $pool) => $pool
+            ->withToken($this->config->github_access_token, 'token')
             ->acceptJson()
-            ->withToken($this->config->github_access_token, 'token');
+            ->async()
+            ->throw();
 
         $responses = Http::pool(fn (Pool $request) => $repositories->map(
-            fn ($repo) => $concurrent($request)->async()->get(static::BASE_URL . "repos/{$repo}/actions/runs", [
+            fn ($repo) => $concurrent($request)->get(static::BASE_URL . "repos/{$repo}/actions/runs", [
                 // Can't filter by multiple statusses. Not with GraphQL either.
                 // Need to leave this empty & filter manually. Bummer!!
                 // Rather bigger responses than redundant requests.
-                'per_page' => 100,
-                // 'created' => '>'.now()
-                //     ->subMinutes(10)
-                //     ->subWeek() // For testing - Comment this out!
-                //     ->toIso8601String(),
+                'per_page' => 50,
+                'created' => '>' . now()
+                    ->subDays(2) // Only fetch recent runs, limit response size
+                    ->toIso8601String(),
             ])
         ));
 
