@@ -143,7 +143,7 @@
                                     class="mr-1.5 size-3"
                                     stroke-width="2"
                                 />
-                                <span>Started {{ $job->started_at->format('H:i') }}</span>
+                                <span class="text-[10px] text-opacity-75">Started {{ $job->started_at->format('H:i') }}</span>
                             </span>
                         </div>
                     </div>

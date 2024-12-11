@@ -26,13 +26,14 @@
         'group border-l-4 bg-neutral-50 p-3',
         'opacity-70 transition-opacity hover:opacity-100' => $run->status->isFinished(),
     ])>
-        <div class="mb-2 flex items-center justify-between">
-            <div class="flex items-center space-x-2">
-                <div class="truncate font-medium text-neutral-700">{{ $run->repository }}</div>
-                {{-- <div class="text-[10px] text-neutral-500">{{ '-' }}</div> --}}
+        <div class="mb-2 flex items-center justify-between space-x-2">
+            <div class="space-x-2 truncate font-medium text-neutral-700">
+                {{ $run->repository }}
             </div>
 
-            <div class="text-[10px] text-neutral-400">{{ $run->started_at_diff }}</div>
+            <div class="flex-shrink-0 text-[10px] text-neutral-400">
+                {{ $run->started_at_diff }}
+            </div>
         </div>
 
         <div class="space-y-2">
