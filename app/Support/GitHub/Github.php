@@ -72,7 +72,9 @@ class GitHub implements Service
 
     public function runningWorkflows(array $repositories): Collection
     {
-        logger()->info('Fetching Workflow runs...');
+        logger()->info('Fetching Workflow runs...', [
+            'repos' => count($repositories),
+        ]);
 
         // Querying everything at once wasn't possble with GraphQL.
         // Trying concurrency with request throttling
@@ -90,9 +92,10 @@ class GitHub implements Service
                 // Need to leave this empty & filter manually. Bummer!!
                 // Rather bigger responses than redundant requests.
                 'per_page' => 50,
-                'created' => '>' . now()
-                    ->subDays(2) // Only fetch recent runs, limit response size
-                    ->toIso8601String(),
+                // Disabled, will filter reruns of old jobs
+                // 'created' => '>' . now()
+                //     ->subDays(2) // Only fetch recent runs, limit response size
+                //     ->toIso8601String(),
             ])
         ));
 
@@ -107,10 +110,16 @@ class GitHub implements Service
             // Unpack & filter only responses with runs
             ->map->json()
             ->where('total_count')
-            // Key-by the repository name
-            ->mapWithKeys(
-                fn ($data, $key) => [$repositories[$key] => $data['workflow_runs']]
-            )
+            // Key-by the repository name & map only the runs
+            ->mapWithKeys(function ($data) {
+                // Note we can't simply fetch the repo name by key from the
+                // $repositories variable. The order depends on the order
+                // of repsopnses that come back. The keys can differ.
+                $runs = $data['workflow_runs'];
+                $repo = data_get(head($runs), 'repository.full_name');
+
+                return [$repo => $runs];
+            })
             // Filter only running states - Uncomment during development
             ->map(fn ($runs) => array_filter($runs, function ($run) {
                 return RunStatus::from($run['status'])->isRunning();
