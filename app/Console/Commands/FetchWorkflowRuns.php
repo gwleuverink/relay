@@ -1,33 +1,37 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Console\Commands;
 
 use App\Settings\Config;
 use App\Models\WorkflowRun;
+use Illuminate\Console\Command;
 use App\Support\GitHub\Contracts\GitHub;
-use Illuminate\Foundation\Queue\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Support\GitHub\Enums\ConclusionStatus;
 
-class FetchWorkflowRuns implements ShouldQueue
+class FetchWorkflowRuns extends Command
 {
-    use Queueable;
-
     const PRUNE_AFTER_MINUTES = 60;
 
-    public function __construct(
-        protected GitHub $github,
-        protected Config $config
-    ) {}
+    protected $signature = 'relay:fetch-runs';
 
-    public function handle(): void
-    {
+    protected $description = 'Fetch currently active runs by repository configured by the user.';
 
-        if (! $this->config->github_access_token || ! $this->config->github_username) {
+    protected GitHub $github;
+    protected Config $config;
+
+    public function handle(
+        GitHub $github,
+        Config $config
+    ): void {
+
+        $this->github = $github;
+        $this->config = $config;
+
+        if (! $config->github_access_token || ! $config->github_username) {
             return;
         }
 
-        $workflows = $this->github->runningWorkflows(
+        $workflows = $github->runningWorkflows(
             $this->repositories()
         );
 
@@ -42,7 +46,6 @@ class FetchWorkflowRuns implements ShouldQueue
 
     private function repositories(): array
     {
-
         $recentRepos = [];
         $selectedRepos = $this->config->github_selected_repositories;
 
@@ -50,7 +53,7 @@ class FetchWorkflowRuns implements ShouldQueue
             $recentRepos = cache()->remember(
                 'pending-actions-repository-list',
                 now()->addMinutes(5),
-                fn () => $this->github->repos(10)
+                fn () => $this->github->repos(20)
                     // TODO: Remove repos with old pushed_at? Not relevant or - add to repos query?
                     // ->reject()
                     ->pluck('nameWithOwner')
@@ -65,7 +68,7 @@ class FetchWorkflowRuns implements ShouldQueue
     private function prune()
     {
         WorkflowRun::query()
-            ->whereIn('conclusion', [ConclusionStatus::SUCCESS])
+            ->whereIn('conclusion', [ConclusionStatus::SUCCESS, ConclusionStatus::COMPLETED])
             ->where('created_at', '<', now()->subMinutes(static::PRUNE_AFTER_MINUTES))
             ->get() // Don't mass delete - we need the model events to fire
             ->each->delete();
