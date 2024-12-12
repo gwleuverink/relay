@@ -13,7 +13,11 @@ class NativeAppServiceProvider implements ProvidesPhpIni
      */
     public function boot(): void
     {
-        MenuBar::create('main')
+        // app()->setLocale(
+        //     System::timezone()
+        // );
+
+        MenuBar::create()
             ->route('watcher')
             ->vibrancy('light')
             ->resizable(false)

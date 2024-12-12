@@ -44,7 +44,7 @@ class GitHub implements Service
     |--------------------------------------------------------------------------
     */
 
-    /** @var array[[id: string, name: string, full_name: string]] */
+    /** @return Collection<array> [[id: string, name: string, full_name: string]] */
     public function repos(int $take = 50): Collection
     {
         logger()->info('Fetching repositories...');
@@ -151,6 +151,7 @@ class GitHub implements Service
     {
         logger()->info("Cancelling run: {$id} - {$repo}");
 
+        /* @phpstan-ignore argument.type */ /* Must explicitly pass object|null or will throw Http error */
         $this->github->post(static::BASE_URL . "repos/{$repo}/actions/runs/{$id}/cancel", (object) []);
     }
 
@@ -158,6 +159,7 @@ class GitHub implements Service
     {
         logger()->info("Restarting jobs: {$id} - {$repo}");
 
+        /* @phpstan-ignore argument.type */ /* Must explicitly pass object|null or will throw Http error */
         $this->github->post(static::BASE_URL . "repos/{$repo}/actions/runs/{$id}/rerun", (object) []);
     }
 
@@ -165,6 +167,7 @@ class GitHub implements Service
     {
         logger()->info("Restarting failed jobs: {$id} - {$repo}");
 
+        /* @phpstan-ignore argument.type */ /* Must explicitly pass object|null or will throw Http error */
         $this->github->post(static::BASE_URL . "repos/{$repo}/actions/runs/{$id}/rerun-failed-jobs", (object) []);
     }
 

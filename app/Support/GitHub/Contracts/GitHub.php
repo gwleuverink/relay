@@ -12,7 +12,7 @@ interface GitHub
     | Data fetching
     |--------------------------------------------------------------------------
     */
-    public function repos(): Collection;
+    public function repos(int $take = 50): Collection;
 
     public function runningWorkflows(array $repositories): Collection;
 

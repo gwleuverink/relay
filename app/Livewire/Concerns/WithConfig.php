@@ -5,6 +5,9 @@ namespace App\Livewire\Concerns;
 use App\Settings\Config;
 use Livewire\Attributes\Computed;
 
+/**
+ * @property-read  Config $config
+ */
 trait WithConfig
 {
     #[Computed()]

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\CarbonInterface;
 use App\Casts\JobCollection;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Fluent;
@@ -13,6 +14,9 @@ use App\Support\GitHub\Enums\ConclusionStatus;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 
+/**
+ * @property CarbonInterface $started_at
+ */
 #[ObservedBy([WorkflowRunObserver::class])]
 class WorkflowRun extends Model
 {
@@ -117,8 +121,8 @@ class WorkflowRun extends Model
     public function updateFromRequest(Fluent $run): self
     {
         $this->update([
-            'status' => $run->status,
-            'conclusion' => $run->conclusion,
+            'status' => $run->status, // @phpstan-ignore property.notFound
+            'conclusion' => $run->conclusion, // @phpstan-ignore property.notFound
             'data' => $run->toArray(),
         ]);
 
@@ -129,13 +133,13 @@ class WorkflowRun extends Model
     {
         return static::updateOrCreate(
             [
-                'remote_id' => $run->id,
+                'remote_id' => $run->id, // @phpstan-ignore property.notFound
             ],
             [
-                'status' => $run->status,
-                'conclusion' => $run->status,
                 'repository' => $repository,
-                'name' => $run->name,
+                'conclusion' => $run->status, // @phpstan-ignore property.notFound
+                'status' => $run->status, // @phpstan-ignore property.notFound
+                'name' => $run->name, // @phpstan-ignore property.notFound
                 'data' => $run,
             ]
         );
