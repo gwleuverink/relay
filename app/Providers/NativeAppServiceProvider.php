@@ -15,7 +15,7 @@ class NativeAppServiceProvider implements ProvidesPhpIni
     {
         MenuBar::create('main')
             ->route('watcher')
-            ->vibrancy('dark')
+            ->vibrancy('light')
             ->resizable(false)
             ->alwaysOnTop(
                 config('app.debug')
