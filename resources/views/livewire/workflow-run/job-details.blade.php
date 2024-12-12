@@ -118,7 +118,7 @@
                         <div class="mx-4 rounded bg-red-100 p-2 text-xs">
                             <div class="flex items-center space-x-1 font-medium text-red-600">
                                 <x-heroicon-o-exclamation-triangle
-                                    class="size-3"
+                                    class="-mb-0.5 size-3"
                                     stroke-width="2"
                                 />
                                 <span>Run Failed</span>
