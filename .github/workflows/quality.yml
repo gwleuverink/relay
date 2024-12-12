@@ -92,7 +92,7 @@ jobs:
             - uses: stefanzweifel/git-auto-commit-action@v5
               id: auto_commit_action
               with:
-                  commit_message: formatting code 💅
+                  commit_message: CI 💅
                   commit_user_name: GitHub Action
                   commit_user_email: actions@github.com
 
