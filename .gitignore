@@ -21,3 +21,9 @@ yarn-error.log
 /.vscode
 /.zed
 /dist
+
+# GitHub Actions artifacts
+output.log
+docker_tag
+Dockerfile-php-build
+DOCKER_ENV
