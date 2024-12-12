@@ -10,7 +10,7 @@ use App\Support\GitHub\Enums\ConclusionStatus;
 
 class FetchWorkflowRuns extends Command
 {
-    const PRUNE_AFTER_MINUTES = 60;
+    const PRUNE_AFTER_MINUTES = 180;
 
     protected $signature = 'relay:fetch-runs';
 
@@ -53,7 +53,7 @@ class FetchWorkflowRuns extends Command
             $recentRepos = cache()->remember(
                 'pending-actions-repository-list',
                 now()->addMinutes(5),
-                fn () => $this->github->repos(20)
+                fn () => $this->github->repos(15)
                     // TODO: Remove repos with old pushed_at? Not relevant or - add to repos query?
                     // ->reject()
                     ->pluck('nameWithOwner')
