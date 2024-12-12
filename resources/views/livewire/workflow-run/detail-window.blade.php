@@ -53,7 +53,9 @@
                         <x-heroicon-c-link class="size-3 opacity-0 transition-opacity group-hover:opacity-80" />
                     </div>
 
-                    <div class="text-sm font-medium text-gray-700/90">{{ $run->data->repository->full_name }}</div>
+                    <div class="text-sm font-medium text-gray-700/90">
+                        {{ $run->data->repository->full_name }}
+                    </div>
                 </a>
 
                 <a
@@ -65,7 +67,10 @@
                         Branch
                         <x-heroicon-c-link class="size-3 opacity-0 transition-opacity group-hover:opacity-80" />
                     </div>
-                    <div class="truncate text-sm font-medium text-gray-700/90">{{ $run->data->head_branch }}</div>
+
+                    <div class="truncate text-sm font-medium text-gray-700/90">
+                        {{ $run->data->head_branch }}
+                    </div>
                 </a>
 
                 <div class="px-4 py-2.5">
@@ -73,7 +78,10 @@
                         Event
                         <x-heroicon-c-link class="size-3 opacity-0 transition-opacity group-hover:opacity-80" />
                     </div>
-                    <div class="text-sm font-medium text-gray-700/90">{{ $run->data->event }}</div>
+
+                    <div class="text-sm font-medium text-gray-700/90">
+                        {{ str($run->data->event)->replace('_', ' ') }}
+                    </div>
                 </div>
 
                 <a

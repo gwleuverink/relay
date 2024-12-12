@@ -128,8 +128,8 @@
                     @endif
 
                     {{-- Footer --}}
-                    <div class="border-gray-150 mt-2 border-t bg-gray-100 px-3 py-2">
-                        <div class="flex items-center text-xs text-gray-500/80">
+                    <div class="border-gray-150 mt-2 border-t bg-gray-100 px-2.5 py-2">
+                        <div class="flex items-center text-[10px] text-gray-500/80">
                             @if ($job->runner_name)
                                 <x-heroicon-c-bolt
                                     class="mr-1.5 size-3 text-gray-400"
@@ -143,7 +143,7 @@
                                     class="mr-1.5 size-3"
                                     stroke-width="2"
                                 />
-                                <span class="text-[10px] text-opacity-75">Started {{ $job->started_at->format('H:i') }}</span>
+                                <span class="text-opacity-75">Started {{ $job->started_at->format('H:i') }}</span>
                             </span>
                         </div>
                     </div>
