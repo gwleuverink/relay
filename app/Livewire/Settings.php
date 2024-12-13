@@ -9,6 +9,7 @@ use Illuminate\Support\Collection;
 use App\Livewire\Concerns\WithConfig;
 use App\Livewire\Concerns\WithGitHub;
 use App\Console\Commands\FetchWorkflowRuns;
+use App\Livewire\Concerns\WithSettingsContextMenu;
 
 class Settings extends Component
 {
@@ -17,6 +18,7 @@ class Settings extends Component
 
     use WithConfig;
     use WithGitHub;
+    use WithSettingsContextMenu;
 
     #[Validate('bool')]
     public bool $pollRecentPushes;

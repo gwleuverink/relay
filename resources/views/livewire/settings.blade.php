@@ -1,5 +1,8 @@
 <x-layouts.window>
-    <x-slot name="header">
+    <x-slot
+        name="header"
+        class="justify-between"
+    >
         <h1 class="sr-only">Workflow Monitor Settings</h1>
 
         <a
@@ -9,6 +12,8 @@
         >
             <x-heroicon-c-arrow-left class="w-3.5" />
         </a>
+
+        <x-support.settings-context-menu :repositories="$selectedRepositories" />
     </x-slot>
 
     <div class="p-4">
