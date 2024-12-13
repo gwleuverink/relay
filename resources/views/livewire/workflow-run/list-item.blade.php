@@ -16,9 +16,13 @@
 @endphp
 
 <article
-    {{-- Only poll when running --}}
+    class="overflow-hidden"
     @if ($run->status->isRunning())
+        {{-- sync state with GitHub --}}
         wire:poll.5s="refresh"
+    @else
+        {{-- Update timestamps --}}
+        wire:poll.60s
     @endif
 >
     <div @class([
