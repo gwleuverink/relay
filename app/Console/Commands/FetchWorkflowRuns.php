@@ -68,13 +68,21 @@ class FetchWorkflowRuns extends Command
 
     private function prune()
     {
+        // First prune all trashed runs
+        WorkflowRun::onlyTrashed()->forceDelete();
+
+        // Then softdelete newer runs. They will be pruned the next time
+        // This way there is ample time for open detail windows to close
+        // Otherwise these will throw a 404 exception.
         WorkflowRun::query()
-            ->whereIn('conclusion', [ConclusionStatus::SUCCESS, ConclusionStatus::COMPLETED])
+            ->whereIn('conclusion', [
+                ConclusionStatus::SUCCESS,
+                ConclusionStatus::COMPLETED,
+                ConclusionStatus::CANCELLED,
+            ])
             ->where('created_at', '<', now()->subMinutes(static::PRUNE_AFTER_MINUTES))
             ->get() // Don't mass delete - we need the model events to fire
             ->each->delete();
-
-        WorkflowRun::onlyTrashed()->forceDelete();
     }
 
     public static function clearCachedRepositories(): void
