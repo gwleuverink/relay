@@ -8,10 +8,12 @@ use Livewire\Attributes\Validate;
 use Illuminate\Support\Collection;
 use App\Livewire\Concerns\WithConfig;
 use App\Livewire\Concerns\WithGitHub;
+use App\Console\Commands\FetchWorkflowRuns;
 
 class Settings extends Component
 {
-    const MAX_REPOSITORIES = 15;
+    const MAX_REPOSITORIES = 10;
+    const REPOSITORIES_CACHE_KEY = 'settings-repository-list';
 
     use WithConfig;
     use WithGitHub;
@@ -49,6 +51,8 @@ class Settings extends Component
             'github_poll_by_recent_push' => $this->pollRecentPushes,
             'github_selected_repositories' => $this->selectedRepositories,
         ])->save();
+
+        FetchWorkflowRuns::clearCachedRepositories();
     }
 
     public function updatedPollRecentPushes($checked)
@@ -56,6 +60,8 @@ class Settings extends Component
         $this->config->fill([
             'github_poll_by_recent_push' => $this->pollRecentPushes,
         ])->save();
+
+        FetchWorkflowRuns::clearCachedRepositories();
     }
 
     /*
@@ -67,7 +73,7 @@ class Settings extends Component
     public function repositories(): Collection
     {
         $repositories = cache()->remember(
-            'settings-repository-list',
+            static::REPOSITORIES_CACHE_KEY,
             now()->addMinutes(50),
             fn () => $this->github->repos(100)
         );

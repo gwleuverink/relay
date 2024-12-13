@@ -11,6 +11,7 @@ use App\Support\GitHub\Enums\ConclusionStatus;
 class FetchWorkflowRuns extends Command
 {
     const PRUNE_AFTER_MINUTES = 180;
+    const REPOSITORIES_CACHE_KEY = 'polling-repositories';
 
     protected $signature = 'relay:fetch-runs';
 
@@ -51,7 +52,7 @@ class FetchWorkflowRuns extends Command
 
         if ($this->config->github_poll_by_recent_push) {
             $recentRepos = cache()->remember(
-                'pending-actions-repository-list',
+                static::REPOSITORIES_CACHE_KEY,
                 now()->addMinutes(5),
                 fn () => $this->github->repos(15)
                     // TODO: Remove repos with old pushed_at? Not relevant or - add to repos query?
@@ -74,5 +75,10 @@ class FetchWorkflowRuns extends Command
             ->each->delete();
 
         WorkflowRun::onlyTrashed()->forceDelete();
+    }
+
+    public static function clearCachedRepositories(): void
+    {
+        cache()->forget(static::REPOSITORIES_CACHE_KEY);
     }
 }
