@@ -4,6 +4,7 @@ namespace App\Support\GitHub;
 
 use Exception;
 use App\Settings\Config;
+use GuzzleHttp\Promise\Each;
 use Illuminate\Support\Fluent;
 use Illuminate\Http\Client\Pool;
 use Illuminate\Support\Collection;
@@ -76,28 +77,32 @@ class GitHub implements Service
             'repos' => count($repositories),
         ]);
 
-        // Querying everything at once wasn't possble with GraphQL.
-        // Trying concurrency with request throttling
+        // Querying everything at once isn't possble with GraphQL. We need to make a significant amount of requests.
+        // Making a lot concurrently tiggers GitHub's rate limiter (even if we're well within our request limit)
+        // We're going to use concurrency with request batching to control the rate of requests going out.
+        //
         // BEWARE: Not pretty, but effective
 
-        $concurrent = fn (Pool $pool) => $pool
-            ->withToken($this->config->github_access_token, 'token')
-            ->acceptJson()
-            ->async()
-            ->throw();
+        // First we setup a function that yields the requests
+        $concurrent = function (Pool $pool) use ($repositories) {
+            foreach ($repositories as $repo) {
+                yield $pool->withToken($this->config->github_access_token, 'token')
+                    ->acceptJson()
+                    ->async()
+                    ->throw()
+                    ->get(static::BASE_URL . "repos/{$repo}/actions/runs", [
+                        'per_page' => 50,
+                    ]);
+            }
+        };
 
-        $responses = Http::pool(fn (Pool $request) => collect($repositories)->map(
-            fn ($repo) => $concurrent($request)->get(static::BASE_URL . "repos/{$repo}/actions/runs", [
-                // Can't filter by multiple statusses. Not with GraphQL either.
-                // Need to leave this empty & filter manually. Bummer!!
-                // Rather bigger responses than redundant requests.
-                'per_page' => 50,
-                // Disabled, will filter reruns of old jobs
-                // 'created' => '>' . now()
-                //     ->subDays(2) // Only fetch recent runs, limit response size
-                //     ->toIso8601String(),
-            ])
-        ));
+        // Then we pool the responses in batches using Each::ofLimit
+        $responses = Http::pool(fn (Pool $request) => [
+            Each::ofLimit(
+                $concurrent($request),
+                10 // Batches concurrent requests
+            )->wait(),
+        ]);
 
         return collect($responses)
             ->each(
