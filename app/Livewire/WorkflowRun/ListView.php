@@ -7,7 +7,6 @@ use App\Models\WorkflowRun;
 use App\Events\WorkflowRunPruned;
 use Livewire\Attributes\Computed;
 use App\Events\WorkflowRunDetected;
-use App\Support\WindowHeightManager;
 use App\Events\WorkflowStatusChanged;
 use App\Livewire\Concerns\WithGitHub;
 
@@ -21,7 +20,7 @@ class ListView extends Component
         'native:' . WorkflowRunPruned::class => '$refresh',
     ];
 
-    #[Computed()]
+    #[Computed]
     public function runs()
     {
         return WorkflowRun::query()

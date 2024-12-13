@@ -10,7 +10,7 @@ use App\Support\GitHub\Contracts\GitHub;
  */
 trait WithGitHub
 {
-    #[Computed()]
+    #[Computed]
     public function github(): GitHub
     {
         return resolve(GitHub::class);

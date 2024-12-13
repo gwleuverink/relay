@@ -10,7 +10,7 @@ use Livewire\Attributes\Computed;
  */
 trait WithConfig
 {
-    #[Computed()]
+    #[Computed]
     public function config(): Config
     {
         return resolve(Config::class);

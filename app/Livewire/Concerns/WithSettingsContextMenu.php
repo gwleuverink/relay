@@ -3,6 +3,8 @@
 namespace App\Livewire\Concerns;
 
 use App\Models\WorkflowRun;
+use Native\Laravel\Facades\Window;
+use Livewire\Attributes\Renderless;
 
 trait WithSettingsContextMenu
 {
@@ -19,6 +21,7 @@ trait WithSettingsContextMenu
         $this->updatedSelectedRepositories(null);
     }
 
+    #[Renderless]
     public function logout()
     {
         $this->config->fill([
@@ -30,13 +33,16 @@ trait WithSettingsContextMenu
         return $this->redirectRoute('login', navigate: true);
     }
 
+    #[Renderless]
     public function clearCaches()
     {
         cache()->clear();
     }
 
+    #[Renderless]
     public function clearRuns()
     {
+        Window::close('detail-window');
         WorkflowRun::truncate();
 
         return $this->redirectRoute('watcher', navigate: true);
