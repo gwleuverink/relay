@@ -39,10 +39,15 @@ class ListItem extends Component
         Window::open('detail-window')
             ->route('detail-window', [$this->run])
             ->showDevTools(false)
+            ->maximizable(false)
             ->titleBarHidden()
-            ->resizable(false)
             ->focusable()
+            // -- width --
             ->width(700)
-            ->height(600);
+            ->minWidth(560)
+            ->maxWidth(800)
+            // -- height --
+            ->height(600)
+            ->minHeight(600);
     }
 }
