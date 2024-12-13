@@ -12,9 +12,9 @@ Relay comes packed with powerful features to enhance your GitHub Workflows exper
 - **Detailed Insights**: Dive deep into workflow runs with comprehensive execution details
 - **Workflow Control**: Trigger, cancel, and manage workflow runs directly from your menu bar
 
-<img src="https://github.com/gwleuverink/relay/blob/main/storage/app/public/screenshots/menu-bar.png?raw=true" width="340" alt="Menu bar screenshot" />
+<img src="https://github.com/gwleuverink/relay/blob/main/storage/app/public/screenshots/menu-bar.png?raw=true" width="400" align="center" alt="Menu bar screenshot" />
 
-<img src="https://github.com/gwleuverink/relay/blob/main/storage/app/public/screenshots/detail-window.png?raw=true" width="600" alt="Detail window screenshot" />
+<img src="https://github.com/gwleuverink/relay/blob/main/storage/app/public/screenshots/detail-window.png?raw=true" width="700" alt="Detail window screenshot" />
 
 ## Coming soon
 
