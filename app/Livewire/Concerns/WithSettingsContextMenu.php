@@ -2,8 +2,12 @@
 
 namespace App\Livewire\Concerns;
 
+use App\Models\WorkflowRun;
+
 trait WithSettingsContextMenu
 {
+    use WithConfig;
+
     public function resetSelection()
     {
         $this->fill([
