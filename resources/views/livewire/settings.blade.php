@@ -1,4 +1,4 @@
-<x-layouts.window>
+<x-layouts.window fixed>
     <x-slot
         name="header"
         class="justify-between"
