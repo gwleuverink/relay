@@ -101,16 +101,14 @@ class WorkflowRun extends Model
             default => 999,
         };
 
-        $compoundWeight = match ($this->conclusion) {
+        return match ($this->conclusion) {
             ConclusionStatus::FAILURE => 5,
-            ConclusionStatus::CANCELLED => 6,
-            ConclusionStatus::TIMED_OUT => 7,
-            ConclusionStatus::SKIPPED => 8,
-            ConclusionStatus::SUCCESS => 9,
+            ConclusionStatus::TIMED_OUT => 6,
+            ConclusionStatus::SKIPPED => 7,
+            ConclusionStatus::SUCCESS => 8,
+            ConclusionStatus::CANCELLED => 9,
             default => $statusWeight
         };
-
-        return $compoundWeight;
     }
 
     /*
