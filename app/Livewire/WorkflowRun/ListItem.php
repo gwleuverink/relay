@@ -35,6 +35,7 @@ class ListItem extends Component
     public function viewRun()
     {
         Window::close('detail-window');
+        usleep(300); // Sometimes the window closes after being opened due to a race condition
 
         Window::open('detail-window')
             ->route('detail-window', [$this->run])
