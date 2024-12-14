@@ -1,7 +1,7 @@
 <div
     wire:init="startUserVerification"
     wire:poll.keep-alive.8s="pollAuthorization"
-    class="flex min-h-screen flex-col bg-neutral-50 px-4 pb-5 pt-9"
+    class="flex min-h-screen flex-col bg-gradient-to-br from-white to-neutral-100 px-4 pb-5 pt-9"
 >
     {{-- Header --}}
     <div class="flex flex-col items-center space-y-2">
