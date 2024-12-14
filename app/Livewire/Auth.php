@@ -7,9 +7,7 @@ use App\Models\WorkflowRun;
 use Livewire\Attributes\Renderless;
 use App\Livewire\Concerns\WithConfig;
 use App\Livewire\Concerns\WithGitHub;
-use Illuminate\Support\Facades\Artisan;
 use Native\Laravel\Facades\Notification;
-use App\Console\Commands\FetchWorkflowRuns;
 
 class Auth extends Component
 {
@@ -57,7 +55,6 @@ class Auth extends Component
             ->show();
 
         WorkflowRun::truncate();
-        Artisan::call(FetchWorkflowRuns::class);
 
         return $this->redirectRoute('watcher', navigate: true);
     }
