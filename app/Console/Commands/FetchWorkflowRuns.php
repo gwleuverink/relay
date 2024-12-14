@@ -68,6 +68,11 @@ class FetchWorkflowRuns extends Command
 
     private function prune()
     {
+        // Don't prune when debug mode is enabled
+        if (app()->hasDebugModeEnabled() && ! app()->runningUnitTests()) {
+            return;
+        }
+
         // First prune all trashed runs
         WorkflowRun::onlyTrashed()->forceDelete();
 
