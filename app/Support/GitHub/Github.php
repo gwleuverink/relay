@@ -58,7 +58,7 @@ class GitHub implements Service
             ],
         ])->json();
 
-        if (array_key_exists('errors', $response)) {
+        if (array_key_exists('errors', $response ?? [])) {
             throw new Exception('An error occured fetching data from GitHub');
         }
 
