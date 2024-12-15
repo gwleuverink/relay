@@ -1,0 +1,57 @@
+name: tests
+
+on:
+    workflow_dispatch:
+    pull_request:
+        branches: [development, dev, acceptance, staging, main, master]
+
+jobs:
+    skip-duplicates:
+        continue-on-error: true # Uncomment once integration is finished
+        runs-on: ubuntu-latest
+
+        # Map a step output to a job output
+        outputs:
+            should_skip: ${{ steps.skip_check.outputs.should_skip }}
+
+        steps:
+            - id: skip_check
+              uses: fkirc/skip-duplicate-actions@v5
+              with:
+                  # All of these options are optional, so you can remove them if you are happy with the defaults
+                  cancel_others: "true"
+                  concurrent_skipping: "same_content"
+                  skip_after_successful_duplicate: "true"
+                  paths_ignore: '["**/README.md", "**/docs/**"]'
+
+    laravel-tests:
+        needs: skip-duplicates
+        if: needs.skip-duplicates.outputs.should_skip != 'true'
+
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: "8.3"
+
+            - name: Cache Composer dependencies
+              uses: actions/cache@v4
+              with:
+                  path: /tmp/composer-cache
+                  key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
+
+            - uses: php-actions/composer@v6
+              with:
+                  php_version: "8.3"
+
+            - name: Copy .env
+              run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+
+            - name: Generate key
+              run: php artisan key:generate
+
+            - name: Execute tests
+              run: php artisan test --stop-on-failure -vvv
