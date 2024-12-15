@@ -47,6 +47,7 @@ class WorkflowRunFactory extends Factory
             'event' => fake()->word(),
             'run_started_at' => now(),
             'html_url' => fake()->url(),
+            'head_branch' => fake()->word(),
             'head_sha' => fake()->randomNumber(),
             'run_number' => fake()->randomNumber(),
             'display_title' => fake()->words(2, true),

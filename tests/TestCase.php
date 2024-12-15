@@ -24,7 +24,5 @@ abstract class TestCase extends BaseTestCase
     public function fakeHttp()
     {
         Http::fake();
-
-        // $this->mock(GitHub::class)
     }
 }
