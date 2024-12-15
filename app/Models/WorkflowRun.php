@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Support\GitHub\Enums\ConclusionStatus;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 
 /**
@@ -20,6 +21,7 @@ use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 #[ObservedBy([WorkflowRunObserver::class])]
 class WorkflowRun extends Model
 {
+    use HasFactory;
     use SoftDeletes;
 
     protected $fillable = [
