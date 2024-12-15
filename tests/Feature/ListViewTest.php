@@ -7,8 +7,6 @@ use App\Support\GitHub\Enums\ConclusionStatus;
 
 use function Pest\Livewire\livewire;
 
-beforeEach()->fakeHttp();
-
 it('displays message when nothing is running')
     ->livewire(ListView::class)
     ->assertSee('No running Workflows');

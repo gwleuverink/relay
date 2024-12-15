@@ -4,8 +4,6 @@ use App\Models\WorkflowRun;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\Authenticated;
 
-beforeEach()->fakeHttp();
-
 beforeEach(function () {
     Route::get('guarded', fn () => 'ok')->middleware(Authenticated::class);
 });
@@ -21,9 +19,7 @@ it('allows access when authenticated')
 
 describe('authenticated', function () {
 
-    beforeEach()
-        ->login()
-        ->fakeHttp();
+    beforeEach()->login();
 
     it('can visit watcher route')
         ->getRoute('watcher')
@@ -40,8 +36,6 @@ describe('authenticated', function () {
 });
 
 describe('unauthenticated', function () {
-
-    beforeEach()->fakeHttp();
 
     it('cant visit watcher route')
         ->getRoute('watcher')

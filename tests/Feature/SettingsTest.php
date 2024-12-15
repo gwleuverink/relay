@@ -2,9 +2,7 @@
 
 use App\Support\GitHub\Contracts\GitHub;
 
-beforeEach()
-    ->login()
-    ->fakeHttp();
+beforeEach()->login();
 
 it('lists repositories', function () {
     $this->mock(GitHub::class)->shouldReceive('repos')->andReturn(collect([
