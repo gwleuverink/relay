@@ -2,19 +2,22 @@
 @use(App\Support\GitHub\Enums\ConclusionStatus)
 
 @php
-    function pingColor($status, $conclusion)
-    {
-        $color = match ($status) {
-            default => 'bg-neutral-300',
-            RunStatus::IN_PROGRESS => 'bg-blue-500',
-            RunStatus::QUEUED, RunStatus::PENDING, RunStatus::REQUESTED => 'bg-amber-400',
-        };
+    if (! function_exists('pingColor')) {
 
-        return match ($conclusion) {
-            default => $color,
-            ConclusionStatus::FAILURE => 'bg-red-500',
-            ConclusionStatus::SUCCESS => 'bg-green-500',
-        };
+        function pingColor($status, $conclusion)
+        {
+            $color = match ($status) {
+                default => 'bg-neutral-300',
+                RunStatus::IN_PROGRESS => 'bg-blue-500',
+                RunStatus::QUEUED, RunStatus::PENDING, RunStatus::REQUESTED => 'bg-amber-400',
+            };
+
+            return match ($conclusion) {
+                default => $color,
+                ConclusionStatus::FAILURE => 'bg-red-500',
+                ConclusionStatus::SUCCESS => 'bg-green-500',
+            };
+        }
     }
 @endphp
 
