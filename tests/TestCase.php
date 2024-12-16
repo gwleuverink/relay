@@ -14,6 +14,7 @@ abstract class TestCase extends BaseTestCase
         parent::setUp();
 
         Http::fake();
+        $this->mockRepos();
         $this->withoutVite();
     }
 
@@ -30,7 +31,7 @@ abstract class TestCase extends BaseTestCase
         ])->save();
     }
 
-    protected function mockRepos(array $repos)
+    protected function mockRepos(array $repos = [])
     {
         $response = collect($repos)->map(fn ($repo) => [
             'nameWithOwner' => $repo,
