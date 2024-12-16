@@ -1,25 +1,8 @@
 <?php
 
-use App\Support\GitHub\Contracts\GitHub;
-
 beforeEach()->login();
 
-beforeEach(fn () => $this->mock(GitHub::class)->shouldReceive('repos')->andReturn(collect([
-    [
-        'nameWithOwner' => 'foo/bar',
-        'owner' => [
-            '__typename' => 'User',
-            'avatarUrl' => fake()->imageUrl(),
-        ],
-    ],
-    [
-        'nameWithOwner' => 'baz/zah',
-        'owner' => [
-            '__typename' => 'User',
-            'avatarUrl' => fake()->imageUrl(),
-        ],
-    ],
-])));
+beforeEach()->mockRepos(['foo/bar', 'baz/zah']);
 
 it('lists repositories', function () {
 
