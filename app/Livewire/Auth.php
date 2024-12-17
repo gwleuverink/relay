@@ -4,7 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\WorkflowRun;
-use Livewire\Attributes\Renderless;
+use Carbon\CarbonInterface;
 use App\Livewire\Concerns\WithConfig;
 use App\Livewire\Concerns\WithGitHub;
 use Native\Laravel\Facades\Notification;
@@ -20,18 +20,24 @@ class Auth extends Component
 
     public string $verificationUri = 'https://github.com/login/device';
 
+    public CarbonInterface $expiresAt;
+
     public function startUserVerification(): void
     {
         $response = $this->github->startUserVerification();
 
-        $this->deviceCode = $response['device_code'];
         $this->userCode = $response['user_code'];
+        $this->deviceCode = $response['device_code'];
         $this->verificationUri = $response['verification_uri'];
+        $this->expiresAt = now()->addSeconds($response['expires_in'] - 10);
     }
 
-    #[Renderless]
     public function pollAuthorization()
     {
+        $this->expiresAt->isFuture()
+            ? $this->skipRender()
+            : $this->startUserVerification();
+
         if (! $this->userCode || ! $this->deviceCode) {
             return;
         }
