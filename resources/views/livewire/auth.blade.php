@@ -1,4 +1,6 @@
 <div
+    x-on:keydown.window.prevent.f5
+    x-on:keydown.window.prevent.meta.r
     wire:init="startUserVerification"
     wire:poll.keep-alive.8s="pollAuthorization"
     class="flex min-h-screen flex-col bg-gradient-to-br from-white to-neutral-100 px-4 pb-5 pt-9"
