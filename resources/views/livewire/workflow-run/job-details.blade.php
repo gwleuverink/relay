@@ -118,16 +118,26 @@
 
                     {{-- Failure notice --}}
                     @if ($job->conclusion === ConclusionStatus::FAILURE)
-                        <div class="mx-4 rounded bg-red-100 p-2 text-xs">
+                        <a
+                            x-open-external
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            href="{{ $job->html_url }}"
+                            class="mx-4 block rounded bg-red-100 p-2 text-xs opacity-90 transition-all hover:scale-[101%] hover:opacity-100 hover:shadow-inner hover:shadow-rose-200"
+                        >
                             <div class="flex items-center space-x-1 font-medium text-red-600">
                                 <x-heroicon-o-exclamation-triangle
                                     class="-mb-0.5 size-3"
                                     stroke-width="2"
                                 />
                                 <span>Run Failed</span>
+
+                                <div class="!ml-auto">
+                                    <x-heroicon-c-link class="size-3 opacity-90" />
+                                </div>
                             </div>
                             {{-- <div class="leading-snug text-red-600/75">Error in Feature/Commands/InstallTest.php</div> --}}
-                        </div>
+                        </a>
                     @endif
 
                     {{-- Footer --}}
