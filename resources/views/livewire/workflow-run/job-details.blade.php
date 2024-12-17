@@ -123,7 +123,7 @@
                             target="_blank"
                             rel="noopener noreferrer"
                             href="{{ $job->html_url }}"
-                            class="mx-4 block rounded bg-red-100 p-2 text-xs opacity-90 transition-all hover:scale-[101%] hover:opacity-100 hover:shadow-inner hover:shadow-rose-200"
+                            class="mx-4 block rounded bg-red-100 p-2 text-xs opacity-90 outline-none ring-red-200 transition-all hover:scale-[101%] hover:opacity-100 focus:ring-2"
                         >
                             <div class="flex items-center space-x-1 font-medium text-red-600">
                                 <x-heroicon-o-exclamation-triangle
