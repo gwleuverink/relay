@@ -31,7 +31,7 @@ interface GitHub
     | Authentication
     |--------------------------------------------------------------------------
     */
-    /** @return array{verification_uri: string, device_code: string, user_code: string} */
+    /** @return array{verification_uri: string, device_code: string, user_code: string, expires_in: int} */
     public function startUserVerification(): array;
 
     public function getAccessToken(string $deviceCode): ?string;
