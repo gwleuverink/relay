@@ -30,6 +30,9 @@ trait WithSettingsContextMenu
             'github_selected_repositories' => [],
         ])->save();
 
+        $this->clearRuns();
+        $this->clearCaches();
+
         return $this->redirectRoute('login', navigate: true);
     }
 
