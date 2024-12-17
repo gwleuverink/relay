@@ -14,7 +14,6 @@ abstract class TestCase extends BaseTestCase
         parent::setUp();
 
         Http::fake();
-        $this->mockRepos();
         $this->withoutVite();
     }
 
