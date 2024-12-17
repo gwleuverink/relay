@@ -45,6 +45,8 @@
             <div class="grid grid-cols-2 gap-px divide-gray-200/80 overflow-hidden bg-gray-200/80 *:bg-white">
                 <a
                     x-open-external
+                    target="_blank"
+                    rel="noopener noreferrer"
                     href="{{ $run->data->repository->html_url }}"
                     class="group px-4 py-2.5 ring-inset ring-indigo-200 focus:outline-none focus:ring-2"
                 >
@@ -60,6 +62,8 @@
 
                 <a
                     x-open-external
+                    target="_blank"
+                    rel="noopener noreferrer"
                     href="{{ "{$run->data->repository->html_url}/tree/{$run->data->head_branch}" }}"
                     class="group px-4 py-2.5 ring-inset ring-indigo-200 focus:outline-none focus:ring-2"
                 >
@@ -86,6 +90,8 @@
 
                 <a
                     x-open-external
+                    target="_blank"
+                    rel="noopener noreferrer"
                     href="{{ "{$run->data->repository->html_url}/commit/{$run->data->head_commit->id}" }}"
                     class="group px-4 py-2.5 ring-inset ring-indigo-200 focus:outline-none focus:ring-2"
                 >
@@ -111,6 +117,8 @@
             <div class="flex items-center justify-between border-t border-gray-200/80 bg-gray-50/80 px-4 py-3">
                 <a
                     x-open-external
+                    target="_blank"
+                    rel="noopener noreferrer"
                     href="{{ $run->data->triggering_actor->html_url }}"
                     class="flex -translate-x-1.5 items-center space-x-3 rounded-md px-1.5 py-1 ring-inset ring-indigo-200 focus:outline-none focus:ring-2"
                 >
@@ -163,6 +171,8 @@
 
                     <a
                         x-open-external
+                        target="_blank"
+                        rel="noopener noreferrer"
                         href="{{ $run->data->html_url }}"
                         class="cursor-default rounded-md border border-gray-200/80 bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700 ring-inset ring-indigo-200 transition-colors hover:bg-gray-200 focus:outline-none focus:ring-2"
                     >
