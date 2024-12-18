@@ -40,6 +40,10 @@
         }
     },
     "scripts": {
+        "post-install-cmd": [
+            "cp ./public/icon.png ./vendor/nativephp/electron/resources/js/build/icon.png",
+            "cp ./public/icon.png ./vendor/nativephp/electron/resources/js/resources/icon.png"
+        ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
