@@ -49,4 +49,4 @@ If you're considering submitting a pull request for a new feature, please reach 
 
 ## Supporting the Project
 
-To distribute Phost on macOS, the application needs to be signed and notarized through the Apple Developer Program, which costs €100 annually. If you find Relay useful, please consider supporting its development and maintenance through [GitHub Sponsors](https://github.com/sponsors/gwleuverink). Your support helps cover these costs and enables continued development of this open-source tool.
+To distribute Relay on macOS, the application needs to be signed and notarized through the Apple Developer Program, which costs €100 annually. If you find Relay useful, please consider supporting its development and maintenance through [GitHub Sponsors](https://github.com/sponsors/gwleuverink). Your support helps cover these costs and enables continued development of this open-source tool.
