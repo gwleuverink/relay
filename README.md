@@ -10,7 +10,9 @@ Relay provides real-time monitoring of your GitHub Workflows directly from your 
 > At present, only a macOS build is available. Windows and Linux builds are pending due to lack of testing environments. Contributions from users with access to these platforms are more than welcome.
 
 <br />
+
 **[Download the latest release here](https://github.com/gwleuverink/relay/releases)**
+
 <br />
 
 ## Features
@@ -29,7 +31,7 @@ Relay comes packed with powerful features to enhance your GitHub Workflows exper
 <img src="https://github.com/gwleuverink/relay/blob/main/storage/app/public/screenshots/detail-window.png?raw=true" width="700" alt="Detail window screenshot" />
 </div> -->
 
-## Coming soon
+### Coming soon
 
 - Live workflow log streaming
 - Advanced notification configuration
@@ -40,6 +42,8 @@ Relay comes packed with powerful features to enhance your GitHub Workflows exper
 Have an idea for a new feature? Head over to the [Discussions](https://github.com/gwleuverink/relay/discussions) page to share your suggestions or inquire about upcoming features.
 
 If you're considering submitting a pull request for a new feature, please reach out to [me](https://github.com/gwleuverink) first to discuss your ideas.
+
+<br />
 
 ## Supporting the Project
 
