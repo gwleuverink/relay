@@ -6,12 +6,10 @@
 
 Relay provides real-time monitoring of your GitHub Workflows directly from your Mac menu bar. Stay on top of your CI/CD pipelines without constantly checking GitHub.
 
-## Getting started
-
-[Download the latest release here](https://github.com/gwleuverink/relay/releases).
-
 > [!NOTE]
 > At present, only a macOS build is available. Windows and Linux builds are pending due to lack of testing environments. Contributions from users with access to these platforms are more than welcome.
+
+[Download the latest release here](https://github.com/gwleuverink/relay/releases).
 
 ## Features
 
