@@ -1,6 +1,16 @@
+<p align="center">
+<img src="./public/icon.png" width="180" />
+</p>
+
 # Relay
 
-Relay provides real-time monitoring of your GitHub Workflows directly from menu bar. Stay on top of your CI/CD pipelines without constantly checking GitHub.
+Relay provides real-time monitoring of your GitHub Workflows directly from your Mac menu bar. Stay on top of your CI/CD pipelines without constantly checking GitHub.
+
+## Getting started
+
+At present, only a macOS build is available. Windows and Linux builds are pending due to lack of testing environments. Contributions from users with access to these platforms are more than welcome.
+
+[Download the latest release here](https://github.com/gwleuverink/relay/releases).
 
 ## Features
 
@@ -12,11 +22,11 @@ Relay comes packed with powerful features to enhance your GitHub Workflows exper
 - **Detailed Insights**: Dive deep into workflow runs with comprehensive execution details
 - **Workflow Control**: Trigger, cancel, and manage workflow runs directly from your menu bar
 
-<div align="center">
+<!-- <div align="center">
 <img src="https://github.com/gwleuverink/relay/blob/main/storage/app/public/screenshots/menu-bar.png?raw=true" width="400"  alt="Menu bar screenshot" />
 
 <img src="https://github.com/gwleuverink/relay/blob/main/storage/app/public/screenshots/detail-window.png?raw=true" width="700" alt="Detail window screenshot" />
-</div>
+</div> -->
 
 ## Coming soon
 
@@ -24,11 +34,11 @@ Relay comes packed with powerful features to enhance your GitHub Workflows exper
 - Advanced notification configuration
 - Raspberry Pi client support (make your own external e-ink monitor)
 
-## Getting started
+### Feature requests
 
-At present, only a macOS build is available. Windows and Linux builds are pending due to lack of testing environments. Contributions from users with access to these platforms are more than welcome.
+Have an idea for a new feature? Head over to the [Discussions](https://github.com/gwleuverink/relay/discussions) page to share your suggestions or inquire about upcoming features.
 
-[Download the latest release here](https://github.com/gwleuverink/relay/releases).
+If you're considering submitting a pull request for a new feature, please reach out to [me](https://github.com/gwleuverink) first to discuss your ideas.
 
 ## Supporting the Project
 
