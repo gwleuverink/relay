@@ -9,7 +9,7 @@ Relay provides real-time monitoring of your GitHub Workflows directly from your 
 > [!NOTE]
 > At present, only a macOS build is available. Windows and Linux builds are pending due to lack of testing environments. Contributions from users with access to these platforms are more than welcome.
 
-[Download the latest release here](https://github.com/gwleuverink/relay/releases).
+**[<img src="./public/download.svg" width="18" /> Download the latest release here](https://github.com/gwleuverink/relay/releases)**.
 
 ## Features
 
