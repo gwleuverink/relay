@@ -2471,16 +2471,16 @@
         },
         {
             "name": "nativephp/laravel",
-            "version": "0.6.4",
+            "version": "0.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NativePHP/laravel.git",
-                "reference": "63390309094e2b07838d3f790c85220bd9ab1e8c"
+                "reference": "1cf8438a85bacf565b175d048fff5a3e8424ce4d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NativePHP/laravel/zipball/63390309094e2b07838d3f790c85220bd9ab1e8c",
-                "reference": "63390309094e2b07838d3f790c85220bd9ab1e8c",
+                "url": "https://api.github.com/repos/NativePHP/laravel/zipball/1cf8438a85bacf565b175d048fff5a3e8424ce4d",
+                "reference": "1cf8438a85bacf565b175d048fff5a3e8424ce4d",
                 "shasum": ""
             },
             "require": {
@@ -2491,9 +2491,9 @@
             },
             "require-dev": {
                 "guzzlehttp/guzzle": "^7.0",
+                "larastan/larastan": "^2.0|^3.0",
                 "laravel/pint": "^1.0",
                 "nunomaduro/collision": "^7.9",
-                "nunomaduro/larastan": "^2.0.1",
                 "orchestra/testbench": "^8.0",
                 "pestphp/pest": "^2.0",
                 "pestphp/pest-plugin-arch": "^2.0",
@@ -2520,8 +2520,7 @@
             },
             "autoload": {
                 "psr-4": {
-                    "Native\\Laravel\\": "src/",
-                    "Native\\Laravel\\Database\\Factories\\": "database/factories/"
+                    "Native\\Laravel\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -2549,7 +2548,7 @@
             ],
             "support": {
                 "issues": "https://github.com/NativePHP/laravel/issues",
-                "source": "https://github.com/NativePHP/laravel/tree/0.6.4"
+                "source": "https://github.com/NativePHP/laravel/tree/0.7.0"
             },
             "funding": [
                 {
@@ -2561,7 +2560,7 @@
                     "type": "opencollective"
                 }
             ],
-            "time": "2024-11-17T15:02:41+00:00"
+            "time": "2024-12-19T14:49:06+00:00"
         },
         {
             "name": "nativephp/php-bin",
@@ -2661,10 +2660,6 @@
             ],
             "type": "library",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "3.x-dev",
-                    "dev-2.x": "2.x-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Carbon\\Laravel\\ServiceProvider"
@@ -2674,6 +2669,10 @@
                     "includes": [
                         "extension.neon"
                     ]
+                },
+                "branch-alias": {
+                    "dev-2.x": "2.x-dev",
+                    "dev-master": "3.x-dev"
                 }
             },
             "autoload": {
