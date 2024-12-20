@@ -76,6 +76,7 @@
         ],
         "publish": [
             "truncate -s 0 ./storage/logs/laravel.log",
+            "truncate -s 0 ./database/nativephp.sqlite",
             "composer run-script post-install-cmd",
             "npm run build",
             "@php artisan view:clear",
