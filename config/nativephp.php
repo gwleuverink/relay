@@ -44,10 +44,13 @@ return [
      * You may use wildcards to match multiple keys.
      */
     'cleanup_env_keys' => [
-        'AWS_*',
-        'GITHUB_*',
-        'DO_SPACES_*',
         '*_SECRET',
+        'AWS_*',
+        'DO_SPACES_*',
+        'GITHUB_REPO',
+        'GITHUB_OWNER',
+        'GITHUB_TOKEN',
+        'GITHUB_PRIVATE',
         'NATIVEPHP_UPDATER_PATH',
         'NATIVEPHP_APPLE_ID',
         'NATIVEPHP_APPLE_ID_PASS',
