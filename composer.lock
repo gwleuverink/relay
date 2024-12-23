@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "210f5d970faf6bb2fc7fcdfb1c6aaf48",
+    "content-hash": "a1629cf3e5f3ae538b72fc8f86e4bf65",
     "packages": [
         {
             "name": "blade-ui-kit/blade-heroicons",
@@ -2382,16 +2382,16 @@
         },
         {
             "name": "nativephp/electron",
-            "version": "0.8.7",
+            "version": "0.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NativePHP/electron.git",
-                "reference": "ff9c48f14e4d5e794bb471af21b39397ea41eba8"
+                "reference": "2156a831e469c4dc135f5f703e24f20df3ae6f23"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NativePHP/electron/zipball/ff9c48f14e4d5e794bb471af21b39397ea41eba8",
-                "reference": "ff9c48f14e4d5e794bb471af21b39397ea41eba8",
+                "url": "https://api.github.com/repos/NativePHP/electron/zipball/2156a831e469c4dc135f5f703e24f20df3ae6f23",
+                "reference": "2156a831e469c4dc135f5f703e24f20df3ae6f23",
                 "shasum": ""
             },
             "require": {
@@ -2455,7 +2455,7 @@
                 "nativephp"
             ],
             "support": {
-                "source": "https://github.com/NativePHP/electron/tree/0.8.7"
+                "source": "https://github.com/NativePHP/electron/tree/0.9.0"
             },
             "funding": [
                 {
@@ -2467,7 +2467,7 @@
                     "type": "opencollective"
                 }
             ],
-            "time": "2024-11-17T15:04:25+00:00"
+            "time": "2024-12-18T18:27:23+00:00"
         },
         {
             "name": "nativephp/laravel",
