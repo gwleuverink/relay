@@ -63,7 +63,7 @@ class FetchWorkflowRuns extends Command
             );
         }
 
-        return array_unique($selectedRepos + $recentRepos);
+        return array_unique(array_merge($selectedRepos, $recentRepos));
     }
 
     private function prune()
