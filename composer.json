@@ -59,13 +59,25 @@
             "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
             "@php artisan migrate --graceful --ansi"
         ],
-        "dev": [
-            "Composer\\Config::disableProcessTimeout",
-            "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite"
+        "native:setup": [
+            "cp .env.example .env",
+            "npm install",
+            "@php composer.phar install",
+            "@php artisan key:generate",
+            "@php artisan native:install --force"
         ],
         "native:dev": [
             "Composer\\Config::disableProcessTimeout",
             "npx concurrently -k -c \"#93c5fd,#fb7185,#fdba74\" \"php artisan native:serve --no-interaction\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=app,logs,vite"
+        ],
+        "native:publish": [
+            "truncate -s 0 ./storage/logs/laravel.log",
+            "truncate -s 0 ./database/nativephp.sqlite",
+            "composer run-script post-install-cmd",
+            "npm run build",
+            "@php artisan view:clear",
+            "@php artisan native:publish mac all",
+            "composer install --no-interaction"
         ],
         "format": [
             "npm run format",
@@ -74,14 +86,8 @@
         "analyze": [
             "./vendor/bin/phpstan analyse"
         ],
-        "publish": [
-            "truncate -s 0 ./storage/logs/laravel.log",
-            "truncate -s 0 ./database/nativephp.sqlite",
-            "composer run-script post-install-cmd",
-            "npm run build",
-            "@php artisan view:clear",
-            "@php artisan native:publish mac all",
-            "composer install --no-interaction"
+        "test": [
+            "./vendor/bin/pest"
         ]
     },
     "extra": {
