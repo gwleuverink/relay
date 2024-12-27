@@ -52,7 +52,7 @@ class GitHub implements Service
 
         // TODO: Consider filtering pushed_at date with max age
         $response = $this->github->post(static::BASE_URL . 'graphql', [
-            'query' => file_get_contents(__DIR__ . '/queries/repositories.graphql'),
+            'query' => file_get_contents(__DIR__ . '/Queries/repositories.graphql'),
             'variables' => [
                 'take' => $take,
             ],
