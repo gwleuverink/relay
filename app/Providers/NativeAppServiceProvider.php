@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Native\Laravel\Facades\Menu;
 use Native\Laravel\Facades\MenuBar;
 use Native\Laravel\Contracts\ProvidesPhpIni;
 
@@ -27,7 +28,16 @@ class NativeAppServiceProvider implements ProvidesPhpIni
             ->height(
                 28 + (4 * 81)
             )
-            ->width(340);
+            ->width(340)
+            ->withContextMenu(
+                Menu::make(
+                    Menu::about(),
+                    Menu::separator(),
+                    Menu::link('https://github.com/sponsors/gwleuverink', 'Become a Sponsor  ♥️')->openInBrowser(),
+                    Menu::separator(),
+                    Menu::quit()
+                )
+            );
     }
 
     /**
