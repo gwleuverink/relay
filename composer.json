@@ -71,6 +71,7 @@
             "npx concurrently -k -c \"#93c5fd,#fb7185,#fdba74\" \"php artisan native:serve --no-interaction\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=app,logs,vite"
         ],
         "native:publish": [
+            "Composer\\Config::disableProcessTimeout",
             "truncate -s 0 ./storage/logs/laravel.log",
             "truncate -s 0 ./database/nativephp.sqlite",
             "composer run-script post-install-cmd",
