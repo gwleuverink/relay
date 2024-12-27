@@ -45,6 +45,26 @@ Have an idea for a new feature? Head over to the [Discussions](https://github.co
 
 If you're considering submitting a pull request for a new feature, please reach out to [me](https://github.com/gwleuverink) first to discuss your ideas.
 
+### Contributing
+
+Clone the project and run the following commands from the project directory
+
+```bash
+# Prep the environment
+composer native:setup
+
+# Serve app
+composer native:dev
+```
+
+Please make sure all checks pass before submitting a PR
+
+```bash
+composer format
+composer analyze
+composer test
+```
+
 <br />
 
 ## Supporting the Project
