@@ -59,7 +59,7 @@ class GitHub implements Service
         ])->json();
 
         if (array_key_exists('errors', $response ?? [])) {
-            throw new Exception('An error occured fetching data from GitHub');
+            throw new Exception('GitHub: ' . head($response['errors']));
         }
 
         $userRepos = data_get($response, 'data.viewer.repositories.nodes');
