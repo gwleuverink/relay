@@ -12,7 +12,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->append(PreventRegularBrowserAccess::class);
+        if (! app()->runningUnitTests()) {
+            $middleware->append(PreventRegularBrowserAccess::class);
+        }
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
