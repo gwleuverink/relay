@@ -46,6 +46,7 @@ jobs:
             - uses: php-actions/composer@v6
               with:
                   php_version: "8.3"
+                  args: --ignore-platform-reqs
 
             - name: Copy .env
               run: php -r "file_exists('.env') || copy('.env.example', '.env');"
