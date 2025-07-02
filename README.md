@@ -51,6 +51,7 @@ Clone the project and run the following commands from the project directory
 
 ```bash
 # Prep the environment
+# You'll need to add the GITHUB_CLIENT_ID in your .env file manually
 composer native:setup
 
 # Serve app
