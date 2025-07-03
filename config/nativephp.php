@@ -44,10 +44,11 @@ return [
      * You may use wildcards to match multiple keys.
      */
     'cleanup_env_keys' => [
-        '*_SECRET',
         'AWS_*',
+        'GITHUB_*',
         'DO_SPACES_*',
-        'GITHUB_TOKEN',
+        '*_SECRET',
+        'ZEPHPYR_*',
         'NATIVEPHP_UPDATER_PATH',
         'NATIVEPHP_APPLE_ID',
         'NATIVEPHP_APPLE_ID_PASS',
@@ -60,9 +61,11 @@ return [
      * You may use glob / wildcard patterns here.
      */
     'cleanup_exclude_files' => [
+        'build',
+        'temp',
         'content',
-        'storage/app/framework/{sessions,testing,cache}',
-        'storage/logs/laravel.log',
+        'node_modules',
+        '*/tests',
     ],
 
     /**
@@ -114,4 +117,20 @@ return [
             ],
         ],
     ],
+
+    /**
+     * Define your own scripts to run before and after the build process.
+     */
+    'prebuild' => [
+        // 'npm run build',
+    ],
+
+    'postbuild' => [
+        // 'rm -rf public/build',
+    ],
+
+    /**
+     * Custom PHP binary path.
+     */
+    'binary_path' => env('NATIVEPHP_PHP_BINARY_PATH', null),
 ];
